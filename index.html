@@ -21,17 +21,28 @@
             --active-glow: var(--primary-green);
         }
 
+        /* แก้ไข Layout ใหม่อย่างสมบูรณ์ */
         body {
             font-family: 'Kanit', sans-serif;
             background-color: var(--bg-deep);
             color: var(--text-main);
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
             position: relative;
+        }
+
+        /* สร้าง Wrapper เพื่อจัดกึ่งกลางให้แข็งแรง ไม่พังตอนกด F5 */
+        .page-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+            padding: 20px 0;
             perspective: 1000px;
+            position: relative;
+            z-index: 2;
         }
 
         .cyber-grid {
@@ -110,8 +121,7 @@
         .main-portal-container {
             max-width: 1150px;
             width: 95%;
-            position: relative;
-            z-index: 2;
+            margin: auto;
             padding: 25px;
             background: rgba(10, 10, 12, 0.4);
             border-radius: 20px;
@@ -342,8 +352,8 @@
         .table > :not(caption) > * > * { padding: 8px 12px; }
 
         @media (max-width: 992px) {
-            body { height: auto; overflow: auto; padding: 20px 0; perspective: none; }
-            .main-portal-container { margin: 10px auto; transform: none !important; }
+            .page-wrapper { min-height: auto; align-items: stretch; padding: 15px 0; }
+            .main-portal-container { margin: auto; transform: none !important; perspective: none; }
             .brand-text h1 { font-size: 2.2rem; letter-spacing: 3px; }
             .mega-btn { padding: 18px 15px; }
             .gps-grid { grid-template-columns: 1fr; gap: 8px; }
@@ -356,204 +366,206 @@
     <div class="cyber-glow"></div>
     <div class="particles-container" id="particles"></div>
 
-    <div class="main-portal-container animate__animated animate__zoomIn animate__faster">
-        
-        <div class="header-section animate__animated animate__fadeInDown">
-            <div class="brand-wrapper">
-                <div class="brand-icon"><i class="fa-solid fa-truck-fast"></i></div>
-                <div class="brand-text">
-                    <h1 class="glitch-text">VKT PORTAL</h1>
-                    <div class="brand-sub">SMART LOGISTICS HUB 2026</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row g-3">
-            <div class="col-lg-7 animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
-                <div class="section-header">
-                    <i class="fa-solid fa-microchip"></i> INTERNAL OPERATIONS
-                    <div class="line"></div>
-                </div>
-                
-                <div class="row g-2">
-                    <div class="col-md-6 col-sm-12">
-                        <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbzWYtdLeHp3uw1Bb0cXPNDSyKdTDMMg3h9JWqqWr7iOEL4VM-GrEqJsFECeCtR4-xxkcg/exec" target="_blank" 
-                           class="glass-card" style="--accent: #FFD700;" onmouseenter="setGlow('#FFD700')" onmouseleave="resetGlow()">
-                            <div class="card-content">
-                                <div class="icon-box"><i class="fa-solid fa-money-bill-transfer"></i></div>
-                                <div class="text-box">
-                                    <h5>เบิกเงิน</h5>
-                                    <small>WITHDRAW</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-sm-12">
-                        <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycby32LX4-2iN0zPA9EmhSneiX1Pz66uCMlBnqE2jiWtnVD8L9BG6zcLUyJ4Rh15WilT0uQ/exec" target="_blank" 
-                           class="glass-card" style="--accent: #FF007F;" onmouseenter="setGlow('#FF007F')" onmouseleave="resetGlow()">
-                            <div class="card-content">
-                                <div class="icon-box"><i class="fa-solid fa-user-clock"></i></div>
-                                <div class="text-box">
-                                    <h5>ลางาน</h5>
-                                    <small>LEAVE REQUEST</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-sm-12">
-                        <a href="https://script.google.com/macros/s/AKfycbzSDN0zmsbrKeGrOzE4zbZf9TyKpSFhOW3zEdyHo-L1DH5X6ZCl0yUkyKTEnLxccXB6/exec" target="_blank" 
-                           class="glass-card" style="--accent: #FF6600;" onmouseenter="setGlow('#FF6600')" onmouseleave="resetGlow()">
-                            <div class="card-content">
-                                <div class="icon-box"><i class="fa-solid fa-box-open"></i></div>
-                                <div class="text-box">
-                                    <h5>เบิกของ</h5>
-                                    <small>OFFICE STOCK</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-sm-12">
-                        <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbyOFq4yA2YaCvA5w9OXlM4wu5lGqCEt6AnMn-2_Pw_Fl-YpIB5hzAFM5YFIVlSPd7Tu-A/exec" target="_blank" 
-                           class="glass-card" style="--accent: #9D00FF;" onmouseenter="setGlow('#9D00FF')" onmouseleave="resetGlow()">
-                            <div class="card-content">
-                                <div class="icon-box"><i class="fa-solid fa-id-card"></i></div>
-                                <div class="text-box">
-                                    <h5>ฝ่ายบุคคล</h5>
-                                    <small>HR DEPT</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-sm-12">
-                        <a href="https://script.google.com/macros/s/AKfycbwM-BB45Gjsy3qqZRSZGwX_f2uI2QOXfzXbfhw4HUq8T_yUGLmCG0jDGH7_goBRWbuPqQ/exec" target="_blank" 
-                           class="glass-card" style="--accent: #00E5FF;" onmouseenter="setGlow('#00E5FF')" onmouseleave="resetGlow()">
-                            <div class="card-content">
-                                <div class="icon-box"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-                                <div class="text-box">
-                                    <h5>ออกทวิ 50</h5>
-                                    <small>TAX DOCS</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-sm-12">
-                        <a href="https://script.google.com/macros/s/AKfycbz1_LnXPIJ6N1-dGAeB_HPeLs3X_0wPGx_tu5oWKpMvchsmXpQTm5kgNrVwXDSOK9fzTg/exec" target="_blank" 
-                           class="glass-card" style="--accent: #CCFF00;" onmouseenter="setGlow('#CCFF00')" onmouseleave="resetGlow()">
-                            <div class="card-content">
-                                <div class="icon-box"><i class="fa-solid fa-user-plus"></i></div>
-                                <div class="text-box">
-                                    <h5>สมัครงาน</h5>
-                                    <small>CAREERS</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-sm-12">
-                        <a href="https://vkttrans.github.io/ScanBill/" target="_blank" 
-                           class="glass-card" style="--accent: #00FF88;" onmouseenter="setGlow('#00FF88')" onmouseleave="resetGlow()">
-                            <div class="card-content">
-                                <div class="icon-box"><i class="fa-solid fa-file-circle-check"></i></div>
-                                <div class="text-box">
-                                    <h5>Scan Bill</h5>
-                                    <small>VERIFY DOCS</small>
-                                </div>
-                            </div>
-                        </a>
+    <div class="page-wrapper">
+        <div class="main-portal-container animate__animated animate__fadeIn">
+            
+            <div class="header-section animate__animated animate__fadeInDown">
+                <div class="brand-wrapper">
+                    <div class="brand-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                    <div class="brand-text">
+                        <h1 class="glitch-text">VKT PORTAL</h1>
+                        <div class="brand-sub">SMART LOGISTICS HUB 2026</div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-5 animate__animated animate__fadeInRight" style="animation-delay: 0.2s;">
-                
-                <div class="section-header">
-                    <i class="fa-solid fa-server"></i> CORE SYSTEMS
-                    <div class="line"></div>
-                </div>
-
-                <a href="https://vkt.elog789.com/v3.4.1/#/login" target="_blank" 
-                   class="mega-btn" style="--accent: #00A63E;" onmouseenter="setGlow('#00A63E')" onmouseleave="resetGlow()">
-                    <div class="d-flex justify-content-between align-items-center w-100 position-relative z-2">
-                        <div>
-                            <h3 class="text-white">TRANSPORT MGT</h3>
-                            <span>VKT E-Log System V3.4</span>
-                        </div>
-                        <i class="fa-solid fa-gauge-high fa-3x opacity-50 text-white" style="font-size: 2.2rem;"></i>
-                    </div>
-                </a>
-
-                <a href="https://script.google.com/macros/s/AKfycbzXkJMrsAtjDG6uVLdopDv8oNqCSnT8_BolREPtXJHe17rVI6cw8iu-Cv4g702_bsjO/exec" target="_blank" 
-                   class="mega-btn pulse-btn" style="--accent: #00E5FF;" onmouseenter="setGlow('#00E5FF')" onmouseleave="resetGlow()">
-                    <div class="d-flex justify-content-between align-items-center w-100 position-relative z-2">
-                        <div>
-                            <h3 class="text-white">BOOKING HUB</h3>
-                            <span class="text-info" style="font-family: 'Kanit';">จัดการงาน Booking</span>
-                        </div>
-                        <div class="booking-icon-wrapper">
-                            <i class="fa-solid fa-calendar-check fa-3x" style="font-size: 2.2rem;"></i>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="row g-2 mb-3">
-                    <div class="col-sm-6 col-12">
-                        <div class="secondary-btn h-100 mb-0 d-flex flex-column justify-content-center" style="--accent: #FF0033;" onclick="openYardModal()"
-                             onmouseenter="setGlow('#FF0033')" onmouseleave="resetGlow()" role="button">
-                             <div class="d-flex flex-column align-items-center text-center p-1 gap-1 position-relative z-2">
-                                <div class="icon-circle mb-1"><i class="fa-solid fa-map-location-dot"></i></div>
-                                <div>
-                                    <h6 class="mb-0 fw-bold text-white" style="font-size: 0.85rem;">ค้นหาลานตู้</h6>
-                                    <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.6rem; letter-spacing: 1px;">YARD LOCATION</small>
-                                </div>
-                             </div>
-                        </div>
+            <div class="row g-3">
+                <div class="col-lg-7 animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
+                    <div class="section-header">
+                        <i class="fa-solid fa-microchip"></i> INTERNAL OPERATIONS
+                        <div class="line"></div>
                     </div>
                     
-                    <div class="col-sm-6 col-12">
-                        <a href="https://vkttrans.github.io/M-Flow/" target="_blank" 
-                           class="secondary-btn h-100 mb-0 d-flex flex-column justify-content-center text-decoration-none" style="--accent: #FF9900;" 
-                           onmouseenter="setGlow('#FF9900')" onmouseleave="resetGlow()">
-                             <div class="d-flex flex-column align-items-center text-center p-1 gap-1 position-relative z-2">
-                                <div class="icon-circle mb-1" style="color: #FF9900;"><i class="fa-solid fa-road"></i></div>
-                                <div>
-                                    <h6 class="mb-0 fw-bold text-white" style="font-size: 0.85rem;">ระบบ M-Flow</h6>
-                                    <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.6rem; letter-spacing: 1px;">AUTO TOLL GATE</small>
+                    <div class="row g-2">
+                        <div class="col-md-6 col-sm-12">
+                            <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbzWYtdLeHp3uw1Bb0cXPNDSyKdTDMMg3h9JWqqWr7iOEL4VM-GrEqJsFECeCtR4-xxkcg/exec" target="_blank" 
+                               class="glass-card" style="--accent: #FFD700;" onmouseenter="setGlow('#FFD700')" onmouseleave="resetGlow()">
+                                <div class="card-content">
+                                    <div class="icon-box"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                                    <div class="text-box">
+                                        <h5>เบิกเงิน</h5>
+                                        <small>WITHDRAW</small>
+                                    </div>
                                 </div>
-                             </div>
-                        </a>
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycby32LX4-2iN0zPA9EmhSneiX1Pz66uCMlBnqE2jiWtnVD8L9BG6zcLUyJ4Rh15WilT0uQ/exec" target="_blank" 
+                               class="glass-card" style="--accent: #FF007F;" onmouseenter="setGlow('#FF007F')" onmouseleave="resetGlow()">
+                                <div class="card-content">
+                                    <div class="icon-box"><i class="fa-solid fa-user-clock"></i></div>
+                                    <div class="text-box">
+                                        <h5>ลางาน</h5>
+                                        <small>LEAVE REQUEST</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <a href="https://script.google.com/macros/s/AKfycbzSDN0zmsbrKeGrOzE4zbZf9TyKpSFhOW3zEdyHo-L1DH5X6ZCl0yUkyKTEnLxccXB6/exec" target="_blank" 
+                               class="glass-card" style="--accent: #FF6600;" onmouseenter="setGlow('#FF6600')" onmouseleave="resetGlow()">
+                                <div class="card-content">
+                                    <div class="icon-box"><i class="fa-solid fa-box-open"></i></div>
+                                    <div class="text-box">
+                                        <h5>เบิกของ</h5>
+                                        <small>OFFICE STOCK</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbyOFq4yA2YaCvA5w9OXlM4wu5lGqCEt6AnMn-2_Pw_Fl-YpIB5hzAFM5YFIVlSPd7Tu-A/exec" target="_blank" 
+                               class="glass-card" style="--accent: #9D00FF;" onmouseenter="setGlow('#9D00FF')" onmouseleave="resetGlow()">
+                                <div class="card-content">
+                                    <div class="icon-box"><i class="fa-solid fa-id-card"></i></div>
+                                    <div class="text-box">
+                                        <h5>ฝ่ายบุคคล</h5>
+                                        <small>HR DEPT</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <a href="https://script.google.com/macros/s/AKfycbwM-BB45Gjsy3qqZRSZGwX_f2uI2QOXfzXbfhw4HUq8T_yUGLmCG0jDGH7_goBRWbuPqQ/exec" target="_blank" 
+                               class="glass-card" style="--accent: #00E5FF;" onmouseenter="setGlow('#00E5FF')" onmouseleave="resetGlow()">
+                                <div class="card-content">
+                                    <div class="icon-box"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                                    <div class="text-box">
+                                        <h5>ออกทวิ 50</h5>
+                                        <small>TAX DOCS</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <a href="https://script.google.com/macros/s/AKfycbz1_LnXPIJ6N1-dGAeB_HPeLs3X_0wPGx_tu5oWKpMvchsmXpQTm5kgNrVwXDSOK9fzTg/exec" target="_blank" 
+                               class="glass-card" style="--accent: #CCFF00;" onmouseenter="setGlow('#CCFF00')" onmouseleave="resetGlow()">
+                                <div class="card-content">
+                                    <div class="icon-box"><i class="fa-solid fa-user-plus"></i></div>
+                                    <div class="text-box">
+                                        <h5>สมัครงาน</h5>
+                                        <small>CAREERS</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <a href="https://vkttrans.github.io/ScanBill/" target="_blank" 
+                               class="glass-card" style="--accent: #00FF88;" onmouseenter="setGlow('#00FF88')" onmouseleave="resetGlow()">
+                                <div class="card-content">
+                                    <div class="icon-box"><i class="fa-solid fa-file-circle-check"></i></div>
+                                    <div class="text-box">
+                                        <h5>Scan Bill</h5>
+                                        <small>VERIFY DOCS</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="section-header mt-2">
-                    <i class="fa-solid fa-satellite-dish"></i> GPS TRACKING
-                    <div class="line"></div>
-                </div>
-                
-                <div class="gps-grid animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
-                    <a href="http://122.155.5.231:20040/login" target="_blank" class="gps-item" style="--accent: #0088FF;" onmouseenter="setGlow('#0088FF')" onmouseleave="resetGlow()">
-                        <i class="fa-solid fa-location-crosshairs"></i> OneLink
-                    </a>
-                    <a href="https://v2.gpsiam.net/tracking" target="_blank" class="gps-item" style="--accent: #3366FF;" onmouseenter="setGlow('#3366FF')" onmouseleave="resetGlow()">
-                        <i class="fa-solid fa-map-location"></i> GPSiam
-                    </a>
-                    <a href="https://fleetweb-th.cartrack.com/login" target="_blank" class="gps-item" style="--accent: #FF0055;" onmouseenter="setGlow('#FF0055')" onmouseleave="resetGlow()">
-                        <i class="fa-solid fa-car-on"></i> CarTrack
-                    </a>
-                    <a href="http://122.155.177.114:8080/808gps/login.html" target="_blank" class="gps-item" style="--accent: #6600FF;" onmouseenter="setGlow('#6600FF')" onmouseleave="resetGlow()">
-                        <i class="fa-solid fa-video"></i> GPS Tech
-                    </a>
-                </div>
+                <div class="col-lg-5 animate__animated animate__fadeInRight" style="animation-delay: 0.2s;">
+                    
+                    <div class="section-header">
+                        <i class="fa-solid fa-server"></i> CORE SYSTEMS
+                        <div class="line"></div>
+                    </div>
 
+                    <a href="https://vkt.elog789.com/v3.4.1/#/login" target="_blank" 
+                       class="mega-btn" style="--accent: #00A63E;" onmouseenter="setGlow('#00A63E')" onmouseleave="resetGlow()">
+                        <div class="d-flex justify-content-between align-items-center w-100 position-relative z-2">
+                            <div>
+                                <h3 class="text-white">TRANSPORT MGT</h3>
+                                <span>VKT E-Log System V3.4</span>
+                            </div>
+                            <i class="fa-solid fa-gauge-high fa-3x opacity-50 text-white" style="font-size: 2.2rem;"></i>
+                        </div>
+                    </a>
+
+                    <a href="https://script.google.com/macros/s/AKfycbzXkJMrsAtjDG6uVLdopDv8oNqCSnT8_BolREPtXJHe17rVI6cw8iu-Cv4g702_bsjO/exec" target="_blank" 
+                       class="mega-btn pulse-btn" style="--accent: #00E5FF;" onmouseenter="setGlow('#00E5FF')" onmouseleave="resetGlow()">
+                        <div class="d-flex justify-content-between align-items-center w-100 position-relative z-2">
+                            <div>
+                                <h3 class="text-white">BOOKING HUB</h3>
+                                <span class="text-info" style="font-family: 'Kanit';">จัดการงาน Booking</span>
+                            </div>
+                            <div class="booking-icon-wrapper">
+                                <i class="fa-solid fa-calendar-check fa-3x" style="font-size: 2.2rem;"></i>
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-sm-6 col-12">
+                            <div class="secondary-btn h-100 mb-0 d-flex flex-column justify-content-center" style="--accent: #FF0033;" onclick="openYardModal()"
+                                 onmouseenter="setGlow('#FF0033')" onmouseleave="resetGlow()" role="button">
+                                 <div class="d-flex flex-column align-items-center text-center p-1 gap-1 position-relative z-2">
+                                    <div class="icon-circle mb-1"><i class="fa-solid fa-map-location-dot"></i></div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold text-white" style="font-size: 0.85rem;">ค้นหาลานตู้</h6>
+                                        <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.6rem; letter-spacing: 1px;">YARD LOCATION</small>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-6 col-12">
+                            <a href="https://vkttrans.github.io/M-Flow/" target="_blank" 
+                               class="secondary-btn h-100 mb-0 d-flex flex-column justify-content-center text-decoration-none" style="--accent: #FF9900;" 
+                               onmouseenter="setGlow('#FF9900')" onmouseleave="resetGlow()">
+                                 <div class="d-flex flex-column align-items-center text-center p-1 gap-1 position-relative z-2">
+                                    <div class="icon-circle mb-1" style="color: #FF9900;"><i class="fa-solid fa-road"></i></div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold text-white" style="font-size: 0.85rem;">ระบบ M-Flow</h6>
+                                        <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.6rem; letter-spacing: 1px;">AUTO TOLL GATE</small>
+                                    </div>
+                                 </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="section-header mt-2">
+                        <i class="fa-solid fa-satellite-dish"></i> GPS TRACKING
+                        <div class="line"></div>
+                    </div>
+                    
+                    <div class="gps-grid animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+                        <a href="http://122.155.5.231:20040/login" target="_blank" class="gps-item" style="--accent: #0088FF;" onmouseenter="setGlow('#0088FF')" onmouseleave="resetGlow()">
+                            <i class="fa-solid fa-location-crosshairs"></i> OneLink
+                        </a>
+                        <a href="https://v2.gpsiam.net/tracking" target="_blank" class="gps-item" style="--accent: #3366FF;" onmouseenter="setGlow('#3366FF')" onmouseleave="resetGlow()">
+                            <i class="fa-solid fa-map-location"></i> GPSiam
+                        </a>
+                        <a href="https://fleetweb-th.cartrack.com/login" target="_blank" class="gps-item" style="--accent: #FF0055;" onmouseenter="setGlow('#FF0055')" onmouseleave="resetGlow()">
+                            <i class="fa-solid fa-car-on"></i> CarTrack
+                        </a>
+                        <a href="http://122.155.177.114:8080/808gps/login.html" target="_blank" class="gps-item" style="--accent: #6600FF;" onmouseenter="setGlow('#6600FF')" onmouseleave="resetGlow()">
+                            <i class="fa-solid fa-video"></i> GPS Tech
+                        </a>
+                    </div>
+
+                </div>
             </div>
-        </div>
 
-        <div class="footer-credit pb-1">
-            VKT TRANSPORT INTELLIGENT SYSTEM © 2026
+            <div class="footer-credit pb-1">
+                VKT TRANSPORT INTELLIGENT SYSTEM © 2026
+            </div>
         </div>
     </div>
 
