@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VKT Transport Portal 2026</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VKT THEME 2026: PREMIUM CYBER GLASS --- */
+        :root {
+            --bg-deep: #030305;
+            --glass-bg: rgba(20, 20, 24, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --primary-green: #00A63E;
+            --text-main: #ffffff;
+            --text-mute: #888899;
+            --active-glow: var(--primary-green);
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding-bottom: 40px;
+        }
+
+        /* --- BACKGROUND EFFECTS --- */
+        .cyber-grid {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 166, 62, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 166, 62, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center top;
+            transform: perspective(600px) rotateX(30deg) scale(2);
+            opacity: 0.3;
+            z-index: 0;
+            animation: gridMove 25s linear infinite;
+            pointer-events: none;
+        }
+
+        .cyber-glow {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 70vw; height: 70vh;
+            background: radial-gradient(circle, var(--active-glow) 0%, transparent 60%);
+            opacity: 0.1; z-index: 0;
+            transition: background 0.8s ease;
+            filter: blur(100px);
+            pointer-events: none;
+        }
+
+        @keyframes gridMove {
+            0% { background-position: center 0; }
+            100% { background-position: center 40px; }
+        }
+
+        @keyframes cardBreath {
+            0%, 100% { border-color: rgba(255, 255, 255, 0.06); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+            50% { border-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 20px -5px var(--accent); }
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes slowScan {
+            0% { left: -100%; opacity: 0; }
+            50% { opacity: 0.3; }
+            100% { left: 200%; opacity: 0; }
+        }
+
+        /* --- HEADER --- */
+        .header-section { margin: 50px 0 40px; text-align: center; position: relative; z-index: 2; }
+        .brand-wrapper { display: inline-flex; align-items: center; gap: 20px; }
+        .brand-icon {
+            font-size: 3.2rem; color: var(--primary-green);
+            text-shadow: 0 0 25px rgba(0, 166, 62, 0.6);
+            animation: iconFloat 4s ease-in-out infinite;
+        }
+        .brand-text h1 {
+            font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 3.8rem; margin: 0;
+            letter-spacing: 6px; text-transform: uppercase;
+            background: linear-gradient(135deg, #ffffff, #888888);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+        .brand-sub {
+            font-family: 'Rajdhani', sans-serif; letter-spacing: 5px; color: var(--primary-green); font-size: 0.95rem;
+            background: rgba(0, 166, 62, 0.08); padding: 4px 15px; border-radius: 6px; display: inline-block;
+            border: 1px solid rgba(0, 166, 62, 0.2); margin-top: 5px;
+        }
+
+        /* --- SECTION HEADERS --- */
+        .section-header {
+            font-family: 'Rajdhani', sans-serif; color: var(--text-mute); font-weight: 700; letter-spacing: 3px;
+            margin-bottom: 25px; display: flex; align-items: center; gap: 15px; font-size: 1.1rem; text-transform: uppercase;
+        }
+        .section-header .line { flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent); }
+        .section-header i { color: var(--primary-green); opacity: 0.8; }
+
+        /* --- GLOBAL INTERACTIVE FIX --- */
+        .glass-card, .mega-btn, .gps-item, .admin-trigger, .btn {
+            cursor: pointer !important; user-select: none; -webkit-user-select: none;
+        }
+
+        /* --- GLASS CARDS (Internal Ops) --- */
+        .glass-card {
+            display: block; position: relative; text-decoration: none;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px; padding: 22px;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            overflow: hidden;
+            animation: cardBreath 5s infinite ease-in-out;
+        }
+
+        .col-md-6:nth-child(odd) .glass-card { animation-delay: 0s; }
+        .col-md-6:nth-child(even) .glass-card { animation-delay: 2.5s; }
+        
+        .card-content { display: flex; align-items: center; gap: 18px; position: relative; z-index: 2; }
+        
+        .icon-box {
+            width: 55px; height: 55px; border-radius: 14px;
+            background: rgba(255,255,255,0.02);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; color: #888; transition: 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            animation: iconFloat 4s ease-in-out infinite;
+        }
+        
+        .col-md-6:nth-child(odd) .icon-box { animation-delay: 0.5s; }
+        .col-md-6:nth-child(even) .icon-box { animation-delay: 2s; }
+
+        .text-box h5 { margin: 0 0 2px 0; color: #fdfdfd; font-weight: 600; font-size: 1.15rem; transition: color 0.3s; }
+        .text-box small { color: #777; font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.3s; }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent) !important;
+            background: rgba(20, 20, 24, 0.7);
+            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.6), 0 0 25px -8px var(--accent) !important;
+            animation: none;
+        }
+        .glass-card:hover .icon-box {
+            background: var(--accent); color: #000; box-shadow: 0 0 20px var(--accent);
+            border-color: var(--accent);
+            animation: none; transform: scale(1.05);
+        }
+        .glass-card:hover .text-box small { color: var(--accent); }
+        .glass-card:hover .text-box h5 { color: #fff; }
+
+        /* --- MEGA BUTTONS (Core Systems) --- */
+        .mega-btn {
+            display: block; text-decoration: none; position: relative;
+            background: linear-gradient(145deg, rgba(26,26,28,0.7), rgba(17,17,17,0.7));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 24px;
+            padding: 35px 30px; margin-bottom: 20px; overflow: hidden;
+            color: white; transition: 0.4s ease;
+        }
+        .mega-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent);
+            animation: slowScan 8s linear infinite;
+            pointer-events: none;
+        }
+
+        .mega-btn h3 { font-style: italic; font-weight: 800; margin: 0 0 5px 0; letter-spacing: 1px; transition: 0.3s; }
+        .mega-btn span { font-family: 'Rajdhani'; color: #999; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; }
+        
+        .mega-btn:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(0, 166, 62, 0.1);
+        }
+        .mega-btn:hover h3 { color: var(--accent); text-shadow: 0 0 15px rgba(var(--accent), 0.5); }
+        .mega-btn:hover i.fa-gauge-high { color: var(--accent) !important; opacity: 1 !important; transform: rotate(15deg) scale(1.1); transition: 0.4s; }
+        
+        .scan-line {
+            position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: skewX(-20deg); transition: 0.5s; pointer-events: none;
+        }
+        .mega-btn:hover .scan-line { left: 150%; transition: 0.8s ease-in-out; }
+
+        /* --- SPECIAL: BOOKING BUTTON ANIMATIONS --- */
+        .pulse-btn {
+            background: linear-gradient(145deg, rgba(0, 229, 255, 0.03), rgba(17,17,17,0.7));
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            animation: neonPulse 3s infinite alternate ease-in-out;
+        }
+        @keyframes neonPulse {
+            0% { box-shadow: 0 0 5px rgba(0, 229, 255, 0.05), inset 0 0 10px rgba(0, 229, 255, 0.02); }
+            100% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.2), inset 0 0 20px rgba(0, 229, 255, 0.05); border-color: rgba(0, 229, 255, 0.5); }
+        }
+        .booking-icon-wrapper i {
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+            animation: iconFloat 4s ease-in-out infinite, glitchIcon 6s infinite;
+        }
+        @keyframes glitchIcon {
+            0%, 96%, 100% { opacity: 1; transform: scale(1); }
+            97% { opacity: 0.8; transform: scale(1.1) skewX(5deg); }
+            98% { opacity: 0.4; transform: scale(0.9) skewX(-5deg); }
+            99% { opacity: 1; transform: scale(1.05); }
+        }
+        .pulse-btn:hover {
+            background: linear-gradient(145deg, rgba(0, 229, 255, 0.1), rgba(17,17,17,0.8));
+            animation: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 30px rgba(0, 229, 255, 0.2), 0 0 20px rgba(0, 229, 255, 0.4);
+            border-color: var(--accent);
+        }
+        .pulse-btn:hover .booking-icon-wrapper i { animation: none; transform: scale(1.15); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+        .secondary-btn { 
+            padding: 25px 20px; background: rgba(20,20,24,0.5); border: 1px dashed rgba(255,255,255,0.1); 
+            animation: cardBreath 6s infinite ease-in-out; border-radius: 20px;
+        }
+        .secondary-btn .icon-circle { 
+            width: 55px; height: 55px; background: rgba(0,0,0,0.5); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 1.3rem;
+            animation: iconFloat 4s ease-in-out infinite; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .secondary-btn:hover { 
+            background: rgba(255,255,255,0.02); border-style: solid; border-color: var(--accent); 
+            animation: none; transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .secondary-btn:hover .icon-circle { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); animation: none; transform: scale(1.1); transition: 0.3s; }
+
+        /* --- GPS GRID --- */
+        .gps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .gps-item {
+            background: rgba(20,20,24,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px;
+            padding: 18px; color: #aaa; text-decoration: none; font-weight: 500; font-size: 1.05rem;
+            display: flex; align-items: center; gap: 12px; transition: 0.3s ease; backdrop-filter: blur(5px);
+        }
+        .gps-item i { transition: 0.3s; font-size: 1.2rem; }
+        .gps-item:hover {
+            background: var(--accent); color: #000; border-color: var(--accent);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4), 0 0 20px rgba(var(--accent), 0.4);
+            transform: translateY(-3px); font-weight: 600;
+        }
+        .gps-item:hover i { transform: scale(1.2) rotate(5deg); }
+
+        /* --- FOOTER & ADMIN --- */
+        .footer-credit {
+            text-align: center; margin-top: 60px; font-size: 0.75rem; color: #555; font-family: 'Rajdhani'; letter-spacing: 4px; cursor: default; position: relative; z-index: 2;
+        }
+        .admin-trigger {
+            position: fixed; bottom: 25px; right: 25px;
+            width: 45px; height: 45px; border-radius: 50%;
+            background: rgba(15, 15, 15, 0.8); border: 1px solid rgba(255,255,255,0.1);
+            color: #555; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 99; backdrop-filter: blur(10px);
+        }
+        .admin-trigger:hover { 
+            color: #000; background: var(--primary-green); border-color: var(--primary-green); 
+            box-shadow: 0 0 20px var(--primary-green); transform: scale(1.15) rotate(360deg); 
+        }
+
+        /* --- MODAL STYLES --- */
+        .modal-content {
+            background: rgba(15, 15, 18, 0.95);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; border-radius: 16px; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+        }
+        .modal-header { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 20px 25px; }
+        .modal-footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 15px 25px; }
+        .modal-body { padding: 25px; }
+        
+        .form-control, .form-select {
+            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; padding: 10px 15px;
+        }
+        .form-control:focus, .form-select:focus {
+            background: rgba(0,0,0,0.8); border-color: var(--primary-green); color: white;
+            box-shadow: 0 0 0 0.25rem rgba(0, 166, 62, 0.25);
+        }
+        
+        /* Table Customization inside Modal */
+        .table-dark { --bs-table-bg: transparent; color: #ddd; }
+        .zone-header td { background: linear-gradient(90deg, rgba(0, 166, 62, 0.15), transparent) !important; border-bottom: 2px solid var(--primary-green) !important; }
+        .yard-row:hover td { background-color: rgba(255,255,255,0.03) !important; }
+
+        @media (max-width: 768px) {
+            .brand-text h1 { font-size: 2.8rem; letter-spacing: 4px; }
+            .header-section { margin: 30px 0; }
+            .mega-btn { padding: 25px 20px; }
+            .gps-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cyber-grid"></div>
+    <div class="cyber-glow"></div>
+
+    <div class="container position-relative" style="max-width: 1200px; z-index: 2;">
+        
+        <div class="header-section animate__animated animate__fadeInDown">
+            <div class="brand-wrapper">
+                <div class="brand-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                <div class="brand-text">
+                    <h1 class="glitch-text">VKT PORTAL</h1>
+                    <div class="brand-sub">SMART LOGISTICS HUB 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-7 animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
+                <div class="section-header">
+                    <i class="fa-solid fa-microchip"></i> INTERNAL OPERATIONS
+                    <div class="line"></div>
+                </div>
+                
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbzWYtdLeHp3uw1Bb0cXPNDSyKdTDMMg3h9JWqqWr7iOEL4VM-GrEqJsFECeCtR4-xxkcg/exec" target="_blank" 
+                           class="glass-card" style="--accent: #FFD700;" onmouseenter="setGlow('#FFD700')" onmouseleave="resetGlow()">
+                            <div class="card-content">
+                                <div class="icon-box"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                                <div class="text-box">
+                                    <h5>เบิกเงิน</h5>
+                                    <small>WITHDRAW</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycby32LX4-2iN0zPA9EmhSneiX1Pz66uCMlBnqE2jiWtnVD8L9BG6zcLUyJ4Rh15WilT0uQ/exec" target="_blank" 
+                           class="glass-card" style="--accent: #FF007F;" onmouseenter="setGlow('#FF007F')" onmouseleave="resetGlow()">
+                            <div class="card-content">
+                                <div class="icon-box"><i class="fa-solid fa-user-clock"></i></div>
+                                <div class="text-box">
+                                    <h5>ลางาน</h5>
+                                    <small>LEAVE REQUEST</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="https://script.google.com/macros/s/AKfycbzSDN0zmsbrKeGrOzE4zbZf9TyKpSFhOW3zEdyHo-L1DH5X6ZCl0yUkyKTEnLxccXB6/exec" target="_blank" 
+                           class="glass-card" style="--accent: #FF6600;" onmouseenter="setGlow('#FF6600')" onmouseleave="resetGlow()">
+                            <div class="card-content">
+                                <div class="icon-box"><i class="fa-solid fa-box-open"></i></div>
+                                <div class="text-box">
+                                    <h5>เบิกของ</h5>
+                                    <small>OFFICE STOCK</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbyOFq4yA2YaCvA5w9OXlM4wu5lGqCEt6AnMn-2_Pw_Fl-YpIB5hzAFM5YFIVlSPd7Tu-A/exec" target="_blank" 
+                           class="glass-card" style="--accent: #9D00FF;" onmouseenter="setGlow('#9D00FF')" onmouseleave="resetGlow()">
+                            <div class="card-content">
+                                <div class="icon-box"><i class="fa-solid fa-id-card"></i></div>
+                                <div class="text-box">
+                                    <h5>ฝ่ายบุคคล</h5>
+                                    <small>HR DEPT</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="https://script.google.com/macros/s/AKfycbwM-BB45Gjsy3qqZRSZGwX_f2uI2QOXfzXbfhw4HUq8T_yUGLmCG0jDGH7_goBRWbuPqQ/exec" target="_blank" 
+                           class="glass-card" style="--accent: #00E5FF;" onmouseenter="setGlow('#00E5FF')" onmouseleave="resetGlow()">
+                            <div class="card-content">
+                                <div class="icon-box"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                                <div class="text-box">
+                                    <h5>ออกทวิ 50</h5>
+                                    <small>TAX DOCS</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="https://script.google.com/macros/s/AKfycbz1_LnXPIJ6N1-dGAeB_HPeLs3X_0wPGx_tu5oWKpMvchsmXpQTm5kgNrVwXDSOK9fzTg/exec" target="_blank" 
+                           class="glass-card" style="--accent: #CCFF00;" onmouseenter="setGlow('#CCFF00')" onmouseleave="resetGlow()">
+                            <div class="card-content">
+                                <div class="icon-box"><i class="fa-solid fa-user-plus"></i></div>
+                                <div class="text-box">
+                                    <h5>สมัครงาน</h5>
+                                    <small>CAREERS</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="https://vkttrans.github.io/ScanBill/" target="_blank" 
+                           class="glass-card" style="--accent: #00FF88;" onmouseenter="setGlow('#00FF88')" onmouseleave="resetGlow()">
+                            <div class="card-content">
+                                <div class="icon-box"><i class="fa-solid fa-file-circle-check"></i></div>
+                                <div class="text-box">
+                                    <h5>Scan Bill</h5>
+                                    <small>VERIFY DOCS</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 animate__animated animate__fadeInRight" style="animation-delay: 0.2s;">
+                
+                <div class="section-header">
+                    <i class="fa-solid fa-server"></i> CORE SYSTEMS
+                    <div class="line"></div>
+                </div>
+
+                <a href="https://vkt.elog789.com/v3.4.1/#/login" target="_blank" 
+                   class="mega-btn" style="--accent: #00A63E;" onmouseenter="setGlow('#00A63E')" onmouseleave="resetGlow()">
+                    <div class="mega-content">
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <div>
+                                <h3 class="text-white">TRANSPORT MGT</h3>
+                                <span>VKT E-Log System V3.4</span>
+                            </div>
+                            <i class="fa-solid fa-gauge-high fa-3x opacity-50 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="scan-line"></div>
+                </a>
+
+                <a href="https://script.google.com/macros/s/AKfycbzXkJMrsAtjDG6uVLdopDv8oNqCSnT8_BolREPtXJHe17rVI6cw8iu-Cv4g702_bsjO/exec" target="_blank" 
+                   class="mega-btn pulse-btn" style="--accent: #00E5FF;" onmouseenter="setGlow('#00E5FF')" onmouseleave="resetGlow()">
+                    <div class="mega-content">
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <div>
+                                <h3 class="text-white">BOOKING HUB</h3>
+                                <span class="text-info" style="font-family: 'Kanit';">จัดการงาน Booking</span>
+                            </div>
+                            <div class="booking-icon-wrapper">
+                                <i class="fa-solid fa-calendar-check fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scan-line"></div>
+                </a>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6">
+                        <div class="secondary-btn h-100 mb-0 d-flex flex-column justify-content-center" style="--accent: #FF0033;" onclick="openYardModal()"
+                             onmouseenter="setGlow('#FF0033')" onmouseleave="resetGlow()" role="button">
+                             <div class="mega-content d-flex flex-column align-items-center text-center p-2 gap-2">
+                                <div class="icon-circle mb-2"><i class="fa-solid fa-map-location-dot"></i></div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold text-white">ค้นหาลานตู้</h6>
+                                    <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.7rem; letter-spacing: 1px;">YARD LOCATION</small>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <a href="https://vkttrans.github.io/M-Flow/" target="_blank" 
+                           class="secondary-btn h-100 mb-0 d-flex flex-column justify-content-center text-decoration-none" style="--accent: #FF9900;" 
+                           onmouseenter="setGlow('#FF9900')" onmouseleave="resetGlow()">
+                             <div class="mega-content d-flex flex-column align-items-center text-center p-2 gap-2">
+                                <div class="icon-circle mb-2" style="color: #FF9900;"><i class="fa-solid fa-road"></i></div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold text-white">ระบบ M-Flow</h6>
+                                    <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.7rem; letter-spacing: 1px;">AUTO TOLL GATE</small>
+                                </div>
+                             </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="section-header mt-4">
+                    <i class="fa-solid fa-satellite-dish"></i> GPS TRACKING
+                    <div class="line"></div>
+                </div>
+                
+                <div class="gps-grid">
+                    <a href="http://122.155.5.231:20040/login" target="_blank" class="gps-item" style="--accent: #0088FF;" onmouseenter="setGlow('#0088FF')" onmouseleave="resetGlow()">
+                        <i class="fa-solid fa-location-crosshairs"></i> OneLink
+                    </a>
+                    <a href="https://v2.gpsiam.net/tracking" target="_blank" class="gps-item" style="--accent: #3366FF;" onmouseenter="setGlow('#3366FF')" onmouseleave="resetGlow()">
+                        <i class="fa-solid fa-map-location"></i> GPSiam
+                    </a>
+                    <a href="https://fleetweb-th.cartrack.com/login" target="_blank" class="gps-item" style="--accent: #FF0055;" onmouseenter="setGlow('#FF0055')" onmouseleave="resetGlow()">
+                        <i class="fa-solid fa-car-on"></i> CarTrack
+                    </a>
+                    <a href="http://122.155.177.114:8080/808gps/login.html" target="_blank" class="gps-item" style="--accent: #6600FF;" onmouseenter="setGlow('#6600FF')" onmouseleave="resetGlow()">
+                        <i class="fa-solid fa-video"></i> GPS Tech
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer-credit mt-5 pb-3">
+            VKT TRANSPORT INTELLIGENT SYSTEM © 2026
+        </div>
+    </div>
+
+    <div class="admin-trigger" onclick="openLoginModal()" title="Admin Login">
+        <i class="fa-solid fa-user-shield"></i>
+    </div>
+
+    <div class="modal fade" id="yardModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold text-uppercase" style="letter-spacing: 2px; font-family: 'Rajdhani';">
+                        <i class="fa-solid fa-database text-success me-2"></i> Yard Database
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="p-3 sticky-top border-bottom" style="background: rgba(10,10,12,0.9); backdrop-filter: blur(10px); border-color: rgba(255,255,255,0.05) !important;">
+                        <div class="d-flex gap-3 flex-wrap flex-md-nowrap">
+                            <div class="input-group flex-grow-1 shadow-sm">
+                                <span class="input-group-text border-0" style="background: rgba(255,255,255,0.05); color: #888;"><i class="fa-solid fa-search"></i></span>
+                                <input type="text" class="form-control border-0" id="yardSearch" placeholder="ค้นหาลานตู้..." onkeyup="filterYardsOffice()" style="background: rgba(255,255,255,0.05);">
+                            </div>
+                            <select id="yardZoneFilter" class="form-select border-0 shadow-sm" style="width: auto; min-width: 180px; background: rgba(255,255,255,0.05);" onchange="filterYardsOffice()">
+                                <option value="all">🌐 ทุกโซน</option>
+                            </select>
+                            <button class="btn btn-success fw-bold admin-controls text-nowrap px-4 shadow" onclick="openEditModal('add')" style="display:none; border-radius: 8px;">
+                                <i class="fa-solid fa-plus me-1"></i> ADD
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="loadingSpinner" class="text-center py-5">
+                        <div class="spinner-border text-success mb-3" style="width: 3rem; height: 3rem;"></div>
+                        <p class="text-success small fw-bold" style="letter-spacing: 3px; font-family: 'Rajdhani';">ACCESSING DATABASE...</p>
+                    </div>
+                    
+                    <div class="table-responsive px-2 pb-2">
+                        <table class="table table-dark table-hover mb-0 align-middle mt-2" id="yardTable" style="display: none;">
+                            <tbody id="yardTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer py-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary px-4" data-bs-dismiss="modal" style="border-radius: 20px;">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content" style="border: 1px solid rgba(255, 193, 7, 0.3);">
+                <div class="modal-body text-center pt-5 pb-4 px-4">
+                    <i class="fa-solid fa-fingerprint fs-1 mb-3 text-warning drop-shadow"></i>
+                    <h5 class="mb-4 text-uppercase" style="font-family: 'Rajdhani'; letter-spacing: 2px;">Admin Verify</h5>
+                    <input type="password" id="adminPassword" class="form-control text-center fs-3 mb-4" placeholder="••••" style="letter-spacing: 8px; border-radius: 10px; background: rgba(255,255,255,0.05);">
+                    <button type="button" class="btn btn-warning w-100 fw-bold py-2 shadow" style="border-radius: 10px; letter-spacing: 1px;" onclick="checkLogin()">AUTHENTICATE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalTitle" style="font-family: 'Rajdhani'; letter-spacing: 1px;"><i class="fa-solid fa-pen-to-square"></i> Editor</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editOldName">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="small text-secondary mb-1">NAME</label>
+                            <input type="text" id="editName" class="form-control fw-bold text-warning" style="font-size: 1.1rem;">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-secondary mb-1">ZONE</label>
+                            <input type="text" id="editZone" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-secondary mb-1">PHONE</label>
+                            <input type="text" id="editPhone" class="form-control">
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fa-solid fa-cube text-success me-2 fs-5"></i> <span class="text-success fw-bold" style="letter-spacing: 1px;">EMPTY CONTAINER RATES</span>
+                                <div class="flex-grow-1 ms-3 border-bottom border-success opacity-25"></div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3"><label class="small text-secondary mb-1">IN 20'</label><input type="text" id="editEI20" class="form-control text-center text-success border-success" placeholder="0"></div>
+                        <div class="col-6 col-md-3"><label class="small text-secondary mb-1">IN 40'</label><input type="text" id="editEI40" class="form-control text-center text-success border-success" placeholder="0"></div>
+                        <div class="col-6 col-md-3"><label class="small text-secondary mb-1">OUT 20'</label><input type="text" id="editEO20" class="form-control text-center text-success border-success" placeholder="0"></div>
+                        <div class="col-6 col-md-3"><label class="small text-secondary mb-1">OUT 40'</label><input type="text" id="editEO40" class="form-control text-center text-success border-success" placeholder="0"></div>
+
+                        <div class="col-12 mt-4">
+                             <div class="d-flex align-items-center mb-3">
+                                <i class="fa-solid fa-truck-ramp-box text-warning me-2 fs-5"></i> <span class="text-warning fw-bold" style="letter-spacing: 1px;">FULL CONTAINER RATES</span>
+                                <div class="flex-grow-1 ms-3 border-bottom border-warning opacity-25"></div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3"><label class="small text-secondary mb-1">IN 20'</label><input type="text" id="editFI20" class="form-control text-center text-warning border-warning" placeholder="0"></div>
+                        <div class="col-6 col-md-3"><label class="small text-secondary mb-1">IN 40'</label><input type="text" id="editFI40" class="form-control text-center text-warning border-warning" placeholder="0"></div>
+                        <div class="col-6 col-md-3"><label class="small text-secondary mb-1">OUT 20'</label><input type="text" id="editFO20" class="form-control text-center text-warning border-warning" placeholder="0"></div>
+                        <div class="col-6 col-md-3"><label class="small text-secondary mb-1">OUT 40'</label><input type="text" id="editFO40" class="form-control text-center text-warning border-warning" placeholder="0"></div>
+
+                        <div class="col-12 mt-4"><label class="small text-secondary mb-1">OPERATING HOURS</label><input type="text" id="editTime" class="form-control"></div>
+                        <div class="col-12"><label class="small text-secondary mb-1">ADDRESS</label><textarea id="editAddress" class="form-control" rows="2"></textarea></div>
+                        <div class="col-md-6"><label class="small text-secondary mb-1">TAX ID</label><input type="text" id="editTaxId" class="form-control"></div>
+                        <div class="col-md-6"><label class="small text-secondary mb-1">MAP LINK</label><input type="text" id="editLink" class="form-control text-info"></div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-dark border-0 rounded-bottom">
+                    <button type="button" class="btn btn-outline-secondary px-4 rounded-pill" data-bs-dismiss="modal">CANCEL</button>
+                    <button type="button" class="btn btn-success px-4 rounded-pill fw-bold shadow" id="saveBtn" onclick="saveData()">SAVE RECORD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+        const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbw02R5fvNNs2ZiULVRFhsHbPcfuo2iJw-0oXvk-4k7VCu_1YPmQ-ZCPFs3iVIy_GhHy/exec'; 
+
+        let allYardsData = [];
+        let isAdmin = false;
+        let currentPassword = "";
+
+        document.addEventListener('DOMContentLoaded', function() {
+            resetGlow();
+        });
+
+        document.getElementById('adminPassword').addEventListener('keypress', function (e) { 
+            if (e.key === 'Enter') checkLogin(); 
+        });
+
+        function openYardModal() { 
+            new bootstrap.Modal(document.getElementById('yardModal')).show(); 
+            fetchYardData(); 
+        }
+
+        async function fetchYardData() {
+            try {
+                document.getElementById('loadingSpinner').style.display = 'block';
+                document.getElementById('yardTable').style.display = 'none';
+                
+                const response = await fetch(SHEET_API_URL);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const json = await response.json();
+                
+                if(json.status === 'success') {
+                    allYardsData = json.data;
+                    renderTable(allYardsData);
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    document.getElementById('yardTable').style.display = 'table';
+                }
+            } catch (error) { 
+                console.error(error); 
+                document.getElementById('loadingSpinner').innerHTML = '<p class="text-danger fw-bold"><i class="fa-solid fa-triangle-exclamation"></i> SYSTEM OFFLINE</p>';
+            }
+        }
+
+        function renderTable(dataList) {
+            const tbody = document.getElementById('yardTableBody');
+            tbody.innerHTML = '';
+            const grouped = {};
+            
+            const formatPrice = (val) => {
+                if (val === undefined || val === null || val === '') return '<span class="text-white-50 fw-normal">-</span>';
+                if (!isNaN(val) && val !== '') {
+                    return Number(val).toLocaleString('en-US');
+                }
+                return val;
+            };
+            
+            dataList.forEach(item => {
+                const z = (item.zone && item.zone.toString().trim() !== "") ? item.zone : "OTHER ZONES";
+                if (!grouped[z]) grouped[z] = [];
+                grouped[z].push(item);
+            });
+
+            const zoneFilter = document.getElementById('yardZoneFilter');
+            if (zoneFilter) {
+                const currentVal = zoneFilter.value;
+                let optionsHtml = '<option value="all">🌐 ทุกโซน</option>';
+                Object.keys(grouped).sort().forEach(z => {
+                    optionsHtml += `<option value="${z}">${z}</option>`;
+                });
+                zoneFilter.innerHTML = optionsHtml;
+                zoneFilter.value = currentVal === "" ? "all" : currentVal; 
+            }
+
+            for (const [zone, yards] of Object.entries(grouped)) {
+                tbody.innerHTML += `
+                    <tr class="zone-header" data-zone="${zone}">
+                        <td class="py-2 px-3">
+                            <span style="background: rgba(0, 166, 62, 0.2); color: #00A63E; padding: 4px 12px; font-weight: 700; font-family: 'Rajdhani'; border-radius: 6px; font-size: 0.95rem; border: 1px solid rgba(0,166,62,0.3); letter-spacing: 1px;">
+                                ${zone}
+                            </span>
+                        </td>
+                    </tr>`;
+                
+                yards.forEach((yard) => {
+                    let adminBtns = isAdmin ? `
+                        <div class="mt-3 d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-warning py-1 px-3 rounded-pill shadow-sm" style="font-size: 0.75rem; font-weight: 600;" onclick='openEditModal("edit", ${JSON.stringify(yard).replace(/'/g, "&#39;")})'><i class="fa-solid fa-pen"></i> EDIT</button>
+                            <button class="btn btn-sm btn-outline-danger py-1 px-3 rounded-pill shadow-sm" style="font-size: 0.75rem; font-weight: 600;" onclick='deleteYard("${yard.name.replace(/'/g, "\\'")}")'><i class="fa-solid fa-trash"></i> DEL</button>
+                        </div>` : '';
+
+                    let btnMap = yard.link ? 
+                        `<a href="${yard.link}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1 shadow-sm fw-bold" style="font-size: 0.8rem; letter-spacing: 1px;"><i class="fa-solid fa-location-arrow"></i> GO</a>` : 
+                        `<button class="btn btn-sm btn-secondary rounded-pill px-3 py-1 shadow-sm" style="font-size: 0.8rem;" disabled><i class="fa-solid fa-ban"></i> N/A</button>`;
+
+                    let taxIdStr = (yard.taxId !== undefined && yard.taxId !== null && yard.taxId !== "") ? yard.taxId : '';
+                    let addressStr = (yard.address !== undefined && yard.address !== null && yard.address !== "") ? yard.address : '';
+
+                    let detailHtml = `
+                        <div class="d-flex flex-wrap gap-3 mt-2 mb-2" style="font-size: 0.8rem; color: #bbb;">
+                            ${yard.phone ? `<div><i class="fa-solid fa-phone text-success me-1 opacity-75"></i>${yard.phone}</div>` : ''}
+                            ${yard.time ? `<div><i class="fa-solid fa-clock text-info me-1 opacity-75"></i>${yard.time}</div>` : ''}
+                            ${taxIdStr !== '' ? `<div><i class="fa-solid fa-file-invoice text-warning me-1 opacity-75"></i>Tax: ${taxIdStr}</div>` : ''}
+                        </div>
+                        ${addressStr !== '' ? `<div class="mt-1 mb-2" style="font-size: 0.8rem; color: #999;"><i class="fa-solid fa-location-dot text-danger me-1 opacity-75"></i> ${addressStr}</div>` : ''}
+                    `;
+
+                    let priceHtml = `
+                        <div class="row g-2 mt-2">
+                            <div class="col-12 col-xl-6">
+                                <div class="d-flex align-items-stretch h-100 rounded" style="border: 1px solid rgba(0, 166, 62, 0.3); background: rgba(0,0,0,0.4); overflow: hidden;">
+                                    <div class="d-flex align-items-center justify-content-center px-2" style="background: rgba(0, 166, 62, 0.15); min-width: 65px; border-right: 1px solid rgba(0, 166, 62, 0.3);">
+                                        <span class="text-success fw-bold" style="font-size: 0.75rem; letter-spacing: 1px; transform: rotate(-90deg);">EMPTY</span>
+                                    </div>
+                                    <div class="flex-grow-1 w-100 p-2">
+                                        <div class="d-flex justify-content-between align-items-center mb-1 pb-1" style="border-bottom: 1px dashed rgba(255,255,255,0.1);">
+                                            <span class="text-white-50" style="font-size: 0.7rem; letter-spacing: 1px;">รับ (IN)</span>
+                                            <div>
+                                                <span class="text-white-50" style="font-size: 0.7rem;">20':</span> <span class="text-white fw-bold ms-1 me-3">${formatPrice(yard.ei20)}</span>
+                                                <span class="text-white-50" style="font-size: 0.7rem;">40':</span> <span class="text-white fw-bold ms-1">${formatPrice(yard.ei40)}</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="text-white-50" style="font-size: 0.7rem; letter-spacing: 1px;">คืน (OUT)</span>
+                                            <div>
+                                                <span class="text-white-50" style="font-size: 0.7rem;">20':</span> <span class="text-white fw-bold ms-1 me-3">${formatPrice(yard.eo20)}</span>
+                                                <span class="text-white-50" style="font-size: 0.7rem;">40':</span> <span class="text-white fw-bold ms-1">${formatPrice(yard.eo40)}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-xl-6">
+                                <div class="d-flex align-items-stretch h-100 rounded" style="border: 1px solid rgba(255, 193, 7, 0.3); background: rgba(0,0,0,0.4); overflow: hidden;">
+                                    <div class="d-flex align-items-center justify-content-center px-2" style="background: rgba(255, 193, 7, 0.15); min-width: 65px; border-right: 1px solid rgba(255, 193, 7, 0.3);">
+                                        <span class="text-warning fw-bold" style="font-size: 0.75rem; letter-spacing: 1px; transform: rotate(-90deg);">FULL</span>
+                                    </div>
+                                    <div class="flex-grow-1 w-100 p-2">
+                                        <div class="d-flex justify-content-between align-items-center mb-1 pb-1" style="border-bottom: 1px dashed rgba(255,255,255,0.1);">
+                                            <span class="text-white-50" style="font-size: 0.7rem; letter-spacing: 1px;">รับ (IN)</span>
+                                            <div>
+                                                <span class="text-white-50" style="font-size: 0.7rem;">20':</span> <span class="text-white fw-bold ms-1 me-3">${formatPrice(yard.fi20)}</span>
+                                                <span class="text-white-50" style="font-size: 0.7rem;">40':</span> <span class="text-white fw-bold ms-1">${formatPrice(yard.fi40)}</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="text-white-50" style="font-size: 0.7rem; letter-spacing: 1px;">คืน (OUT)</span>
+                                            <div>
+                                                <span class="text-white-50" style="font-size: 0.7rem;">20':</span> <span class="text-white fw-bold ms-1 me-3">${formatPrice(yard.fo20)}</span>
+                                                <span class="text-white-50" style="font-size: 0.7rem;">40':</span> <span class="text-white fw-bold ms-1">${formatPrice(yard.fo40)}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    tbody.innerHTML += `
+                        <tr class="yard-row" data-zone="${zone}">
+                            <td class="px-4 py-4" style="border-bottom: 1px solid rgba(255, 255, 255, 0.03); transition: background 0.3s;">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="fw-bold text-white mb-1" style="font-size: 1.15rem; text-shadow: 0 0 10px rgba(255,255,255,0.2);">${yard.name}</div>
+                                    ${btnMap}
+                                </div>
+                                ${detailHtml}
+                                ${priceHtml}
+                                ${adminBtns}
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            if(isAdmin) {
+                document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'block');
+            }
+        }
+
+        function filterYardsOffice() {
+            const searchTxt = document.getElementById('yardSearch').value.toLowerCase();
+            const selectedZone = document.getElementById('yardZoneFilter').value;
+            
+            document.querySelectorAll('#yardTableBody tr').forEach(row => {
+                const rowZone = row.getAttribute('data-zone');
+                
+                if (row.classList.contains('zone-header')) {
+                    row.style.display = (selectedZone === 'all' || rowZone === selectedZone) ? '' : 'none';
+                } else if (row.classList.contains('yard-row')) {
+                    const text = row.innerText.toLowerCase();
+                    const matchZone = (selectedZone === 'all' || rowZone === selectedZone);
+                    const matchSearch = text.includes(searchTxt);
+                    row.style.display = (matchZone && matchSearch) ? '' : 'none';
+                }
+            });
+        }
+
+        function openLoginModal() {
+            if(isAdmin) { 
+                Swal.fire({ toast: true, position: 'top-end', showConfirmButton: false, timer: 2000, background:'rgba(10,10,12,0.9)', color:'#0f0', icon: 'info', title: 'ALREADY LOGGED IN' }); return; 
+            }
+            const modalEl = document.getElementById('loginModal');
+            document.getElementById('adminPassword').value = '';
+            modalEl.addEventListener('shown.bs.modal', function () { document.getElementById('adminPassword').focus(); }, { once: true }); 
+            new bootstrap.Modal(modalEl).show();
+        }
+
+        function checkLogin() {
+            const pass = document.getElementById('adminPassword').value;
+            if(pass === "1234") { 
+                isAdmin = true; currentPassword = pass;
+                bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+                Swal.fire({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, background: 'rgba(10,10,12,0.9)', color: '#00A63E', icon: 'success', title: 'ACCESS GRANTED' });
+                
+                document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'block');
+                if(document.getElementById('yardModal').classList.contains('show')) renderTable(allYardsData);
+            } else { 
+                Swal.fire({ icon: 'error', title: 'ACCESS DENIED', background: 'rgba(10,10,12,0.9)', color: '#f00', confirmButtonColor: '#333' });
+            }
+        }
+
+        let currentAction = 'add';
+        function openEditModal(action, data = null) {
+            currentAction = action;
+            const modal = new bootstrap.Modal(document.getElementById('editModal'));
+            document.getElementById('editModalTitle').innerHTML = action === 'add' ? '<i class="fa-solid fa-plus-circle text-success"></i> NEW RECORD' : '<i class="fa-solid fa-pen-to-square text-warning"></i> EDIT RECORD';
+            document.querySelectorAll('#editModal input, #editModal textarea').forEach(i => i.value = '');
+            
+            if(action === 'edit' && data) {
+                document.getElementById('editOldName').value = data.name; 
+                document.getElementById('editName').value = data.name;
+                document.getElementById('editZone').value = data.zone; 
+                document.getElementById('editPhone').value = data.phone;
+                document.getElementById('editTime').value = data.time; 
+                document.getElementById('editLink').value = data.link;
+                document.getElementById('editAddress').value = data.address || ''; 
+                document.getElementById('editTaxId').value = (data.taxId !== undefined && data.taxId !== null) ? data.taxId : '';
+                document.getElementById('editEI20').value = data.ei20 !== undefined ? data.ei20 : '';
+                document.getElementById('editEI40').value = data.ei40 !== undefined ? data.ei40 : '';
+                document.getElementById('editEO20').value = data.eo20 !== undefined ? data.eo20 : '';
+                document.getElementById('editEO40').value = data.eo40 !== undefined ? data.eo40 : '';
+                document.getElementById('editFI20').value = data.fi20 !== undefined ? data.fi20 : '';
+                document.getElementById('editFI40').value = data.fi40 !== undefined ? data.fi40 : '';
+                document.getElementById('editFO20').value = data.fo20 !== undefined ? data.fo20 : '';
+                document.getElementById('editFO40').value = data.fo40 !== undefined ? data.fo40 : '';
+            }
+            modal.show();
+        }
+
+        async function saveData() {
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.disabled = true; saveBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> UPLOADING...';
+            const formData = new URLSearchParams();
+            
+            const inputs = ['editOldName', 'editName', 'editZone', 'editPhone', 'editTime', 'editLink', 'editAddress', 'editTaxId',
+                            'editEI20', 'editEI40', 'editEO20', 'editEO40', 'editFI20', 'editFI40', 'editFO20', 'editFO40'];
+            
+            formData.append('action', currentAction); 
+            formData.append('password', currentPassword);
+            formData.append('oldName', document.getElementById('editOldName').value); 
+            formData.append('name', document.getElementById('editName').value); 
+
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if(el && id !== 'editOldName' && id !== 'editName') { 
+                     const key = id.replace('edit', '').replace(/^[A-Z]/, c => c.toLowerCase());
+                     formData.append(key, el.value);
+                }
+            });
+
+            try {
+                const res = await fetch(SHEET_API_URL, { method: 'POST', body: formData });
+                const result = await res.json();
+                if(result.status === 'success') {
+                    bootstrap.Modal.getInstance(document.getElementById('editModal')).hide(); fetchYardData();
+                    Swal.fire({ icon: 'success', title: 'DATA SAVED', showConfirmButton: false, timer: 1500, background: 'rgba(10,10,12,0.9)', color: '#0f0' });
+                } else { Swal.fire({title:'Failed', text:result.message, icon:'error', background: 'rgba(10,10,12,0.9)', color:'#fff'}); }
+            } catch (err) { Swal.fire({title:'Error', text:'Connection Failed', icon:'error', background: 'rgba(10,10,12,0.9)', color:'#fff'}); }
+            saveBtn.disabled = false; saveBtn.innerText = 'SAVE RECORD';
+        }
+
+        async function deleteYard(name) {
+            Swal.fire({ title: 'CONFIRM DELETE?', text: name, icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonColor: '#555', background: 'rgba(10,10,12,0.9)', color: '#fff' })
+            .then(async (result) => {
+                if (result.isConfirmed) {
+                    const formData = new URLSearchParams(); formData.append('action', 'delete');
+                    formData.append('password', currentPassword); formData.append('name', name);
+                    try {
+                        await fetch(SHEET_API_URL, { method: 'POST', body: formData }); fetchYardData();
+                        Swal.fire({ icon: 'success', title: 'DELETED', showConfirmButton: false, timer: 1500, background: 'rgba(10,10,12,0.9)', color: '#fff' });
+                    } catch (e) {
+                         Swal.fire({ title: 'ERROR', text: 'Failed to delete', icon: 'error', background: 'rgba(10,10,12,0.9)', color: '#fff' });
+                    }
+                }
+            })
+        }
+        
+        function setGlow(color) { document.body.style.setProperty('--active-glow', color); }
+        function resetGlow() { document.body.style.setProperty('--active-glow', '#00A63E'); }
+    </script>
+</body>
+</html>
