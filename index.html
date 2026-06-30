@@ -11,14 +11,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VKT THEME 2026: PREMIUM CYBER GLASS --- */
         :root {
-            --bg-deep: #030305;
-            --glass-bg: rgba(20, 20, 24, 0.45);
-            --glass-border: rgba(255, 255, 255, 0.06);
+            --bg-deep: #020203;
+            --glass-bg: rgba(15, 15, 18, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.04);
             --primary-green: #00A63E;
             --text-main: #ffffff;
-            --text-mute: #888899;
+            --text-mute: #7a7a8c;
             --active-glow: var(--primary-green);
         }
 
@@ -26,304 +25,328 @@
             font-family: 'Kanit', sans-serif;
             background-color: var(--bg-deep);
             color: var(--text-main);
-            height: 100vh; /* บังคับความสูง 1 หน้าจอ */
-            overflow: hidden; /* ห้าม Scroll หน้าหลัก */
+            height: 100vh;
+            overflow: hidden;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
+            perspective: 1000px;
         }
 
-        /* --- BACKGROUND EFFECTS --- */
         .cyber-grid {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; inset: 0;
             background-image: 
-                linear-gradient(rgba(0, 166, 62, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 166, 62, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
+                linear-gradient(rgba(0, 166, 62, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 166, 62, 0.03) 1px, transparent 1px);
+            background-size: 35px 35px;
             background-position: center top;
-            transform: perspective(600px) rotateX(30deg) scale(2);
-            opacity: 0.3;
+            transform: rotateX(45deg) scale(2.5) translateY(-20%);
+            opacity: 0.4;
             z-index: 0;
-            animation: gridMove 25s linear infinite;
+            animation: gridMove 20s linear infinite;
             pointer-events: none;
         }
 
         .cyber-glow {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 70vw; height: 70vh;
-            background: radial-gradient(circle, var(--active-glow) 0%, transparent 60%);
-            opacity: 0.1; z-index: 0;
-            transition: background 0.8s ease;
-            filter: blur(100px);
+            width: 80vw; height: 80vh;
+            background: radial-gradient(circle, var(--active-glow) 0%, transparent 50%);
+            opacity: 0.08; z-index: 0;
+            transition: background 0.8s ease, opacity 0.5s ease;
+            filter: blur(120px);
             pointer-events: none;
+        }
+
+        .particles-container {
+            position: fixed; inset: 0; z-index: 1; pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--active-glow);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--active-glow);
+            animation: floatUp infinite linear;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            20% { opacity: 0.5; }
+            80% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
         }
 
         @keyframes gridMove {
             0% { background-position: center 0; }
-            100% { background-position: center 40px; }
+            100% { background-position: center 35px; }
         }
 
         @keyframes cardBreath {
-            0%, 100% { border-color: rgba(255, 255, 255, 0.06); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-            50% { border-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 20px -5px var(--accent); }
+            0%, 100% { border-color: rgba(255, 255, 255, 0.05); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+            50% { border-color: rgba(255, 255, 255, 0.12); box-shadow: 0 5px 25px -5px var(--accent); }
         }
 
         @keyframes iconFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); } /* ลดระยะลอยลงเพื่อความกระชับ */
+            0%, 100% { transform: translateY(0) translateZ(0); }
+            50% { transform: translateY(-4px) translateZ(10px); }
         }
 
-        @keyframes slowScan {
-            0% { left: -100%; opacity: 0; }
-            50% { opacity: 0.3; }
-            100% { left: 200%; opacity: 0; }
+        @keyframes dataStream {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
         }
 
-        /* --- CONTAINER ADJUSTMENT FOR SINGLE SCREEN --- */
+        @keyframes holoFlicker {
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--primary-green), 2px 0 #0ff, -2px 0 #f0f; }
+            95% { opacity: 1; text-shadow: 0 0 15px var(--primary-green), 2px 0 #0ff, -2px 0 #f0f; }
+            96% { opacity: 0.8; transform: skewX(2deg); }
+            97% { opacity: 1; transform: skewX(0deg); }
+            98% { opacity: 0.4; transform: skewX(-3deg); }
+            99% { opacity: 1; transform: skewX(0deg); text-shadow: none; }
+        }
+
         .main-portal-container {
-            max-width: 1200px;
+            max-width: 1150px;
             width: 95%;
             position: relative;
             z-index: 2;
-            padding: 20px;
-            background: rgba(10, 10, 12, 0.3);
-            border-radius: 24px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 25px;
+            background: rgba(10, 10, 12, 0.4);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.02);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
         }
 
-        /* --- HEADER --- */
-        .header-section { margin: 0 0 25px 0; text-align: center; position: relative; z-index: 2; }
+        .main-portal-container:hover {
+            transform: translateZ(10px) rotateX(1deg);
+        }
+
+        .header-section { margin: 0 0 25px 0; text-align: center; position: relative; z-index: 2; transform: translateZ(30px); }
         .brand-wrapper { display: inline-flex; align-items: center; gap: 15px; }
         .brand-icon {
             font-size: 2.8rem; color: var(--primary-green);
-            text-shadow: 0 0 25px rgba(0, 166, 62, 0.6);
-            animation: iconFloat 4s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(0, 166, 62, 0.8), 0 0 40px rgba(0, 166, 62, 0.4);
+            animation: iconFloat 3s ease-in-out infinite;
         }
         .brand-text h1 {
-            font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 3.2rem; margin: 0;
-            letter-spacing: 5px; text-transform: uppercase;
-            background: linear-gradient(135deg, #ffffff, #888888);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            line-height: 1;
+            font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 3rem; margin: 0;
+            letter-spacing: 6px; text-transform: uppercase;
+            color: #fff;
+            animation: holoFlicker 6s infinite;
+            position: relative;
         }
+        .brand-text h1::after {
+            content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 2px;
+            background: rgba(255,255,255,0.2); box-shadow: 0 0 10px rgba(255,255,255,0.5);
+            animation: holoScan 3s ease-in-out infinite alternate; pointer-events: none;
+        }
+        @keyframes holoScan { 0% { top: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+
         .brand-sub {
-            font-family: 'Rajdhani', sans-serif; letter-spacing: 4px; color: var(--primary-green); font-size: 0.85rem;
-            background: rgba(0, 166, 62, 0.08); padding: 3px 12px; border-radius: 5px; display: inline-block;
-            border: 1px solid rgba(0, 166, 62, 0.2); margin-top: 3px;
+            font-family: 'Rajdhani', sans-serif; letter-spacing: 5px; color: #00E5FF; font-size: 0.8rem;
+            background: rgba(0, 229, 255, 0.05); padding: 4px 12px; border-radius: 4px; display: inline-block;
+            border: 1px solid rgba(0, 229, 255, 0.2); margin-top: 5px; text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+            box-shadow: 0 0 10px inset rgba(0, 229, 255, 0.1);
         }
 
-        /* --- SECTION HEADERS --- */
         .section-header {
-            font-family: 'Rajdhani', sans-serif; color: var(--text-mute); font-weight: 700; letter-spacing: 2.5px;
-            margin-bottom: 15px; display: flex; align-items: center; gap: 12px; font-size: 1rem; text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif; color: var(--text-mute); font-weight: 700; letter-spacing: 2px;
+            margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; text-transform: uppercase;
+            transform: translateZ(20px);
         }
-        .section-header .line { flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.08), transparent); }
-        .section-header i { color: var(--primary-green); opacity: 0.8; }
+        .section-header .line { flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent); }
+        .section-header i { color: var(--primary-green); opacity: 0.9; text-shadow: 0 0 10px var(--primary-green); }
 
-        /* --- GLOBAL INTERACTIVE FIX --- */
         .glass-card, .mega-btn, .gps-item, .admin-trigger, .btn {
-            cursor: pointer !important; user-select: none; -webkit-user-select: none;
+            cursor: pointer !important; user-select: none; -webkit-user-select: none; transform-style: preserve-3d;
         }
 
-        /* --- GLASS CARDS (Internal Ops) --- */
         .glass-card {
             display: block; position: relative; text-decoration: none;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border-radius: 16px; padding: 15px; /* ลด Padding เพื่อความกระชับ */
-            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            overflow: hidden;
-            animation: cardBreath 5s infinite ease-in-out;
-            height: 100%; /* ให้การ์ดสูงเท่ากันใน Grid */
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            border-radius: 14px; padding: 14px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden; height: 100%; z-index: 1;
+            animation: cardBreath 4s infinite alternate;
         }
 
-        /* สุ่มจังหวะหายใจ ไม่ให้พร้อมกัน */
+        .glass-card::before {
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, transparent, var(--accent), transparent);
+            z-index: -1; opacity: 0; transition: opacity 0.4s; border-radius: 16px;
+        }
+
         .col-md-6:nth-child(1) .glass-card { animation-delay: 0s; }
-        .col-md-6:nth-child(2) .glass-card { animation-delay: 1.5s; }
-        .col-md-6:nth-child(3) .glass-card { animation-delay: 3s; }
-        .col-md-6:nth-child(4) .glass-card { animation-delay: 0.8s; }
-        .col-md-6:nth-child(5) .glass-card { animation-delay: 2.2s; }
-        .col-md-6:nth-child(6) .glass-card { animation-delay: 3.5s; }
-        .col-md-6:nth-child(7) .glass-card { animation-delay: 1s; }
+        .col-md-6:nth-child(2) .glass-card { animation-delay: 1.2s; }
+        .col-md-6:nth-child(3) .glass-card { animation-delay: 2.4s; }
+        .col-md-6:nth-child(4) .glass-card { animation-delay: 0.6s; }
+        .col-md-6:nth-child(5) .glass-card { animation-delay: 1.8s; }
+        .col-md-6:nth-child(6) .glass-card { animation-delay: 3s; }
+        .col-md-6:nth-child(7) .glass-card { animation-delay: 0.9s; }
         
-        .card-content { display: flex; align-items: center; gap: 12px; position: relative; z-index: 2; }
+        .card-content { display: flex; align-items: center; gap: 12px; position: relative; z-index: 2; transform: translateZ(10px); }
         
         .icon-box {
-            width: 45px; height: 45px; border-radius: 12px; /* ลดขนาด Icon Box */
-            background: rgba(255,255,255,0.02);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; color: #888; transition: 0.4s ease;
-            border: 1px solid rgba(255,255,255,0.05);
-            animation: iconFloat 4s ease-in-out infinite;
+            width: 42px; height: 42px; border-radius: 10px; background: rgba(255,255,255,0.03);
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #999;
+            transition: 0.4s ease; border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
-        
-        /* สุ่มจังหวะลอยของไอคอน */
-        .col-md-6:nth-child(odd) .icon-box { animation-delay: 0.5s; }
-        .col-md-6:nth-child(even) .icon-box { animation-delay: 2s; }
 
-        .text-box h5 { margin: 0; color: #fdfdfd; font-weight: 600; font-size: 1rem; transition: color 0.3s; line-height: 1.2; }
-        .text-box small { color: #777; font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; transition: color 0.3s; font-size: 0.75rem; }
+        .text-box h5 { margin: 0; color: #fff; font-weight: 600; font-size: 0.95rem; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .text-box small { color: #888; font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 0.7rem; }
 
         .glass-card:hover {
-            transform: translateY(-5px); /* ลดระยะ Hover ขึ้นเพื่อความกระชับ */
-            border-color: var(--accent) !important;
-            background: rgba(20, 20, 24, 0.7);
-            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.6), 0 0 20px -8px var(--accent) !important;
+            transform: translateY(-5px) translateZ(20px);
+            background: rgba(15, 15, 18, 0.8);
+            border-color: transparent !important;
+            box-shadow: 0 15px 25px -5px rgba(0,0,0,0.8), 0 0 25px -5px var(--accent) !important;
             animation: none;
         }
+        .glass-card:hover::before { opacity: 0.5; animation: dataStream 2s linear infinite; }
         .glass-card:hover .icon-box {
-            background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent);
-            border-color: var(--accent);
-            animation: none; transform: scale(1.05);
+            background: var(--accent); color: #000; box-shadow: 0 0 20px var(--accent), inset 0 0 10px rgba(255,255,255,0.5);
+            border-color: var(--accent); transform: scale(1.1) translateZ(15px);
         }
-        .glass-card:hover .text-box small { color: var(--accent); }
-        .glass-card:hover .text-box h5 { color: #fff; }
+        .glass-card:hover .text-box small { color: var(--accent); text-shadow: 0 0 8px rgba(var(--accent), 0.5); }
 
-        /* --- MEGA BUTTONS (Core Systems) --- */
         .mega-btn {
             display: block; text-decoration: none; position: relative;
-            background: linear-gradient(145deg, rgba(26,26,28,0.7), rgba(17,17,17,0.7));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.05); border-radius: 20px;
-            padding: 25px 20px; margin-bottom: 12px; overflow: hidden; /* ลด Margins/Padding */
-            color: white; transition: 0.4s ease;
+            background: linear-gradient(135deg, rgba(20,20,24,0.8), rgba(5,5,8,0.9));
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 18px;
+            padding: 22px 18px; margin-bottom: 12px; overflow: hidden; color: white; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
         }
-        .mega-btn::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent);
-            animation: slowScan 8s linear infinite;
-            pointer-events: none;
+        .mega-btn::after {
+            content: ''; position: absolute; inset: 0; background: radial-gradient(circle at right, var(--accent) 0%, transparent 60%);
+            opacity: 0.05; transition: 0.5s; pointer-events: none; mix-blend-mode: screen;
         }
-
-        .mega-btn h3 { font-style: italic; font-weight: 800; margin: 0 0 2px 0; letter-spacing: 1px; transition: 0.3s; font-size: 1.5rem; } /* ลดขนาด Font */
-        .mega-btn span { font-family: 'Rajdhani'; color: #999; letter-spacing: 1.5px; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; }
+        .mega-btn h3 { font-style: italic; font-weight: 800; margin: 0 0 2px 0; letter-spacing: 2px; font-size: 1.4rem; transform: translateZ(20px); }
+        .mega-btn span { font-family: 'Rajdhani'; color: #888; letter-spacing: 1.5px; font-weight: 600; font-size: 0.75rem; transform: translateZ(10px); display: block; }
         
         .mega-btn:hover {
-            border-color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(0, 166, 62, 0.1);
+            border-color: var(--accent); transform: translateY(-3px) translateZ(25px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(var(--accent), 0.2);
         }
-        .mega-btn:hover h3 { color: var(--accent); text-shadow: 0 0 15px rgba(var(--accent), 0.5); }
-        .mega-btn:hover i.fa-gauge-high { color: var(--accent) !important; opacity: 1 !important; transform: rotate(15deg) scale(1.1); transition: 0.4s; }
-        
-        .scan-line {
-            position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-            transform: skewX(-20deg); transition: 0.5s; pointer-events: none;
-        }
-        .mega-btn:hover .scan-line { left: 150%; transition: 0.8s ease-in-out; }
+        .mega-btn:hover::after { opacity: 0.2; }
+        .mega-btn:hover h3 { color: var(--accent); text-shadow: 0 0 20px rgba(var(--accent), 0.6); }
+        .mega-btn:hover i.fa-gauge-high { color: var(--accent) !important; opacity: 1 !important; transform: rotate(20deg) scale(1.2) translateZ(30px); text-shadow: 0 0 20px var(--accent); }
 
-        /* --- SPECIAL: BOOKING BUTTON ANIMATIONS --- */
         .pulse-btn {
-            background: linear-gradient(145deg, rgba(0, 229, 255, 0.03), rgba(17,17,17,0.7));
-            border: 1px solid rgba(0, 229, 255, 0.2);
-            animation: neonPulse 3s infinite alternate ease-in-out;
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.08), rgba(5,5,8,0.9));
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            animation: holoBreath 3s infinite alternate;
         }
-        @keyframes neonPulse {
-            0% { box-shadow: 0 0 5px rgba(0, 229, 255, 0.05), inset 0 0 10px rgba(0, 229, 255, 0.02); }
-            100% { box-shadow: 0 0 15px rgba(0, 229, 255, 0.2), inset 0 0 20px rgba(0, 229, 255, 0.05); border-color: rgba(0, 229, 255, 0.5); }
+        @keyframes holoBreath {
+            0% { box-shadow: 0 0 10px rgba(0, 229, 255, 0.1), inset 0 0 15px rgba(0, 229, 255, 0.05); }
+            100% { box-shadow: 0 0 25px rgba(0, 229, 255, 0.3), inset 0 0 30px rgba(0, 229, 255, 0.1); border-color: rgba(0, 229, 255, 0.6); }
         }
-        .booking-icon-wrapper i {
-            color: var(--accent);
-            text-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
-            animation: iconFloat 4s ease-in-out infinite, glitchIcon 6s infinite;
+        .pulse-btn .booking-icon-wrapper i {
+            color: var(--accent); text-shadow: 0 0 20px rgba(0, 229, 255, 0.8);
+            animation: floatComplex 4s ease-in-out infinite; transform-style: preserve-3d;
         }
-        @keyframes glitchIcon {
-            0%, 96%, 100% { opacity: 1; transform: scale(1); }
-            97% { opacity: 0.8; transform: scale(1.1) skewX(5deg); }
-            98% { opacity: 0.4; transform: scale(0.9) skewX(-5deg); }
-            99% { opacity: 1; transform: scale(1.05); }
+        @keyframes floatComplex {
+            0%, 100% { transform: translateY(0) rotateY(0deg) translateZ(20px); }
+            50% { transform: translateY(-5px) rotateY(15deg) translateZ(30px); filter: brightness(1.2); }
         }
         .pulse-btn:hover {
-            background: linear-gradient(145deg, rgba(0, 229, 255, 0.1), rgba(17,17,17,0.8));
-            animation: none;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5), inset 0 0 30px rgba(0, 229, 255, 0.2), 0 0 15px rgba(0, 229, 255, 0.4);
-            border-color: var(--accent);
+            animation: none; box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 0 50px rgba(0, 229, 255, 0.3), 0 0 20px rgba(0, 229, 255, 0.5);
+            border-color: var(--accent); transform: translateY(-3px) translateZ(25px);
         }
-        .pulse-btn:hover .booking-icon-wrapper i { animation: none; transform: scale(1.1); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .pulse-btn:hover .booking-icon-wrapper i { animation: none; transform: scale(1.15) translateZ(40px); }
 
         .secondary-btn { 
-            padding: 18px 15px; background: rgba(20,20,24,0.5); border: 1px dashed rgba(255,255,255,0.1); 
-            animation: cardBreath 6s infinite ease-in-out; border-radius: 16px; /* ลด Padding/Margins */
+            padding: 15px 12px; background: rgba(15,15,18,0.6); border: 1px solid rgba(255,255,255,0.05); 
+            border-radius: 14px; position: relative; overflow: hidden;
+        }
+        .secondary-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-25deg); transition: 0.5s;
         }
         .secondary-btn .icon-circle { 
-            width: 45px; height: 45px; background: rgba(0,0,0,0.5); border-radius: 50%; 
+            width: 42px; height: 42px; background: rgba(0,0,0,0.6); border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 1.1rem;
-            animation: iconFloat 4s ease-in-out infinite; border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08); box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            transition: 0.4s;
         }
         .secondary-btn:hover { 
-            background: rgba(255,255,255,0.02); border-style: solid; border-color: var(--accent); 
-            animation: none; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            background: rgba(20,20,25,0.9); border-color: var(--accent); 
+            transform: translateY(-3px) translateZ(15px); box-shadow: 0 8px 25px rgba(0,0,0,0.6), inset 0 0 20px rgba(var(--accent), 0.1);
         }
-        .secondary-btn:hover .icon-circle { background: var(--accent); color: #000; box-shadow: 0 0 12px var(--accent); animation: none; transform: scale(1.08); transition: 0.3s; }
+        .secondary-btn:hover::before { left: 200%; transition: 0.7s ease-in-out; }
+        .secondary-btn:hover .icon-circle { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); transform: scale(1.1) rotate(5deg); }
 
-        /* --- GPS GRID --- */
-        .gps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } /* ลด Gap */
-        .gps-item {
-            background: rgba(20,20,24,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px;
-            padding: 12px; color: #aaa; text-decoration: none; font-weight: 500; font-size: 0.95rem;
-            display: flex; align-items: center; gap: 10px; transition: 0.3s ease; backdrop-filter: blur(5px);
+        .gps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; position: relative; padding: 5px; border-radius: 14px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.02); }
+        .gps-grid::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(0, 229, 255, 0.5); box-shadow: 0 0 15px rgba(0, 229, 255, 1);
+            animation: scanline 4s linear infinite; pointer-events: none; opacity: 0.5; border-radius: 50%;
         }
-        .gps-item i { transition: 0.3s; font-size: 1.1rem; }
+        @keyframes scanline { 0% { top: 0; opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { top: 100%; opacity: 0; } }
+
+        .gps-item {
+            background: rgba(15,15,18,0.8); border: 1px solid rgba(255,255,255,0.04); border-radius: 10px;
+            padding: 10px 12px; color: #a0a0b5; text-decoration: none; font-weight: 500; font-size: 0.85rem;
+            display: flex; align-items: center; gap: 8px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2;
+        }
+        .gps-item i { transition: 0.4s; font-size: 1rem; }
         .gps-item:hover {
             background: var(--accent); color: #000; border-color: var(--accent);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4), 0 0 15px rgba(var(--accent), 0.3);
-            transform: translateY(-2px); font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5), 0 0 20px rgba(var(--accent), 0.5);
+            transform: translateY(-2px) translateZ(10px); font-weight: 700;
         }
-        .gps-item:hover i { transform: scale(1.15) rotate(5deg); }
+        .gps-item:hover i { transform: scale(1.2); filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)); }
 
-        /* --- FOOTER & ADMIN --- */
         .footer-credit {
-            text-align: center; margin-top: 25px; font-size: 0.7rem; color: #555; font-family: 'Rajdhani'; letter-spacing: 3.5px; cursor: default; position: relative; z-index: 2;
+            text-align: center; margin-top: 15px; font-size: 0.65rem; color: #4a4a5e; font-family: 'Rajdhani'; letter-spacing: 4px; transform: translateZ(10px); text-transform: uppercase;
         }
+        
         .admin-trigger {
-            position: fixed; bottom: 15px; right: 15px; /* กระชับตำแหน่ง */
-            width: 38px; height: 38px; border-radius: 50%;
-            background: rgba(15, 15, 15, 0.8); border: 1px solid rgba(255,255,255,0.1);
+            position: fixed; bottom: 20px; right: 20px;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(10, 10, 12, 0.9); border: 1px solid rgba(255,255,255,0.1);
             color: #555; display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 99; backdrop-filter: blur(10px);
-            font-size: 0.9rem;
+            font-size: 0.9rem; animation: adminPulse 3s infinite alternate;
         }
+        @keyframes adminPulse { 0% { box-shadow: 0 0 0 rgba(255,255,255,0); } 100% { box-shadow: 0 0 15px rgba(255,255,255,0.1); } }
         .admin-trigger:hover { 
             color: #000; background: var(--primary-green); border-color: var(--primary-green); 
-            box-shadow: 0 0 15px var(--primary-green); transform: scale(1.1) rotate(360deg); 
+            box-shadow: 0 0 20px var(--primary-green); transform: scale(1.15) rotate(360deg); animation: none;
         }
 
-        /* --- MODAL STYLES --- */
         .modal-content {
-            background: rgba(15, 15, 18, 0.95);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #fff; border-radius: 16px; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            background: rgba(10, 10, 12, 0.98); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.08);
+            color: #fff; border-radius: 18px; box-shadow: 0 30px 60px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(255,255,255,0.02);
         }
         .modal-header { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 20px; }
-        .modal-footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 10px 20px; }
+        .modal-footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 12px 20px; }
         .modal-body { padding: 20px; }
         
         .form-control, .form-select {
-            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; padding: 8px 12px; font-size: 0.9rem;
+            background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; padding: 8px 12px; font-size: 0.9rem;
         }
         .form-control:focus, .form-select:focus {
-            background: rgba(0,0,0,0.8); border-color: var(--primary-green); color: white;
-            box-shadow: 0 0 0 0.2rem rgba(0, 166, 62, 0.2);
+            background: rgba(0,0,0,0.8); border-color: var(--primary-green); color: white; box-shadow: 0 0 15px rgba(0, 166, 62, 0.3);
         }
         
-        /* Table Customization inside Modal */
         .table-dark { --bs-table-bg: transparent; color: #ddd; font-size: 0.85rem; }
-        .zone-header td { background: linear-gradient(90deg, rgba(0, 166, 62, 0.12), transparent) !important; border-bottom: 2px solid var(--primary-green) !important; padding: 6px 12px !important;}
-        .yard-row:hover td { background-color: rgba(255,255,255,0.03) !important; }
-        .table > :not(caption) > * > * { padding: 10px 12px; } /* Compact Table Rows */
+        .zone-header td { background: linear-gradient(90deg, rgba(0, 166, 62, 0.15), transparent) !important; border-bottom: 1px solid var(--primary-green) !important; padding: 6px 12px !important;}
+        .yard-row:hover td { background-color: rgba(255,255,255,0.04) !important; box-shadow: inset 0 0 15px rgba(0,0,0,0.5); }
+        .table > :not(caption) > * > * { padding: 8px 12px; }
 
         @media (max-width: 992px) {
-            body { height: auto; overflow: auto; padding: 20px 0; } /* ปล่อย Scroll บนมือถือ/แท็บเล็ต */
-            .main-portal-container { margin: 20px auto; }
-            .brand-text h1 { font-size: 2.5rem; letter-spacing: 4px; }
-            .header-section { margin-bottom: 20px; }
-            .mega-btn { padding: 20px 15px; }
-            .gps-grid { grid-template-columns: 1fr; gap: 10px; }
+            body { height: auto; overflow: auto; padding: 20px 0; perspective: none; }
+            .main-portal-container { margin: 10px auto; transform: none !important; }
+            .brand-text h1 { font-size: 2.2rem; letter-spacing: 3px; }
+            .mega-btn { padding: 18px 15px; }
+            .gps-grid { grid-template-columns: 1fr; gap: 8px; }
         }
     </style>
 </head>
@@ -331,6 +354,7 @@
 
     <div class="cyber-grid"></div>
     <div class="cyber-glow"></div>
+    <div class="particles-container" id="particles"></div>
 
     <div class="main-portal-container animate__animated animate__zoomIn animate__faster">
         
@@ -344,13 +368,15 @@
             </div>
         </div>
 
-        <div class="row g-3"> <div class="col-lg-7 animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
+        <div class="row g-3">
+            <div class="col-lg-7 animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
                 <div class="section-header">
                     <i class="fa-solid fa-microchip"></i> INTERNAL OPERATIONS
                     <div class="line"></div>
                 </div>
                 
-                <div class="row g-2"> <div class="col-md-6 col-sm-12">
+                <div class="row g-2">
+                    <div class="col-md-6 col-sm-12">
                         <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbzWYtdLeHp3uw1Bb0cXPNDSyKdTDMMg3h9JWqqWr7iOEL4VM-GrEqJsFECeCtR4-xxkcg/exec" target="_blank" 
                            class="glass-card" style="--accent: #FFD700;" onmouseenter="setGlow('#FFD700')" onmouseleave="resetGlow()">
                             <div class="card-content">
@@ -452,42 +478,37 @@
 
                 <a href="https://vkt.elog789.com/v3.4.1/#/login" target="_blank" 
                    class="mega-btn" style="--accent: #00A63E;" onmouseenter="setGlow('#00A63E')" onmouseleave="resetGlow()">
-                    <div class="mega-content">
-                        <div class="d-flex justify-content-between align-items-center w-100">
-                            <div>
-                                <h3 class="text-white">TRANSPORT MGT</h3>
-                                <span>VKT E-Log System V3.4</span>
-                            </div>
-                            <i class="fa-solid fa-gauge-high fa-3x opacity-50 text-white" style="font-size: 2.5rem;"></i>
+                    <div class="d-flex justify-content-between align-items-center w-100 position-relative z-2">
+                        <div>
+                            <h3 class="text-white">TRANSPORT MGT</h3>
+                            <span>VKT E-Log System V3.4</span>
                         </div>
+                        <i class="fa-solid fa-gauge-high fa-3x opacity-50 text-white" style="font-size: 2.2rem;"></i>
                     </div>
-                    <div class="scan-line"></div>
                 </a>
 
                 <a href="https://script.google.com/macros/s/AKfycbzXkJMrsAtjDG6uVLdopDv8oNqCSnT8_BolREPtXJHe17rVI6cw8iu-Cv4g702_bsjO/exec" target="_blank" 
                    class="mega-btn pulse-btn" style="--accent: #00E5FF;" onmouseenter="setGlow('#00E5FF')" onmouseleave="resetGlow()">
-                    <div class="mega-content">
-                        <div class="d-flex justify-content-between align-items-center w-100">
-                            <div>
-                                <h3 class="text-white">BOOKING HUB</h3>
-                                <span class="text-info" style="font-family: 'Kanit';">จัดการงาน Booking</span>
-                            </div>
-                            <div class="booking-icon-wrapper">
-                                <i class="fa-solid fa-calendar-check fa-3x" style="font-size: 2.5rem;"></i>
-                            </div>
+                    <div class="d-flex justify-content-between align-items-center w-100 position-relative z-2">
+                        <div>
+                            <h3 class="text-white">BOOKING HUB</h3>
+                            <span class="text-info" style="font-family: 'Kanit';">จัดการงาน Booking</span>
+                        </div>
+                        <div class="booking-icon-wrapper">
+                            <i class="fa-solid fa-calendar-check fa-3x" style="font-size: 2.2rem;"></i>
                         </div>
                     </div>
-                    <div class="scan-line"></div>
                 </a>
 
-                <div class="row g-2 mb-3"> <div class="col-sm-6 col-12">
+                <div class="row g-2 mb-3">
+                    <div class="col-sm-6 col-12">
                         <div class="secondary-btn h-100 mb-0 d-flex flex-column justify-content-center" style="--accent: #FF0033;" onclick="openYardModal()"
                              onmouseenter="setGlow('#FF0033')" onmouseleave="resetGlow()" role="button">
-                             <div class="mega-content d-flex flex-column align-items-center text-center p-1 gap-1">
+                             <div class="d-flex flex-column align-items-center text-center p-1 gap-1 position-relative z-2">
                                 <div class="icon-circle mb-1"><i class="fa-solid fa-map-location-dot"></i></div>
                                 <div>
-                                    <h6 class="mb-0 fw-bold text-white" style="font-size: 0.9rem;">ค้นหาลานตู้</h6>
-                                    <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.65rem; letter-spacing: 1px;">YARD LOCATION</small>
+                                    <h6 class="mb-0 fw-bold text-white" style="font-size: 0.85rem;">ค้นหาลานตู้</h6>
+                                    <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.6rem; letter-spacing: 1px;">YARD LOCATION</small>
                                 </div>
                              </div>
                         </div>
@@ -497,18 +518,19 @@
                         <a href="https://vkttrans.github.io/M-Flow/" target="_blank" 
                            class="secondary-btn h-100 mb-0 d-flex flex-column justify-content-center text-decoration-none" style="--accent: #FF9900;" 
                            onmouseenter="setGlow('#FF9900')" onmouseleave="resetGlow()">
-                             <div class="mega-content d-flex flex-column align-items-center text-center p-1 gap-1">
+                             <div class="d-flex flex-column align-items-center text-center p-1 gap-1 position-relative z-2">
                                 <div class="icon-circle mb-1" style="color: #FF9900;"><i class="fa-solid fa-road"></i></div>
                                 <div>
-                                    <h6 class="mb-0 fw-bold text-white" style="font-size: 0.9rem;">ระบบ M-Flow</h6>
-                                    <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.65rem; letter-spacing: 1px;">AUTO TOLL GATE</small>
+                                    <h6 class="mb-0 fw-bold text-white" style="font-size: 0.85rem;">ระบบ M-Flow</h6>
+                                    <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.6rem; letter-spacing: 1px;">AUTO TOLL GATE</small>
                                 </div>
                              </div>
                         </a>
                     </div>
                 </div>
 
-                <div class="section-header mt-3"> <i class="fa-solid fa-satellite-dish"></i> GPS TRACKING
+                <div class="section-header mt-2">
+                    <i class="fa-solid fa-satellite-dish"></i> GPS TRACKING
                     <div class="line"></div>
                 </div>
                 
@@ -530,7 +552,8 @@
             </div>
         </div>
 
-        <div class="footer-credit pb-1"> VKT TRANSPORT INTELLIGENT SYSTEM © 2026
+        <div class="footer-credit pb-1">
+            VKT TRANSPORT INTELLIGENT SYSTEM © 2026
         </div>
     </div>
 
@@ -548,7 +571,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-0">
-                    <div class="p-3 sticky-top border-bottom" style="background: rgba(10,10,12,0.92); backdrop-filter: blur(10px); border-color: rgba(255,255,255,0.05) !important;">
+                    <div class="p-3 sticky-top border-bottom" style="background: rgba(5,5,8,0.95); backdrop-filter: blur(15px); border-color: rgba(255,255,255,0.05) !important;">
                         <div class="d-flex gap-3 flex-wrap flex-md-nowrap">
                             <div class="input-group flex-grow-1 shadow-sm">
                                 <span class="input-group-text border-0" style="background: rgba(255,255,255,0.05); color: #888;"><i class="fa-solid fa-search"></i></span>
@@ -564,7 +587,7 @@
                     </div>
 
                     <div id="loadingSpinner" class="text-center py-5">
-                        <div class="spinner-border text-success mb-3" style="width: 2.5rem; height: 2.5rem; border-width: 0.2rem;"></div>
+                        <div class="spinner-border text-success mb-3" style="width: 2.5rem; height: 2.5rem; border-width: 0.2rem; filter: drop-shadow(0 0 10px #00A63E);"></div>
                         <p class="text-success small fw-bold" style="letter-spacing: 3px; font-family: 'Rajdhani'; opacity: 0.8;">ACCESSING DATABASE...</p>
                     </div>
                     
@@ -574,7 +597,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="modal-footer py-2BgDark border-0 rounded-bottom">
+                <div class="modal-footer border-0 rounded-bottom" style="background: rgba(5,5,8,0.95);">
                     <button type="button" class="btn btn-sm btn-outline-secondary px-4 rounded-pill" data-bs-dismiss="modal">CLOSE</button>
                 </div>
             </div>
@@ -583,11 +606,11 @@
 
     <div class="modal fade" id="loginModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content" style="border: 1px solid rgba(255, 193, 7, 0.3); background: rgba(10,10,12,0.98);">
+            <div class="modal-content" style="border: 1px solid rgba(255, 193, 7, 0.4); background: rgba(10,10,12,0.95); box-shadow: 0 0 30px rgba(255, 193, 7, 0.2);">
                 <div class="modal-body text-center pt-5 pb-4 px-4">
-                    <i class="fa-solid fa-fingerprint fs-1 mb-3 text-warning drop-shadow" style="filter: drop-shadow(0 0 10px rgba(255,193,7,0.5));"></i>
+                    <i class="fa-solid fa-fingerprint fs-1 mb-3 text-warning drop-shadow" style="filter: drop-shadow(0 0 15px rgba(255,193,7,0.8));"></i>
                     <h5 class="mb-4 text-uppercase" style="font-family: 'Rajdhani'; letter-spacing: 2px;">Admin Verify</h5>
-                    <input type="password" id="adminPassword" class="form-control text-center fs-3 mb-4" placeholder="••••" style="letter-spacing: 8px; border-radius: 10px; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1);">
+                    <input type="password" id="adminPassword" class="form-control text-center fs-3 mb-4" placeholder="••••" style="letter-spacing: 8px; border-radius: 10px; background: rgba(0,0,0,0.5); border-color: rgba(255,193,7,0.3);">
                     <button type="button" class="btn btn-warning w-100 fw-bold py-2 shadow" style="border-radius: 10px; letter-spacing: 1px;" onclick="checkLogin()">AUTHENTICATE</button>
                 </div>
             </div>
@@ -665,7 +688,24 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             resetGlow();
+            createParticles();
         });
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 20;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 4 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(particle);
+            }
+        }
 
         document.getElementById('adminPassword').addEventListener('keypress', function (e) { 
             if (e.key === 'Enter') checkLogin(); 
@@ -692,7 +732,6 @@
                     document.getElementById('yardTable').style.display = 'table';
                 }
             } catch (error) { 
-                console.error(error); 
                 document.getElementById('loadingSpinner').innerHTML = '<p class="text-danger fw-bold small"><i class="fa-solid fa-triangle-exclamation me-1"></i> SYSTEM OFFLINE</p>';
             }
         }
@@ -704,9 +743,7 @@
             
             const formatPrice = (val) => {
                 if (val === undefined || val === null || val === '') return '<span class="text-white-50 fw-normal opacity-50">-</span>';
-                if (!isNaN(val) && val !== '') {
-                    return Number(val).toLocaleString('en-US');
-                }
+                if (!isNaN(val) && val !== '') return Number(val).toLocaleString('en-US');
                 return val;
             };
             
@@ -720,9 +757,7 @@
             if (zoneFilter) {
                 const currentVal = zoneFilter.value;
                 let optionsHtml = '<option value="all">🌐 ทุกโซน</option>';
-                Object.keys(grouped).sort().forEach(z => {
-                    optionsHtml += `<option value="${z}">${z}</option>`;
-                });
+                Object.keys(grouped).sort().forEach(z => { optionsHtml += `<option value="${z}">${z}</option>`; });
                 zoneFilter.innerHTML = optionsHtml;
                 zoneFilter.value = currentVal === "" ? "all" : currentVal; 
             }
@@ -731,7 +766,7 @@
                 tbody.innerHTML += `
                     <tr class="zone-header" data-zone="${zone}">
                         <td class="py-2 px-3">
-                            <span style="background: rgba(0, 166, 62, 0.15); color: #00A63E; padding: 4px 12px; font-weight: 700; font-family: 'Rajdhani'; border-radius: 6px; font-size: 0.85rem; border: 1px solid rgba(0,166,62,0.3); letter-spacing: 1px;">
+                            <span style="background: rgba(0, 166, 62, 0.15); color: #00A63E; padding: 4px 12px; font-weight: 700; font-family: 'Rajdhani'; border-radius: 6px; font-size: 0.85rem; border: 1px solid rgba(0,166,62,0.3); letter-spacing: 1px; box-shadow: 0 0 10px rgba(0,166,62,0.2);">
                                 ${zone}
                             </span>
                         </td>
@@ -785,7 +820,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-12 col-xl-6">
                                 <div class="d-flex align-items-stretch h-100 rounded" style="border: 1px solid rgba(255, 193, 7, 0.25); background: rgba(0,0,0,0.4); overflow: hidden;">
                                     <div class="d-flex align-items-center justify-content-center px-2" style="background: rgba(255, 193, 7, 0.1); min-width: 60px; border-right: 1px solid rgba(255, 193, 7, 0.2);">
@@ -827,10 +861,7 @@
                     `;
                 });
             }
-            
-            if(isAdmin) {
-                document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'block');
-            }
+            if(isAdmin) document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'block');
         }
 
         function filterYardsOffice() {
@@ -839,7 +870,6 @@
             
             document.querySelectorAll('#yardTableBody tr').forEach(row => {
                 const rowZone = row.getAttribute('data-zone');
-                
                 if (row.classList.contains('zone-header')) {
                     row.style.display = (selectedZone === 'all' || rowZone === selectedZone) ? '' : 'none';
                 } else if (row.classList.contains('yard-row')) {
@@ -867,7 +897,6 @@
                 isAdmin = true; currentPassword = pass;
                 bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
                 Swal.fire({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, background: 'rgba(10,10,12,0.95)', color: '#00A63E', icon: 'success', title: 'ACCESS GRANTED' });
-                
                 document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'block');
                 if(document.getElementById('yardModal').classList.contains('show')) renderTable(allYardsData);
             } else { 
@@ -883,22 +912,14 @@
             document.querySelectorAll('#editModal input, #editModal textarea').forEach(i => i.value = '');
             
             if(action === 'edit' && data) {
-                document.getElementById('editOldName').value = data.name; 
-                document.getElementById('editName').value = data.name;
-                document.getElementById('editZone').value = data.zone; 
-                document.getElementById('editPhone').value = data.phone;
-                document.getElementById('editTime').value = data.time; 
-                document.getElementById('editLink').value = data.link;
-                document.getElementById('editAddress').value = data.address || ''; 
-                document.getElementById('editTaxId').value = (data.taxId !== undefined && data.taxId !== null) ? data.taxId : '';
-                document.getElementById('editEI20').value = data.ei20 !== undefined ? data.ei20 : '';
-                document.getElementById('editEI40').value = data.ei40 !== undefined ? data.ei40 : '';
-                document.getElementById('editEO20').value = data.eo20 !== undefined ? data.eo20 : '';
-                document.getElementById('editEO40').value = data.eo40 !== undefined ? data.eo40 : '';
-                document.getElementById('editFI20').value = data.fi20 !== undefined ? data.fi20 : '';
-                document.getElementById('editFI40').value = data.fi40 !== undefined ? data.fi40 : '';
-                document.getElementById('editFO20').value = data.fo20 !== undefined ? data.fo20 : '';
-                document.getElementById('editFO40').value = data.fo40 !== undefined ? data.fo40 : '';
+                document.getElementById('editOldName').value = data.name; document.getElementById('editName').value = data.name;
+                document.getElementById('editZone').value = data.zone; document.getElementById('editPhone').value = data.phone;
+                document.getElementById('editTime').value = data.time; document.getElementById('editLink').value = data.link;
+                document.getElementById('editAddress').value = data.address || ''; document.getElementById('editTaxId').value = (data.taxId !== undefined && data.taxId !== null) ? data.taxId : '';
+                document.getElementById('editEI20').value = data.ei20 !== undefined ? data.ei20 : ''; document.getElementById('editEI40').value = data.ei40 !== undefined ? data.ei40 : '';
+                document.getElementById('editEO20').value = data.eo20 !== undefined ? data.eo20 : ''; document.getElementById('editEO40').value = data.eo40 !== undefined ? data.eo40 : '';
+                document.getElementById('editFI20').value = data.fi20 !== undefined ? data.fi20 : ''; document.getElementById('editFI40').value = data.fi40 !== undefined ? data.fi40 : '';
+                document.getElementById('editFO20').value = data.fo20 !== undefined ? data.fo20 : ''; document.getElementById('editFO40').value = data.fo40 !== undefined ? data.fo40 : '';
             }
             modal.show();
         }
@@ -907,14 +928,10 @@
             const saveBtn = document.getElementById('saveBtn');
             saveBtn.disabled = true; saveBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-1"></i> UPLOADING...';
             const formData = new URLSearchParams();
+            const inputs = ['editOldName', 'editName', 'editZone', 'editPhone', 'editTime', 'editLink', 'editAddress', 'editTaxId', 'editEI20', 'editEI40', 'editEO20', 'editEO40', 'editFI20', 'editFI40', 'editFO20', 'editFO40'];
             
-            const inputs = ['editOldName', 'editName', 'editZone', 'editPhone', 'editTime', 'editLink', 'editAddress', 'editTaxId',
-                            'editEI20', 'editEI40', 'editEO20', 'editEO40', 'editFI20', 'editFI40', 'editFO20', 'editFO40'];
-            
-            formData.append('action', currentAction); 
-            formData.append('password', currentPassword);
-            formData.append('oldName', document.getElementById('editOldName').value); 
-            formData.append('name', document.getElementById('editName').value); 
+            formData.append('action', currentAction); formData.append('password', currentPassword);
+            formData.append('oldName', document.getElementById('editOldName').value); formData.append('name', document.getElementById('editName').value); 
 
             inputs.forEach(id => {
                 const el = document.getElementById(id);
@@ -944,15 +961,19 @@
                     try {
                         await fetch(SHEET_API_URL, { method: 'POST', body: formData }); fetchYardData();
                         Swal.fire({ icon: 'success', title: 'DELETED', showConfirmButton: false, timer: 1500, background: 'rgba(10,10,12,0.95)', color: '#fff' });
-                    } catch (e) {
-                         Swal.fire({ title: 'ERROR', text: 'Failed to delete', icon: 'error', background: 'rgba(10,10,12,0.95)', color: '#fff' });
-                    }
+                    } catch (e) { Swal.fire({ title: 'ERROR', text: 'Failed to delete', icon: 'error', background: 'rgba(10,10,12,0.95)', color: '#fff' }); }
                 }
             })
         }
         
-        function setGlow(color) { document.body.style.setProperty('--active-glow', color); }
-        function resetGlow() { document.body.style.setProperty('--active-glow', '#00A63E'); }
+        function setGlow(color) { 
+            document.body.style.setProperty('--active-glow', color); 
+            document.querySelectorAll('.particle').forEach(p => { p.style.background = color; p.style.boxShadow = `0 0 10px ${color}`; });
+        }
+        function resetGlow() { 
+            document.body.style.setProperty('--active-glow', '#00A63E');
+            document.querySelectorAll('.particle').forEach(p => { p.style.background = '#00A63E'; p.style.boxShadow = `0 0 10px #00A63E`; });
+        }
     </script>
 </body>
 </html>
