@@ -12,7 +12,6 @@
     
     <style>
         :root {
-            /* โทนสี Command Center (Navy/Slate) - ดุดัน เป็นทางการ แต่ล้ำสมัย */
             --bg-deep: #050b14;
             --bg-gradient: radial-gradient(circle at top, #0f1c35 0%, #050b14 100%);
             --glass-bg: rgba(20, 30, 48, 0.4);
@@ -23,17 +22,17 @@
             --active-glow: var(--primary-green);
         }
 
+        /* ล็อก Body ไม่ให้ Scroll บนหน้าจอขนาดใหญ่ */
         body {
             font-family: 'Kanit', sans-serif;
             background: var(--bg-gradient);
             color: var(--text-main);
-            min-height: 100vh;
             margin: 0;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* --- Background Animations (เวอร์ๆ) --- */
+        /* --- Background Animations --- */
         .cyber-grid {
             position: fixed; inset: 0;
             background-image: 
@@ -46,27 +45,21 @@
             animation: speedGrid 8s linear infinite;
             pointer-events: none;
         }
-        @keyframes speedGrid {
-            0% { background-position: center 0; }
-            100% { background-position: center 80px; }
-        }
+        @keyframes speedGrid { 0% { background-position: center 0; } 100% { background-position: center 80px; } }
 
         .cyber-glow {
             position: fixed; top: 0; left: 50%; transform: translateX(-50%);
             width: 100vw; height: 50vh;
             background: radial-gradient(ellipse at top, rgba(var(--active-glow-rgb), 0.15) 0%, transparent 70%);
-            z-index: 0; transition: background 0.5s ease;
-            filter: blur(80px); pointer-events: none;
+            z-index: 0; transition: background 0.5s ease; filter: blur(80px); pointer-events: none;
         }
 
         .particles-container { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
         .particle {
-            position: absolute;
-            background: var(--active-glow);
+            position: absolute; background: var(--active-glow);
             width: 200px !important; height: 1px !important;
             box-shadow: 0 0 20px var(--active-glow), 0 0 40px var(--active-glow);
-            animation: lightSpeed infinite cubic-bezier(0.4, 0, 1, 1);
-            opacity: 0; border-radius: 50px;
+            animation: lightSpeed infinite cubic-bezier(0.4, 0, 1, 1); opacity: 0; border-radius: 50px;
         }
         @keyframes lightSpeed {
             0% { transform: translateX(-100vw) skewX(-45deg); opacity: 0; }
@@ -75,214 +68,215 @@
             100% { transform: translateX(100vw) skewX(-45deg); opacity: 0; }
         }
 
-        /* --- Layout Container --- */
+        /* --- Layout Container (บังคับ 1 หน้าเต็ม) --- */
         .dashboard-wrapper {
             position: relative; z-index: 2;
-            max-width: 1400px; width: 95%; margin: 0 auto; padding: 40px 0;
+            max-width: 1500px; width: 95%; margin: 0 auto;
             perspective: 2000px;
+            display: flex; flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* การจัดระยะสำหรับ Desktop ให้อยู่ใน 100vh */
+        @media (min-width: 992px) {
+            body { height: 100vh; overflow: hidden; display: flex; align-items: center; }
+            .dashboard-wrapper { height: 96vh; }
+            .core-system-card { padding: 3vh 2vw !important; }
+            .tool-btn { padding: 2vh 1vw !important; }
+            .bento-card { padding: 1.5vh 1vw !important; }
+            .section-title { margin-bottom: 1.5vh !important; font-size: 1.1rem !important; }
+            .brand-text h1 { font-size: 3rem !important; }
+            .brand-icon { font-size: 3rem !important; }
+            .core-system-card i { font-size: 3rem !important; }
         }
 
         /* --- Header Section --- */
         .dashboard-header {
             display: flex; justify-content: space-between; align-items: flex-end;
-            margin-bottom: 40px; padding-bottom: 20px;
+            margin-bottom: 1.5vh; padding-bottom: 1vh;
             border-bottom: 1px solid rgba(255,255,255,0.05);
             animation: slideDown 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
-        @keyframes slideDown {
-            0% { transform: translateY(-50px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
+        @keyframes slideDown { 0% { transform: translateY(-30px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        
         .brand-icon {
-            font-size: 3.5rem; color: var(--primary-green);
+            color: var(--primary-green);
             animation: truckBounce 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite alternate;
             filter: drop-shadow(0 10px 15px rgba(0,166,62,0.4));
         }
-        @keyframes truckBounce {
-            0% { transform: translateY(0) rotate(-2deg); }
-            100% { transform: translateY(-10px) rotate(2deg); filter: drop-shadow(0 25px 20px rgba(0,166,62,0.6)); }
-        }
+        @keyframes truckBounce { 0% { transform: translateY(0) rotate(-2deg); } 100% { transform: translateY(-10px) rotate(2deg); filter: drop-shadow(0 25px 20px rgba(0,166,62,0.6)); } }
+        
         .brand-text h1 {
-            font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 3.5rem; margin: 0; line-height: 1;
+            font-family: 'Rajdhani', sans-serif; font-weight: 800; margin: 0; line-height: 1;
             letter-spacing: 5px; background: linear-gradient(90deg, #fff, #8a9bb2);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .brand-sub {
-            font-family: 'Rajdhani', sans-serif; letter-spacing: 8px; color: #00E5FF; font-size: 0.9rem;
+            font-family: 'Rajdhani', sans-serif; letter-spacing: 8px; color: #00E5FF; font-size: 0.85rem;
             font-weight: 700; text-transform: uppercase; text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
             animation: pulseText 2s infinite alternate;
         }
         @keyframes pulseText { 0% { opacity: 0.7; } 100% { opacity: 1; text-shadow: 0 0 20px rgba(0, 229, 255, 0.8); } }
-        .system-status { font-family: 'Rajdhani'; color: var(--primary-green); font-size: 0.85rem; letter-spacing: 3px; display: flex; align-items: center; gap: 8px; }
+        
+        .system-status { font-family: 'Rajdhani'; color: var(--primary-green); font-size: 0.8rem; letter-spacing: 3px; display: flex; align-items: center; gap: 8px; }
         .status-dot { width: 8px; height: 8px; background: var(--primary-green); border-radius: 50%; box-shadow: 0 0 10px var(--primary-green); animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0.3; } }
 
-        /* --- Common Section Title --- */
+        /* --- Section Titles --- */
         .section-title {
             font-family: 'Rajdhani', sans-serif; color: #fff; font-weight: 800; letter-spacing: 4px;
-            font-size: 1.2rem; text-transform: uppercase; margin-bottom: 25px;
-            display: flex; align-items: center; gap: 15px;
+            text-transform: uppercase; display: flex; align-items: center; gap: 15px; margin-bottom: 2vh;
         }
-        .section-title i { color: var(--accent, var(--primary-green)); font-size: 1.5rem; }
+        .section-title i { color: var(--accent, var(--primary-green)); font-size: 1.2rem; }
         .section-title .line { flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent); }
 
-        /* --- Hero Core Systems (Top Row) --- */
+        /* --- Hero Core Systems --- */
+        .hero-row { margin-bottom: 2.5vh; }
         .core-system-card {
             display: flex; justify-content: space-between; align-items: center;
             background: linear-gradient(135deg, rgba(30,41,59,0.7), rgba(15,23,42,0.9));
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 24px;
-            padding: 30px; text-decoration: none; position: relative; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+            text-decoration: none; position: relative; overflow: hidden;
             transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5); transform-style: preserve-3d;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); transform-style: preserve-3d;
+            height: 100%;
         }
         .core-system-card::after {
             content: ''; position: absolute; inset: 0; background: radial-gradient(circle at right, var(--accent) 0%, transparent 50%);
             opacity: 0.05; transition: 0.5s; pointer-events: none;
         }
-        .core-system-card h3 { font-family: 'Rajdhani'; font-weight: 800; font-size: 2rem; color: #fff; margin: 0; letter-spacing: 2px; }
-        .core-system-card p { font-family: 'Kanit'; color: var(--text-mute); font-size: 0.95rem; margin: 5px 0 0 0; }
-        .core-system-card i { font-size: 4rem; color: rgba(255,255,255,0.2); transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        .core-system-card h3 { font-family: 'Rajdhani'; font-weight: 800; font-size: 1.8rem; color: #fff; margin: 0; letter-spacing: 2px; }
+        .core-system-card p { font-family: 'Kanit'; color: var(--text-mute); font-size: 0.9rem; margin: 5px 0 0 0; }
+        .core-system-card i { color: rgba(255,255,255,0.2); transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
         
         .core-system-card:hover {
-            transform: translateY(-10px) translateZ(30px) rotateX(5deg);
-            border-color: var(--accent);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.7), inset 0 0 30px rgba(var(--accent-rgb), 0.1);
+            transform: translateY(-8px) translateZ(20px) rotateX(5deg);
+            border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.7), inset 0 0 20px rgba(var(--accent-rgb), 0.1);
         }
         .core-system-card:hover::after { opacity: 0.15; }
         .core-system-card:hover h3 { color: var(--accent); text-shadow: 0 0 15px rgba(var(--accent-rgb), 0.5); }
         .core-system-card:hover p { color: #fff; }
         .core-system-card:hover i {
-            color: var(--accent); opacity: 1;
-            transform: scale(1.3) rotate(15deg) translateZ(40px);
-            filter: drop-shadow(0 0 20px var(--accent));
+            color: var(--accent); opacity: 1; transform: scale(1.3) rotate(15deg) translateZ(30px);
+            filter: drop-shadow(0 0 15px var(--accent));
         }
 
-        /* --- Tool Buttons (Yard / M-Flow) --- */
+        /* --- Tool Buttons --- */
         .tool-btn {
-            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 15px;
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px;
-            padding: 25px 15px; height: 100%; text-decoration: none;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 10px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px;
+            height: 100%; text-decoration: none; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
         .tool-icon {
-            width: 70px; height: 70px; border-radius: 50%; background: rgba(0,0,0,0.4);
-            display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--accent);
+            width: 50px; height: 50px; border-radius: 50%; background: rgba(0,0,0,0.4);
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--accent);
             border: 1px solid rgba(255,255,255,0.05); transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-        .tool-btn h5 { color: #fff; font-weight: 700; margin: 0; font-size: 1.1rem; }
-        .tool-btn span { font-family: 'Rajdhani'; color: var(--text-mute); font-size: 0.75rem; letter-spacing: 2px; }
+        .tool-btn h5 { color: #fff; font-weight: 700; margin: 0; font-size: 1rem; }
+        .tool-btn span { font-family: 'Rajdhani'; color: var(--text-mute); font-size: 0.7rem; letter-spacing: 2px; }
         
         .tool-btn:hover {
             background: rgba(255,255,255,0.08); border-color: var(--accent);
-            transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 10px 20px rgba(var(--accent-rgb), 0.2);
+            transform: translateY(-10px) scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 5px 15px rgba(var(--accent-rgb), 0.2);
         }
         .tool-btn:hover .tool-icon {
-            background: var(--accent); color: #000;
-            transform: scale(1.15) translateY(-10px);
-            box-shadow: 0 15px 30px rgba(var(--accent-rgb), 0.6);
+            background: var(--accent); color: #000; transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 10px 20px rgba(var(--accent-rgb), 0.6);
         }
         .tool-btn:hover h5 { color: var(--accent); }
 
         /* --- Internal Ops (Bento Grid) --- */
         .bento-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px; perspective: 1000px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5vh; perspective: 1000px; margin-bottom: 2.5vh;
+        }
+        @media (min-width: 1200px) {
+            .bento-grid { grid-template-columns: repeat(5, 1fr); }
         }
         
         .bento-card {
-            display: flex; align-items: center; gap: 18px;
-            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px;
-            padding: 20px; text-decoration: none; position: relative;
-            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex; align-items: center; gap: 15px; padding: 15px;
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px;
+            text-decoration: none; position: relative; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             backdrop-filter: blur(10px); transform-style: preserve-3d;
         }
         .bento-icon {
-            width: 50px; height: 50px; border-radius: 14px;
+            width: 45px; height: 45px; border-radius: 12px; flex-shrink: 0;
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff;
-            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #fff;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-        .bento-text h6 { margin: 0; color: #fff; font-weight: 700; font-size: 1.05rem; transition: 0.3s; }
-        .bento-text small { color: var(--text-mute); font-family: 'Rajdhani'; font-weight: 700; letter-spacing: 1.5px; font-size: 0.7rem; transition: 0.3s; }
+        .bento-text h6 { margin: 0; color: #fff; font-weight: 700; font-size: 0.95rem; transition: 0.3s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        .bento-text small { color: var(--text-mute); font-family: 'Rajdhani'; font-weight: 700; letter-spacing: 1.5px; font-size: 0.65rem; transition: 0.3s; display: block;}
         
         .bento-card:hover {
-            transform: translateY(-12px) translateZ(20px) rotateX(15deg) rotateY(-5deg);
+            transform: translateY(-8px) translateZ(15px) rotateX(10deg) rotateY(-3deg);
             background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
             border-color: var(--accent); z-index: 10;
-            box-shadow: -15px 20px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(var(--accent-rgb), 0.2);
+            box-shadow: -10px 15px 25px rgba(0,0,0,0.5), inset 0 0 15px rgba(var(--accent-rgb), 0.2);
         }
         .bento-card:hover .bento-icon {
             background: var(--accent); color: #fff; border-color: #fff;
-            transform: scale(1.3) translateZ(30px) rotate(360deg);
-            box-shadow: 0 10px 25px rgba(var(--accent-rgb), 0.6);
+            transform: scale(1.2) translateZ(20px) rotate(360deg);
+            box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.6);
         }
-        .bento-card:hover .bento-text h6 { color: var(--accent); transform: translateZ(10px); }
+        .bento-card:hover .bento-text h6 { color: var(--accent); transform: translateZ(5px); }
         .bento-card:hover .bento-text small { color: #fff; }
 
-        /* --- GPS Dock (Bottom Strip) --- */
+        /* --- GPS Dock --- */
         .gps-dock {
-            display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
             background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
-            padding: 15px; border-radius: 50px;
+            padding: 1.5vh; border-radius: 50px;
         }
         .gps-item {
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px;
-            padding: 10px 25px; color: #fff; text-decoration: none; font-weight: 600; font-size: 0.9rem;
-            display: flex; align-items: center; gap: 10px; 
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            padding: 1vh 2vw; color: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem;
+            display: flex; align-items: center; gap: 8px; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-        .gps-item i { transition: 0.4s; font-size: 1.1rem; }
+        .gps-item i { transition: 0.4s; font-size: 1rem; }
         .gps-item:hover {
             background: var(--accent); color: #fff; border-color: var(--accent);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 0 20px rgba(var(--accent-rgb), 0.5);
-            transform: translateY(-8px) scale(1.1); 
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4), 0 0 15px rgba(var(--accent-rgb), 0.5);
+            transform: translateY(-5px) scale(1.08); 
         }
-        .gps-item:hover i { transform: scale(1.4) rotate(20deg); filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3)); }
+        .gps-item:hover i { transform: scale(1.3) rotate(20deg); filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3)); }
 
         .footer-credit {
-            text-align: center; margin-top: 40px; font-size: 0.8rem; color: rgba(255,255,255,0.3); 
+            text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.3); 
             font-family: 'Rajdhani'; letter-spacing: 5px; text-transform: uppercase; font-weight: 600;
         }
         
         .admin-trigger {
             position: fixed; bottom: 30px; right: 30px;
-            width: 55px; height: 55px; border-radius: 50%;
+            width: 50px; height: 50px; border-radius: 50%;
             background: #fff; color: #050b14; border: none;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 99;
-            font-size: 1.3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            font-size: 1.2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.6);
         }
         .admin-trigger:hover { 
             color: #fff; background: var(--primary-green); 
-            box-shadow: 0 15px 40px var(--primary-green); 
-            transform: scale(1.2) translateY(-15px) rotate(360deg); 
+            box-shadow: 0 15px 30px var(--primary-green); 
+            transform: scale(1.2) translateY(-10px) rotate(360deg); 
         }
 
-        /* --- Modals --- */
-        .modal-content {
-            background: rgba(10, 15, 25, 0.98); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1);
-            color: #fff; border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-        }
+        /* --- Modals CSS (คงเดิม) --- */
+        .modal-content { background: rgba(10, 15, 25, 0.98); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
         .modal-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 20px 25px; }
         .modal-footer { border-top: 1px solid rgba(255,255,255,0.1); padding: 15px 25px; }
-        
-        .form-control, .form-select {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 12px; padding: 10px 15px;
-        }
-        .form-control:focus, .form-select:focus {
-            background: rgba(255,255,255,0.08); border-color: var(--primary-green); color: white; box-shadow: 0 0 15px rgba(0, 166, 62, 0.4);
-        }
-        
+        .form-control, .form-select { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 12px; padding: 10px 15px; }
+        .form-control:focus, .form-select:focus { background: rgba(255,255,255,0.08); border-color: var(--primary-green); color: white; box-shadow: 0 0 15px rgba(0, 166, 62, 0.4); }
         .table-dark { --bs-table-bg: transparent; color: #e2e8f0; font-size: 0.85rem;}
         .zone-header td { background: linear-gradient(90deg, rgba(0, 166, 62, 0.2), transparent) !important; border-bottom: 2px solid var(--primary-green) !important; padding: 10px 15px !important;}
         .yard-row:hover td { background-color: rgba(255,255,255,0.05) !important; box-shadow: inset 0 0 15px rgba(0,0,0,0.5);}
         .table > :not(caption) > * > * { padding: 8px 12px; }
 
-        @media (max-width: 768px) {
-            .dashboard-header { flex-direction: column; align-items: center; text-align: center; gap: 15px; }
-            .brand-text h1 { font-size: 2.5rem; }
+        @media (max-width: 991px) {
+            body { height: auto; overflow-y: auto; overflow-x: hidden; }
+            .dashboard-wrapper { height: auto; padding: 20px 0; }
+            .hero-row { margin-bottom: 20px; }
             .core-system-card { padding: 20px; flex-direction: column; text-align: center; gap: 15px;}
             .gps-dock { border-radius: 20px; flex-direction: column; }
         }
@@ -296,7 +290,6 @@
 
     <div class="dashboard-wrapper">
         
-        <!-- Header -->
         <header class="dashboard-header">
             <div class="brand-wrapper d-flex align-items-center gap-3">
                 <i class="fa-solid fa-truck-fast brand-icon"></i>
@@ -311,12 +304,10 @@
             </div>
         </header>
 
-        <!-- Core Systems (Hero Row) -->
-        <div class="row g-4 mb-5 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
-            <!-- Transport MGT -->
+        <div class="row g-3 hero-row animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
             <div class="col-lg-5 col-md-6">
                 <a href="https://vkt.elog789.com/v3.4.1/#/login" target="_blank" 
-                   class="core-system-card h-100" style="--accent: #00A63E; --accent-rgb: 0, 166, 62;" onmouseenter="setGlow('#00A63E')" onmouseleave="resetGlow()">
+                   class="core-system-card" style="--accent: #00A63E; --accent-rgb: 0, 166, 62;" onmouseenter="setGlow('#00A63E')" onmouseleave="resetGlow()">
                     <div>
                         <h3>TRANSPORT MGT</h3>
                         <p>VKT E-Log System V3.4</p>
@@ -324,10 +315,9 @@
                     <i class="fa-solid fa-gauge-high"></i>
                 </a>
             </div>
-            <!-- Booking Hub -->
             <div class="col-lg-5 col-md-6">
                 <a href="https://script.google.com/macros/s/AKfycbzXkJMrsAtjDG6uVLdopDv8oNqCSnT8_BolREPtXJHe17rVI6cw8iu-Cv4g702_bsjO/exec" target="_blank" 
-                   class="core-system-card h-100" style="--accent: #00E5FF; --accent-rgb: 0, 229, 255;" onmouseenter="setGlow('#00E5FF')" onmouseleave="resetGlow()">
+                   class="core-system-card" style="--accent: #00E5FF; --accent-rgb: 0, 229, 255;" onmouseenter="setGlow('#00E5FF')" onmouseleave="resetGlow()">
                     <div>
                         <h3>BOOKING HUB</h3>
                         <p>ระบบจัดการงาน Booking</p>
@@ -335,10 +325,9 @@
                     <i class="fa-solid fa-calendar-check"></i>
                 </a>
             </div>
-            <!-- Tools Column -->
             <div class="col-lg-2 col-md-12">
-                <div class="row g-3 h-100">
-                    <div class="col-lg-12 col-md-6 h-50">
+                <div class="row g-2 h-100">
+                    <div class="col-lg-12 col-md-6 col-6">
                         <div class="tool-btn" style="--accent: #FF5252; --accent-rgb: 255, 82, 82;" onclick="openYardModal()" role="button" onmouseenter="setGlow('#FF5252')" onmouseleave="resetGlow()">
                             <div class="tool-icon"><i class="fa-solid fa-map-location-dot"></i></div>
                             <div>
@@ -347,7 +336,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-6 h-50">
+                    <div class="col-lg-12 col-md-6 col-6">
                         <a href="https://vkttrans.github.io/M-Flow/" target="_blank" class="tool-btn" style="--accent: #FF9800; --accent-rgb: 255, 152, 0;" onmouseenter="setGlow('#FF9800')" onmouseleave="resetGlow()">
                             <div class="tool-icon"><i class="fa-solid fa-road"></i></div>
                             <div>
@@ -360,82 +349,54 @@
             </div>
         </div>
 
-        <!-- Internal Operations (Bento Grid) -->
-        <div class="mb-5 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+        <div class="animate__animated animate__fadeInUp flex-grow-1 d-flex flex-column justify-content-center" style="animation-delay: 0.2s;">
             <div class="section-title" style="--accent: #FFC107;">
                 <i class="fa-solid fa-microchip"></i> INTERNAL OPERATIONS
                 <div class="line"></div>
             </div>
             
             <div class="bento-grid">
-                <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbzWYtdLeHp3uw1Bb0cXPNDSyKdTDMMg3h9JWqqWr7iOEL4VM-GrEqJsFECeCtR4-xxkcg/exec" target="_blank" 
-                   class="bento-card" style="--accent: #FFC107; --accent-rgb: 255, 193, 7;" onmouseenter="setGlow('#FFC107')" onmouseleave="resetGlow()">
+                <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbzWYtdLeHp3uw1Bb0cXPNDSyKdTDMMg3h9JWqqWr7iOEL4VM-GrEqJsFECeCtR4-xxkcg/exec" target="_blank" class="bento-card" style="--accent: #FFC107; --accent-rgb: 255, 193, 7;" onmouseenter="setGlow('#FFC107')" onmouseleave="resetGlow()">
                     <div class="bento-icon"><i class="fa-solid fa-money-bill-transfer"></i></div>
-                    <div class="bento-text">
-                        <h6>เบิกเงิน</h6>
-                        <small>WITHDRAW</small>
-                    </div>
+                    <div class="bento-text"><h6>เบิกเงิน</h6><small>WITHDRAW</small></div>
                 </a>
-
-                <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycby32LX4-2iN0zPA9EmhSneiX1Pz66uCMlBnqE2jiWtnVD8L9BG6zcLUyJ4Rh15WilT0uQ/exec" target="_blank" 
-                   class="bento-card" style="--accent: #FF4081; --accent-rgb: 255, 64, 129;" onmouseenter="setGlow('#FF4081')" onmouseleave="resetGlow()">
+                <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycby32LX4-2iN0zPA9EmhSneiX1Pz66uCMlBnqE2jiWtnVD8L9BG6zcLUyJ4Rh15WilT0uQ/exec" target="_blank" class="bento-card" style="--accent: #FF4081; --accent-rgb: 255, 64, 129;" onmouseenter="setGlow('#FF4081')" onmouseleave="resetGlow()">
                     <div class="bento-icon"><i class="fa-solid fa-user-clock"></i></div>
-                    <div class="bento-text">
-                        <h6>ลางาน</h6>
-                        <small>LEAVE REQUEST</small>
-                    </div>
+                    <div class="bento-text"><h6>ลางาน</h6><small>LEAVE REQUEST</small></div>
                 </a>
-
-                <a href="https://script.google.com/macros/s/AKfycbzSDN0zmsbrKeGrOzE4zbZf9TyKpSFhOW3zEdyHo-L1DH5X6ZCl0yUkyKTEnLxccXB6/exec" target="_blank" 
-                   class="bento-card" style="--accent: #FF7043; --accent-rgb: 255, 112, 67;" onmouseenter="setGlow('#FF7043')" onmouseleave="resetGlow()">
+                <a href="https://script.google.com/macros/s/AKfycbzSDN0zmsbrKeGrOzE4zbZf9TyKpSFhOW3zEdyHo-L1DH5X6ZCl0yUkyKTEnLxccXB6/exec" target="_blank" class="bento-card" style="--accent: #FF7043; --accent-rgb: 255, 112, 67;" onmouseenter="setGlow('#FF7043')" onmouseleave="resetGlow()">
                     <div class="bento-icon"><i class="fa-solid fa-box-open"></i></div>
-                    <div class="bento-text">
-                        <h6>เบิกของ</h6>
-                        <small>OFFICE STOCK</small>
-                    </div>
+                    <div class="bento-text"><h6>เบิกของ</h6><small>OFFICE STOCK</small></div>
                 </a>
-
-                <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbyOFq4yA2YaCvA5w9OXlM4wu5lGqCEt6AnMn-2_Pw_Fl-YpIB5hzAFM5YFIVlSPd7Tu-A/exec" target="_blank" 
-                   class="bento-card" style="--accent: #9C27B0; --accent-rgb: 156, 39, 176;" onmouseenter="setGlow('#9C27B0')" onmouseleave="resetGlow()">
+                <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbyOFq4yA2YaCvA5w9OXlM4wu5lGqCEt6AnMn-2_Pw_Fl-YpIB5hzAFM5YFIVlSPd7Tu-A/exec" target="_blank" class="bento-card" style="--accent: #9C27B0; --accent-rgb: 156, 39, 176;" onmouseenter="setGlow('#9C27B0')" onmouseleave="resetGlow()">
                     <div class="bento-icon"><i class="fa-solid fa-id-card"></i></div>
-                    <div class="bento-text">
-                        <h6>ข้อมูลพนักงาน</h6>
-                        <small>HR DEPT</small>
-                    </div>
+                    <div class="bento-text"><h6>ข้อมูลพนักงาน</h6><small>HR DEPT</small></div>
                 </a>
-
-                <a href="https://script.google.com/macros/s/AKfycbwM-BB45Gjsy3qqZRSZGwX_f2uI2QOXfzXbfhw4HUq8T_yUGLmCG0jDGH7_goBRWbuPqQ/exec" target="_blank" 
-                   class="bento-card" style="--accent: #00BCD4; --accent-rgb: 0, 188, 212;" onmouseenter="setGlow('#00BCD4')" onmouseleave="resetGlow()">
+                <a href="https://script.google.com/macros/s/AKfycbwM-BB45Gjsy3qqZRSZGwX_f2uI2QOXfzXbfhw4HUq8T_yUGLmCG0jDGH7_goBRWbuPqQ/exec" target="_blank" class="bento-card" style="--accent: #00BCD4; --accent-rgb: 0, 188, 212;" onmouseenter="setGlow('#00BCD4')" onmouseleave="resetGlow()">
                     <div class="bento-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-                    <div class="bento-text">
-                        <h6>ออกทวิ 50</h6>
-                        <small>TAX DOCS</small>
-                    </div>
+                    <div class="bento-text"><h6>ออกทวิ 50</h6><small>TAX DOCS</small></div>
                 </a>
-
-                <a href="https://script.google.com/macros/s/AKfycbz1_LnXPIJ6N1-dGAeB_HPeLs3X_0wPGx_tu5oWKpMvchsmXpQTm5kgNrVwXDSOK9fzTg/exec" target="_blank" 
-                   class="bento-card" style="--accent: #CDDC39; --accent-rgb: 205, 220, 57;" onmouseenter="setGlow('#CDDC39')" onmouseleave="resetGlow()">
+                <a href="https://script.google.com/macros/s/AKfycbz1_LnXPIJ6N1-dGAeB_HPeLs3X_0wPGx_tu5oWKpMvchsmXpQTm5kgNrVwXDSOK9fzTg/exec" target="_blank" class="bento-card" style="--accent: #CDDC39; --accent-rgb: 205, 220, 57;" onmouseenter="setGlow('#CDDC39')" onmouseleave="resetGlow()">
                     <div class="bento-icon"><i class="fa-solid fa-user-plus"></i></div>
-                    <div class="bento-text">
-                        <h6>สมัครงาน</h6>
-                        <small>CAREERS</small>
-                    </div>
+                    <div class="bento-text"><h6>สมัครงาน</h6><small>CAREERS</small></div>
                 </a>
-
-                <a href="https://vkttrans.github.io/ScanBill/" target="_blank" 
-                   class="bento-card" style="--accent: #4CAF50; --accent-rgb: 76, 175, 80;" onmouseenter="setGlow('#4CAF50')" onmouseleave="resetGlow()">
+                <a href="https://vkttrans.github.io/ScanBill/" target="_blank" class="bento-card" style="--accent: #4CAF50; --accent-rgb: 76, 175, 80;" onmouseenter="setGlow('#4CAF50')" onmouseleave="resetGlow()">
                     <div class="bento-icon"><i class="fa-solid fa-file-circle-check"></i></div>
-                    <div class="bento-text">
-                        <h6>Scan Bill</h6>
-                        <small>VERIFY DOCS</small>
-                    </div>
+                    <div class="bento-text"><h6>Scan Bill</h6><small>VERIFY DOCS</small></div>
+                </a>
+                <a href="https://vkttrans.github.io/MT/" target="_blank" class="bento-card" style="--accent: #E91E63; --accent-rgb: 233, 30, 99;" onmouseenter="setGlow('#E91E63')" onmouseleave="resetGlow()">
+                    <div class="bento-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                    <div class="bento-text"><h6>ซ่อมบำรุง/น้ำมัน</h6><small>MAINTENANCE</small></div>
+                </a>
+                <a href="https://vkttrans.github.io/MTQ/" target="_blank" class="bento-card" style="--accent: #FF9800; --accent-rgb: 255, 152, 0;" onmouseenter="setGlow('#FF9800')" onmouseleave="resetGlow()">
+                    <div class="bento-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                    <div class="bento-text"><h6>คิวช่าง</h6><small>REPAIR QUEUE</small></div>
                 </a>
             </div>
         </div>
 
-        <!-- Fleet GPS Tracking (Bottom Dock) -->
         <div class="animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
-            <div class="section-title text-center justify-content-center" style="--accent: #2196F3; margin-bottom: 15px;">
+            <div class="section-title text-center justify-content-center" style="--accent: #2196F3;">
                 <div class="line" style="background: linear-gradient(270deg, rgba(255,255,255,0.1), transparent);"></div>
                 <i class="fa-solid fa-satellite-dish"></i> FLEET GPS TRACKING
                 <div class="line"></div>
@@ -466,7 +427,6 @@
         <i class="fa-solid fa-user-shield"></i>
     </button>
 
-    <!-- Modal หาตู้คอนเทนเนอร์ -->
     <div class="modal fade" id="yardModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
             <div class="modal-content">
@@ -510,7 +470,6 @@
         </div>
     </div>
 
-    <!-- Modal สำหรับ Login -->
     <div class="modal fade" id="loginModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content" style="border: 1px solid rgba(255, 193, 7, 0.4); box-shadow: 0 0 30px rgba(255, 193, 7, 0.2);">
@@ -524,7 +483,6 @@
         </div>
     </div>
 
-    <!-- Modal สำหรับ Edit/Add ลานตู้ -->
     <div class="modal fade" id="editModal" tabindex="-1" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
             <div class="modal-content">
