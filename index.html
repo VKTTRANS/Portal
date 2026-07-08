@@ -12,14 +12,14 @@
     
     <style>
         :root {
-            /* โทนสี Smart Logistics 2026 (Navy/Blue) */
-            --bg-deep: #0a1128;
-            --bg-gradient: linear-gradient(135deg, #0a1128 0%, #1c2541 100%);
-            --glass-bg: rgba(255, 255, 255, 0.07);
-            --glass-border: rgba(255, 255, 255, 0.15);
+            /* โทนสี Command Center (Navy/Slate) - ดุดัน เป็นทางการ แต่ล้ำสมัย */
+            --bg-deep: #050b14;
+            --bg-gradient: radial-gradient(circle at top, #0f1c35 0%, #050b14 100%);
+            --glass-bg: rgba(20, 30, 48, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
             --primary-green: #00A63E;
             --text-main: #f8f9fa;
-            --text-mute: #adb5bd;
+            --text-mute: #8a9bb2;
             --active-glow: var(--primary-green);
         }
 
@@ -33,289 +33,246 @@
             position: relative;
         }
 
-        /* เอฟเฟกต์เส้นแสงวิ่งๆ */
+        /* --- Background Animations (เวอร์ๆ) --- */
         .cyber-grid {
             position: fixed; inset: 0;
             background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 2px, transparent 2px);
-            background-size: 60px 60px;
+                linear-gradient(rgba(255, 255, 255, 0.02) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 2px, transparent 2px);
+            background-size: 80px 80px;
             background-position: center top;
-            transform: perspective(500px) rotateX(60deg) scale(2.5) translateY(-50%);
-            opacity: 0.6;
+            transform: perspective(1000px) rotateX(70deg) scale(3) translateY(-30%);
             z-index: 0;
-            animation: speedGrid 10s linear infinite;
+            animation: speedGrid 8s linear infinite;
             pointer-events: none;
         }
-
         @keyframes speedGrid {
             0% { background-position: center 0; }
-            100% { background-position: center 60px; }
+            100% { background-position: center 80px; }
         }
 
         .cyber-glow {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 90vw; height: 90vh;
-            background: radial-gradient(circle, var(--active-glow) 0%, transparent 60%);
-            opacity: 0.15; z-index: 0;
-            transition: background 0.5s ease, opacity 0.5s ease;
-            filter: blur(100px);
-            pointer-events: none;
+            position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+            width: 100vw; height: 50vh;
+            background: radial-gradient(ellipse at top, rgba(var(--active-glow-rgb), 0.15) 0%, transparent 70%);
+            z-index: 0; transition: background 0.5s ease;
+            filter: blur(80px); pointer-events: none;
         }
 
         .particles-container { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
         .particle {
             position: absolute;
             background: var(--active-glow);
-            width: 150px !important;
-            height: 2px !important;
-            box-shadow: 0 0 15px var(--active-glow), 0 0 30px var(--active-glow);
-            animation: lightSpeed infinite linear;
-            opacity: 0;
-            border-radius: 50px;
+            width: 200px !important; height: 1px !important;
+            box-shadow: 0 0 20px var(--active-glow), 0 0 40px var(--active-glow);
+            animation: lightSpeed infinite cubic-bezier(0.4, 0, 1, 1);
+            opacity: 0; border-radius: 50px;
         }
-
         @keyframes lightSpeed {
             0% { transform: translateX(-100vw) skewX(-45deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
             100% { transform: translateX(100vw) skewX(-45deg); opacity: 0; }
         }
 
-        .page-wrapper {
-            display: flex; align-items: center; justify-content: center;
-            min-height: 100vh; width: 100%; padding: 30px 0;
-            perspective: 1500px; 
+        /* --- Layout Container --- */
+        .dashboard-wrapper {
             position: relative; z-index: 2;
+            max-width: 1400px; width: 95%; margin: 0 auto; padding: 40px 0;
+            perspective: 2000px;
         }
 
-        .main-portal-container {
-            max-width: 1200px; width: 95%; margin: auto; padding: 35px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 30px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-            border-left: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
-            transform-style: preserve-3d;
-            animation: containerEntrance 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        /* --- Header Section --- */
+        .dashboard-header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 40px; padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            animation: slideDown 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
-
-        @keyframes containerEntrance {
-            0% { transform: translateY(100px) scale(0.8) rotateX(-20deg); opacity: 0; }
-            100% { transform: translateY(0) scale(1) rotateX(0deg); opacity: 1; }
+        @keyframes slideDown {
+            0% { transform: translateY(-50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
         }
-
         .brand-icon {
             font-size: 3.5rem; color: var(--primary-green);
             animation: truckBounce 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite alternate;
-            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 10px 15px rgba(0,166,62,0.4));
         }
-
         @keyframes truckBounce {
-            0% { transform: translateY(0) rotate(-5deg) scale(1); }
-            100% { transform: translateY(-15px) rotate(5deg) scale(1.1); filter: drop-shadow(0 20px 15px rgba(0,166,62,0.5)); }
+            0% { transform: translateY(0) rotate(-2deg); }
+            100% { transform: translateY(-10px) rotate(2deg); filter: drop-shadow(0 25px 20px rgba(0,166,62,0.6)); }
         }
-
         .brand-text h1 {
-            font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 3.5rem; margin: 0;
-            letter-spacing: 4px; text-transform: uppercase;
-            background: linear-gradient(90deg, #fff, #a0abc0);
+            font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 3.5rem; margin: 0; line-height: 1;
+            letter-spacing: 5px; background: linear-gradient(90deg, #fff, #8a9bb2);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 10px rgba(255,255,255,0.1);
         }
-
         .brand-sub {
-            font-family: 'Rajdhani', sans-serif; letter-spacing: 6px; color: #fff; font-size: 0.9rem;
-            background: linear-gradient(90deg, var(--primary-green), #00E5FF);
-            padding: 5px 15px; border-radius: 50px; display: inline-block;
-            font-weight: 700; margin-top: 5px; box-shadow: 0 5px 15px rgba(0, 166, 62, 0.4);
-            animation: pulseSub 2s infinite;
+            font-family: 'Rajdhani', sans-serif; letter-spacing: 8px; color: #00E5FF; font-size: 0.9rem;
+            font-weight: 700; text-transform: uppercase; text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+            animation: pulseText 2s infinite alternate;
         }
+        @keyframes pulseText { 0% { opacity: 0.7; } 100% { opacity: 1; text-shadow: 0 0 20px rgba(0, 229, 255, 0.8); } }
+        .system-status { font-family: 'Rajdhani'; color: var(--primary-green); font-size: 0.85rem; letter-spacing: 3px; display: flex; align-items: center; gap: 8px; }
+        .status-dot { width: 8px; height: 8px; background: var(--primary-green); border-radius: 50%; box-shadow: 0 0 10px var(--primary-green); animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
 
-        @keyframes pulseSub {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        /* --- Common Section Title --- */
+        .section-title {
+            font-family: 'Rajdhani', sans-serif; color: #fff; font-weight: 800; letter-spacing: 4px;
+            font-size: 1.2rem; text-transform: uppercase; margin-bottom: 25px;
+            display: flex; align-items: center; gap: 15px;
         }
+        .section-title i { color: var(--accent, var(--primary-green)); font-size: 1.5rem; }
+        .section-title .line { flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent); }
 
-        .section-header {
-            font-family: 'Rajdhani', sans-serif; color: #fff; font-weight: 800; letter-spacing: 3px;
-            margin-bottom: 20px; display: flex; align-items: center; gap: 15px; font-size: 1.1rem; text-transform: uppercase;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
-        .section-header .line { flex-grow: 1; height: 2px; background: linear-gradient(90deg, var(--primary-green), transparent); }
-        .section-header i { color: #fff; background: var(--primary-green); padding: 8px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,166,62,0.5); }
-
-        .glass-card, .mega-btn, .secondary-btn, .gps-item {
-            cursor: pointer; user-select: none; transform-style: preserve-3d;
-        }
-
-        .glass-card {
-            display: block; position: relative; text-decoration: none;
-            background: var(--glass-bg); 
-            border-top: 1px solid var(--glass-border); border-left: 1px solid var(--glass-border);
-            border-radius: 20px; padding: 18px; 
+        /* --- Hero Core Systems (Top Row) --- */
+        .core-system-card {
+            display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(135deg, rgba(30,41,59,0.7), rgba(15,23,42,0.9));
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 24px;
+            padding: 30px; text-decoration: none; position: relative; overflow: hidden;
             transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            height: 100%; z-index: 1;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); transform-style: preserve-3d;
         }
-
-        .card-content { display: flex; align-items: center; gap: 15px; position: relative; z-index: 2; }
+        .core-system-card::after {
+            content: ''; position: absolute; inset: 0; background: radial-gradient(circle at right, var(--accent) 0%, transparent 50%);
+            opacity: 0.05; transition: 0.5s; pointer-events: none;
+        }
+        .core-system-card h3 { font-family: 'Rajdhani'; font-weight: 800; font-size: 2rem; color: #fff; margin: 0; letter-spacing: 2px; }
+        .core-system-card p { font-family: 'Kanit'; color: var(--text-mute); font-size: 0.95rem; margin: 5px 0 0 0; }
+        .core-system-card i { font-size: 4rem; color: rgba(255,255,255,0.2); transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
         
-        .icon-box {
-            width: 55px; height: 55px; border-radius: 15px; 
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
-            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff;
-            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .text-box h5 { margin: 0; color: #fff; font-weight: 700; font-size: 1.1rem; transition: 0.3s; }
-        .text-box small { color: #b0bec5; font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 1.5px; font-size: 0.75rem; transition: 0.3s; }
-
-        .glass-card:hover {
-            transform: translateY(-15px) scale(1.05) rotateX(10deg) rotateY(-5deg);
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+        .core-system-card:hover {
+            transform: translateY(-10px) translateZ(30px) rotateX(5deg);
             border-color: var(--accent);
-            box-shadow: -15px 25px 40px rgba(0,0,0,0.4), 0 0 25px rgba(var(--accent-rgb), 0.5);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7), inset 0 0 30px rgba(var(--accent-rgb), 0.1);
         }
-        
-        .glass-card:hover .icon-box {
-            background: var(--accent); color: #fff; 
-            border-color: #fff;
-            transform: scale(1.3) translateY(-10px) rotate(360deg);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 30px var(--accent);
-        }
-        
-        /* แก้ไขบั๊กวงเล็บหายตรงนี้แล้วครับ ทำให้ CSS ด้านล่างกลับมาใช้งานได้ปกติ */
-        .glass-card:hover .text-box h5 { color: var(--accent); text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5); transform: scale(1.05); }
-        .glass-card:hover .text-box small { color: #fff; }
-
-        .mega-btn {
-            display: block; text-decoration: none; position: relative;
-            background: linear-gradient(135deg, #162242, #293a68);
-            border-top: 1px solid rgba(255,255,255,0.2); border-left: 1px solid rgba(255,255,255,0.2);
-            border-radius: 24px;
-            padding: 25px 20px; margin-bottom: 15px; color: white; 
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            overflow: hidden;
+        .core-system-card:hover::after { opacity: 0.15; }
+        .core-system-card:hover h3 { color: var(--accent); text-shadow: 0 0 15px rgba(var(--accent-rgb), 0.5); }
+        .core-system-card:hover p { color: #fff; }
+        .core-system-card:hover i {
+            color: var(--accent); opacity: 1;
+            transform: scale(1.3) rotate(15deg) translateZ(40px);
+            filter: drop-shadow(0 0 20px var(--accent));
         }
 
-        .mega-btn::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transform: skewX(-25deg); transition: 0.5s;
-        }
-
-        .mega-btn h3 { font-style: italic; font-weight: 800; margin: 0 0 5px 0; letter-spacing: 2px; font-size: 1.6rem; }
-        .mega-btn span { background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px; font-family: 'Rajdhani'; color: #fff; letter-spacing: 1.5px; font-weight: 600; font-size: 0.8rem; display: inline-block; }
-        
-        .mega-btn i { transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); opacity: 0.8; }
-
-        .mega-btn:hover {
-            transform: translateY(-8px) scale(1.03);
-            background: linear-gradient(135deg, #1c2c54, #3a5084);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 0 2px var(--accent);
-        }
-        
-        .mega-btn:hover::before { left: 200%; transition: 0.7s ease-in-out; }
-        
-        .mega-btn:hover i.fa-gauge-high { 
-            color: var(--accent) !important; opacity: 1 !important; 
-            transform: rotate(45deg) scale(1.4); 
-            filter: drop-shadow(0 0 15px var(--accent)); 
-        }
-
-        /* เอฟเฟกต์เฉพาะสำหรับปุ่ม Booking Hub */
-        .pulse-btn {
-            animation: holoPulse 3s infinite alternate;
-        }
-        @keyframes holoPulse {
-            0% { box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); border-color: rgba(0, 229, 255, 0.2); }
-            100% { box-shadow: 0 0 30px rgba(0, 229, 255, 0.5); border-color: rgba(0, 229, 255, 0.6); }
-        }
-        .pulse-btn:hover { animation: none; }
-        .pulse-btn:hover i.fa-calendar-check {
-            color: var(--accent) !important; opacity: 1 !important; 
-            transform: rotate(-15deg) scale(1.4); 
-            filter: drop-shadow(0 0 15px var(--accent));
-        }
-
-        .secondary-btn { 
-            padding: 20px 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 20px; position: relative; overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            text-decoration: none;
-        }
-        .secondary-btn .icon-circle { 
-            width: 50px; height: 50px; background: rgba(0,0,0,0.3); border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 1.3rem;
-            border: 1px solid rgba(255,255,255,0.1);
+        /* --- Tool Buttons (Yard / M-Flow) --- */
+        .tool-btn {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 15px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px;
+            padding: 25px 15px; height: 100%; text-decoration: none;
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-        .secondary-btn:hover { 
-            background: rgba(255,255,255,0.1); border-color: var(--accent); 
-            transform: translateY(-10px) scale(1.05); 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 5px 15px rgba(var(--accent-rgb), 0.3);
+        .tool-icon {
+            width: 70px; height: 70px; border-radius: 50%; background: rgba(0,0,0,0.4);
+            display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--accent);
+            border: 1px solid rgba(255,255,255,0.05); transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-        .secondary-btn:hover .icon-circle { 
-            background: var(--accent); color: #fff; 
-            transform: scale(1.2) translateY(-5px); 
-            box-shadow: 0 10px 20px rgba(var(--accent-rgb), 0.5); 
+        .tool-btn h5 { color: #fff; font-weight: 700; margin: 0; font-size: 1.1rem; }
+        .tool-btn span { font-family: 'Rajdhani'; color: var(--text-mute); font-size: 0.75rem; letter-spacing: 2px; }
+        
+        .tool-btn:hover {
+            background: rgba(255,255,255,0.08); border-color: var(--accent);
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 10px 20px rgba(var(--accent-rgb), 0.2);
         }
+        .tool-btn:hover .tool-icon {
+            background: var(--accent); color: #000;
+            transform: scale(1.15) translateY(-10px);
+            box-shadow: 0 15px 30px rgba(var(--accent-rgb), 0.6);
+        }
+        .tool-btn:hover h5 { color: var(--accent); }
 
-        .gps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        /* --- Internal Ops (Bento Grid) --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px; perspective: 1000px;
+        }
+        
+        .bento-card {
+            display: flex; align-items: center; gap: 18px;
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px;
+            padding: 20px; text-decoration: none; position: relative;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            backdrop-filter: blur(10px); transform-style: preserve-3d;
+        }
+        .bento-icon {
+            width: 50px; height: 50px; border-radius: 14px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .bento-text h6 { margin: 0; color: #fff; font-weight: 700; font-size: 1.05rem; transition: 0.3s; }
+        .bento-text small { color: var(--text-mute); font-family: 'Rajdhani'; font-weight: 700; letter-spacing: 1.5px; font-size: 0.7rem; transition: 0.3s; }
+        
+        .bento-card:hover {
+            transform: translateY(-12px) translateZ(20px) rotateX(15deg) rotateY(-5deg);
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+            border-color: var(--accent); z-index: 10;
+            box-shadow: -15px 20px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(var(--accent-rgb), 0.2);
+        }
+        .bento-card:hover .bento-icon {
+            background: var(--accent); color: #fff; border-color: #fff;
+            transform: scale(1.3) translateZ(30px) rotate(360deg);
+            box-shadow: 0 10px 25px rgba(var(--accent-rgb), 0.6);
+        }
+        .bento-card:hover .bento-text h6 { color: var(--accent); transform: translateZ(10px); }
+        .bento-card:hover .bento-text small { color: #fff; }
+
+        /* --- GPS Dock (Bottom Strip) --- */
+        .gps-dock {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;
+            background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
+            padding: 15px; border-radius: 50px;
+        }
         .gps-item {
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px;
-            padding: 12px 20px; color: #fff; text-decoration: none; font-weight: 600; font-size: 0.9rem;
-            display: flex; align-items: center; justify-content: center; gap: 10px; 
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px;
+            padding: 10px 25px; color: #fff; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            display: flex; align-items: center; gap: 10px; 
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
         .gps-item i { transition: 0.4s; font-size: 1.1rem; }
         .gps-item:hover {
             background: var(--accent); color: #fff; border-color: var(--accent);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 0 20px rgba(var(--accent-rgb), 0.6);
-            transform: translateY(-5px) scale(1.05); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 0 20px rgba(var(--accent-rgb), 0.5);
+            transform: translateY(-8px) scale(1.1); 
         }
-        .gps-item:hover i { transform: scale(1.4) rotate(15deg); }
+        .gps-item:hover i { transform: scale(1.4) rotate(20deg); filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3)); }
 
         .footer-credit {
-            text-align: center; margin-top: 25px; font-size: 0.75rem; color: rgba(255,255,255,0.5); 
+            text-align: center; margin-top: 40px; font-size: 0.8rem; color: rgba(255,255,255,0.3); 
             font-family: 'Rajdhani'; letter-spacing: 5px; text-transform: uppercase; font-weight: 600;
         }
         
         .admin-trigger {
             position: fixed; bottom: 30px; right: 30px;
-            width: 50px; height: 50px; border-radius: 50%;
-            background: #fff; color: #0a1128; border: none;
+            width: 55px; height: 55px; border-radius: 50%;
+            background: #fff; color: #050b14; border: none;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 99;
-            font-size: 1.2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            font-size: 1.3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
         .admin-trigger:hover { 
             color: #fff; background: var(--primary-green); 
-            box-shadow: 0 15px 35px var(--primary-green); 
-            transform: scale(1.2) translateY(-10px) rotate(360deg); 
+            box-shadow: 0 15px 40px var(--primary-green); 
+            transform: scale(1.2) translateY(-15px) rotate(360deg); 
         }
 
-        /* ตกแต่งตารางและฟอร์ม */
+        /* --- Modals --- */
         .modal-content {
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1);
-            color: #fff; border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            background: rgba(10, 15, 25, 0.98); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
         }
         .modal-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 20px 25px; }
         .modal-footer { border-top: 1px solid rgba(255,255,255,0.1); padding: 15px 25px; }
         
         .form-control, .form-select {
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 12px; padding: 10px 15px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 12px; padding: 10px 15px;
         }
         .form-control:focus, .form-select:focus {
-            background: rgba(255,255,255,0.1); border-color: var(--primary-green); color: white; box-shadow: 0 0 15px rgba(0, 166, 62, 0.4);
+            background: rgba(255,255,255,0.08); border-color: var(--primary-green); color: white; box-shadow: 0 0 15px rgba(0, 166, 62, 0.4);
         }
         
         .table-dark { --bs-table-bg: transparent; color: #e2e8f0; font-size: 0.85rem;}
@@ -323,12 +280,11 @@
         .yard-row:hover td { background-color: rgba(255,255,255,0.05) !important; box-shadow: inset 0 0 15px rgba(0,0,0,0.5);}
         .table > :not(caption) > * > * { padding: 8px 12px; }
 
-        @media (max-width: 992px) {
-            .page-wrapper { min-height: auto; padding: 20px 0; perspective: none; }
-            .main-portal-container { transform: none !important; animation: none; border-radius: 20px; }
-            .brand-text h1 { font-size: 2.2rem; }
-            .mega-btn { padding: 20px 15px; }
-            .glass-card:hover { transform: translateY(-5px) scale(1.02); }
+        @media (max-width: 768px) {
+            .dashboard-header { flex-direction: column; align-items: center; text-align: center; gap: 15px; }
+            .brand-text h1 { font-size: 2.5rem; }
+            .core-system-card { padding: 20px; flex-direction: column; text-align: center; gap: 15px;}
+            .gps-dock { border-radius: 20px; flex-direction: column; }
         }
     </style>
 </head>
@@ -338,208 +294,175 @@
     <div class="cyber-glow"></div>
     <div class="particles-container" id="particles"></div>
 
-    <div class="page-wrapper">
-        <div class="main-portal-container">
+    <div class="dashboard-wrapper">
+        
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="brand-wrapper d-flex align-items-center gap-3">
+                <i class="fa-solid fa-truck-fast brand-icon"></i>
+                <div>
+                    <h1>VKT PORTAL</h1>
+                    <div class="brand-sub">Command Center 2026</div>
+                </div>
+            </div>
+            <div class="system-status d-none d-md-flex">
+                <div class="status-dot"></div>
+                SYSTEM ONLINE & SECURE
+            </div>
+        </header>
+
+        <!-- Core Systems (Hero Row) -->
+        <div class="row g-4 mb-5 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+            <!-- Transport MGT -->
+            <div class="col-lg-5 col-md-6">
+                <a href="https://vkt.elog789.com/v3.4.1/#/login" target="_blank" 
+                   class="core-system-card h-100" style="--accent: #00A63E; --accent-rgb: 0, 166, 62;" onmouseenter="setGlow('#00A63E')" onmouseleave="resetGlow()">
+                    <div>
+                        <h3>TRANSPORT MGT</h3>
+                        <p>VKT E-Log System V3.4</p>
+                    </div>
+                    <i class="fa-solid fa-gauge-high"></i>
+                </a>
+            </div>
+            <!-- Booking Hub -->
+            <div class="col-lg-5 col-md-6">
+                <a href="https://script.google.com/macros/s/AKfycbzXkJMrsAtjDG6uVLdopDv8oNqCSnT8_BolREPtXJHe17rVI6cw8iu-Cv4g702_bsjO/exec" target="_blank" 
+                   class="core-system-card h-100" style="--accent: #00E5FF; --accent-rgb: 0, 229, 255;" onmouseenter="setGlow('#00E5FF')" onmouseleave="resetGlow()">
+                    <div>
+                        <h3>BOOKING HUB</h3>
+                        <p>ระบบจัดการงาน Booking</p>
+                    </div>
+                    <i class="fa-solid fa-calendar-check"></i>
+                </a>
+            </div>
+            <!-- Tools Column -->
+            <div class="col-lg-2 col-md-12">
+                <div class="row g-3 h-100">
+                    <div class="col-lg-12 col-md-6 h-50">
+                        <div class="tool-btn" style="--accent: #FF5252; --accent-rgb: 255, 82, 82;" onclick="openYardModal()" role="button" onmouseenter="setGlow('#FF5252')" onmouseleave="resetGlow()">
+                            <div class="tool-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                            <div>
+                                <h5>ค้นหาลานตู้</h5>
+                                <span>YARD LOCATION</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-6 h-50">
+                        <a href="https://vkttrans.github.io/M-Flow/" target="_blank" class="tool-btn" style="--accent: #FF9800; --accent-rgb: 255, 152, 0;" onmouseenter="setGlow('#FF9800')" onmouseleave="resetGlow()">
+                            <div class="tool-icon"><i class="fa-solid fa-road"></i></div>
+                            <div>
+                                <h5>ระบบ M-Flow</h5>
+                                <span>AUTO TOLL GATE</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Internal Operations (Bento Grid) -->
+        <div class="mb-5 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <div class="section-title" style="--accent: #FFC107;">
+                <i class="fa-solid fa-microchip"></i> INTERNAL OPERATIONS
+                <div class="line"></div>
+            </div>
             
-            <div class="header-section animate__animated animate__fadeInDown">
-                <div class="brand-wrapper d-inline-flex align-items-center gap-3">
-                    <div class="brand-icon"><i class="fa-solid fa-truck-fast"></i></div>
-                    <div class="brand-text text-start">
-                        <h1>VKT PORTAL</h1>
-                        <div class="brand-sub">SMART LOGISTICS HUB 2026</div>
+            <div class="bento-grid">
+                <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbzWYtdLeHp3uw1Bb0cXPNDSyKdTDMMg3h9JWqqWr7iOEL4VM-GrEqJsFECeCtR4-xxkcg/exec" target="_blank" 
+                   class="bento-card" style="--accent: #FFC107; --accent-rgb: 255, 193, 7;" onmouseenter="setGlow('#FFC107')" onmouseleave="resetGlow()">
+                    <div class="bento-icon"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                    <div class="bento-text">
+                        <h6>เบิกเงิน</h6>
+                        <small>WITHDRAW</small>
                     </div>
-                </div>
+                </a>
+
+                <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycby32LX4-2iN0zPA9EmhSneiX1Pz66uCMlBnqE2jiWtnVD8L9BG6zcLUyJ4Rh15WilT0uQ/exec" target="_blank" 
+                   class="bento-card" style="--accent: #FF4081; --accent-rgb: 255, 64, 129;" onmouseenter="setGlow('#FF4081')" onmouseleave="resetGlow()">
+                    <div class="bento-icon"><i class="fa-solid fa-user-clock"></i></div>
+                    <div class="bento-text">
+                        <h6>ลางาน</h6>
+                        <small>LEAVE REQUEST</small>
+                    </div>
+                </a>
+
+                <a href="https://script.google.com/macros/s/AKfycbzSDN0zmsbrKeGrOzE4zbZf9TyKpSFhOW3zEdyHo-L1DH5X6ZCl0yUkyKTEnLxccXB6/exec" target="_blank" 
+                   class="bento-card" style="--accent: #FF7043; --accent-rgb: 255, 112, 67;" onmouseenter="setGlow('#FF7043')" onmouseleave="resetGlow()">
+                    <div class="bento-icon"><i class="fa-solid fa-box-open"></i></div>
+                    <div class="bento-text">
+                        <h6>เบิกของ</h6>
+                        <small>OFFICE STOCK</small>
+                    </div>
+                </a>
+
+                <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbyOFq4yA2YaCvA5w9OXlM4wu5lGqCEt6AnMn-2_Pw_Fl-YpIB5hzAFM5YFIVlSPd7Tu-A/exec" target="_blank" 
+                   class="bento-card" style="--accent: #9C27B0; --accent-rgb: 156, 39, 176;" onmouseenter="setGlow('#9C27B0')" onmouseleave="resetGlow()">
+                    <div class="bento-icon"><i class="fa-solid fa-id-card"></i></div>
+                    <div class="bento-text">
+                        <h6>ข้อมูลพนักงาน</h6>
+                        <small>HR DEPT</small>
+                    </div>
+                </a>
+
+                <a href="https://script.google.com/macros/s/AKfycbwM-BB45Gjsy3qqZRSZGwX_f2uI2QOXfzXbfhw4HUq8T_yUGLmCG0jDGH7_goBRWbuPqQ/exec" target="_blank" 
+                   class="bento-card" style="--accent: #00BCD4; --accent-rgb: 0, 188, 212;" onmouseenter="setGlow('#00BCD4')" onmouseleave="resetGlow()">
+                    <div class="bento-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <div class="bento-text">
+                        <h6>ออกทวิ 50</h6>
+                        <small>TAX DOCS</small>
+                    </div>
+                </a>
+
+                <a href="https://script.google.com/macros/s/AKfycbz1_LnXPIJ6N1-dGAeB_HPeLs3X_0wPGx_tu5oWKpMvchsmXpQTm5kgNrVwXDSOK9fzTg/exec" target="_blank" 
+                   class="bento-card" style="--accent: #CDDC39; --accent-rgb: 205, 220, 57;" onmouseenter="setGlow('#CDDC39')" onmouseleave="resetGlow()">
+                    <div class="bento-icon"><i class="fa-solid fa-user-plus"></i></div>
+                    <div class="bento-text">
+                        <h6>สมัครงาน</h6>
+                        <small>CAREERS</small>
+                    </div>
+                </a>
+
+                <a href="https://vkttrans.github.io/ScanBill/" target="_blank" 
+                   class="bento-card" style="--accent: #4CAF50; --accent-rgb: 76, 175, 80;" onmouseenter="setGlow('#4CAF50')" onmouseleave="resetGlow()">
+                    <div class="bento-icon"><i class="fa-solid fa-file-circle-check"></i></div>
+                    <div class="bento-text">
+                        <h6>Scan Bill</h6>
+                        <small>VERIFY DOCS</small>
+                    </div>
+                </a>
             </div>
+        </div>
 
-            <div class="row g-4 mt-2">
-                <div class="col-lg-7 animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
-                    <div class="section-header">
-                        <i class="fa-solid fa-microchip"></i> INTERNAL OPERATIONS
-                        <div class="line"></div>
-                    </div>
-                    
-                    <div class="row g-3">
-                        <div class="col-md-6 col-sm-12">
-                            <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbzWYtdLeHp3uw1Bb0cXPNDSyKdTDMMg3h9JWqqWr7iOEL4VM-GrEqJsFECeCtR4-xxkcg/exec" target="_blank" 
-                               class="glass-card" style="--accent: #FFC107; --accent-rgb: 255, 193, 7;" onmouseenter="setGlow('#FFC107')" onmouseleave="resetGlow()">
-                                <div class="card-content">
-                                    <div class="icon-box"><i class="fa-solid fa-money-bill-transfer"></i></div>
-                                    <div class="text-box">
-                                        <h5>เบิกเงิน</h5>
-                                        <small>WITHDRAW</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-md-6 col-sm-12">
-                            <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycby32LX4-2iN0zPA9EmhSneiX1Pz66uCMlBnqE2jiWtnVD8L9BG6zcLUyJ4Rh15WilT0uQ/exec" target="_blank" 
-                               class="glass-card" style="--accent: #FF4081; --accent-rgb: 255, 64, 129;" onmouseenter="setGlow('#FF4081')" onmouseleave="resetGlow()">
-                                <div class="card-content">
-                                    <div class="icon-box"><i class="fa-solid fa-user-clock"></i></div>
-                                    <div class="text-box">
-                                        <h5>ลางาน</h5>
-                                        <small>LEAVE REQUEST</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-md-6 col-sm-12">
-                            <a href="https://script.google.com/macros/s/AKfycbzSDN0zmsbrKeGrOzE4zbZf9TyKpSFhOW3zEdyHo-L1DH5X6ZCl0yUkyKTEnLxccXB6/exec" target="_blank" 
-                               class="glass-card" style="--accent: #FF7043; --accent-rgb: 255, 112, 67;" onmouseenter="setGlow('#FF7043')" onmouseleave="resetGlow()">
-                                <div class="card-content">
-                                    <div class="icon-box"><i class="fa-solid fa-box-open"></i></div>
-                                    <div class="text-box">
-                                        <h5>เบิกของ</h5>
-                                        <small>OFFICE STOCK</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-md-6 col-sm-12">
-                            <a href="https://script.google.com/a/macros/vkttransport.com/s/AKfycbyOFq4yA2YaCvA5w9OXlM4wu5lGqCEt6AnMn-2_Pw_Fl-YpIB5hzAFM5YFIVlSPd7Tu-A/exec" target="_blank" 
-                               class="glass-card" style="--accent: #9C27B0; --accent-rgb: 156, 39, 176;" onmouseenter="setGlow('#9C27B0')" onmouseleave="resetGlow()">
-                                <div class="card-content">
-                                    <div class="icon-box"><i class="fa-solid fa-id-card"></i></div>
-                                    <div class="text-box">
-                                        <h5>ข้อมูลพนักงาน</h5>
-                                        <small>HR DEPT</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-md-6 col-sm-12">
-                            <a href="https://script.google.com/macros/s/AKfycbwM-BB45Gjsy3qqZRSZGwX_f2uI2QOXfzXbfhw4HUq8T_yUGLmCG0jDGH7_goBRWbuPqQ/exec" target="_blank" 
-                               class="glass-card" style="--accent: #00BCD4; --accent-rgb: 0, 188, 212;" onmouseenter="setGlow('#00BCD4')" onmouseleave="resetGlow()">
-                                <div class="card-content">
-                                    <div class="icon-box"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-                                    <div class="text-box">
-                                        <h5>ออกทวิ 50</h5>
-                                        <small>TAX DOCS</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-md-6 col-sm-12">
-                            <a href="https://script.google.com/macros/s/AKfycbz1_LnXPIJ6N1-dGAeB_HPeLs3X_0wPGx_tu5oWKpMvchsmXpQTm5kgNrVwXDSOK9fzTg/exec" target="_blank" 
-                               class="glass-card" style="--accent: #CDDC39; --accent-rgb: 205, 220, 57;" onmouseenter="setGlow('#CDDC39')" onmouseleave="resetGlow()">
-                                <div class="card-content">
-                                    <div class="icon-box"><i class="fa-solid fa-user-plus"></i></div>
-                                    <div class="text-box">
-                                        <h5>สมัครงาน</h5>
-                                        <small>CAREERS</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-md-12 col-sm-12">
-                            <a href="https://vkttrans.github.io/ScanBill/" target="_blank" 
-                               class="glass-card" style="--accent: #4CAF50; --accent-rgb: 76, 175, 80;" onmouseenter="setGlow('#4CAF50')" onmouseleave="resetGlow()">
-                                <div class="card-content">
-                                    <div class="icon-box"><i class="fa-solid fa-file-circle-check"></i></div>
-                                    <div class="text-box">
-                                        <h5>Scan Bill</h5>
-                                        <small>VERIFY DOCS</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-5 animate__animated animate__fadeInRight" style="animation-delay: 0.2s;">
-                    
-                    <div class="section-header">
-                        <i class="fa-solid fa-server"></i> CORE SYSTEMS
-                        <div class="line"></div>
-                    </div>
-
-                    <a href="https://vkt.elog789.com/v3.4.1/#/login" target="_blank" 
-                       class="mega-btn" style="--accent: #00A63E;" onmouseenter="setGlow('#00A63E')" onmouseleave="resetGlow()">
-                        <div class="d-flex justify-content-between align-items-center w-100 position-relative z-2">
-                            <div>
-                                <h3>TRANSPORT MGT</h3>
-                                <span>VKT E-Log System V3.4</span>
-                            </div>
-                            <i class="fa-solid fa-gauge-high fa-3x"></i>
-                        </div>
-                    </a>
-
-                    <a href="https://script.google.com/macros/s/AKfycbzXkJMrsAtjDG6uVLdopDv8oNqCSnT8_BolREPtXJHe17rVI6cw8iu-Cv4g702_bsjO/exec" target="_blank" 
-                       class="mega-btn pulse-btn" style="--accent: #00E5FF;" onmouseenter="setGlow('#00E5FF')" onmouseleave="resetGlow()">
-                        <div class="d-flex justify-content-between align-items-center w-100 position-relative z-2">
-                            <div>
-                                <h3>BOOKING HUB</h3>
-                                <span class="text-info bg-dark">จัดการงาน Booking</span>
-                            </div>
-                            <i class="fa-solid fa-calendar-check fa-3x"></i>
-                        </div>
-                    </a>
-
-                    <div class="row g-3 mb-4 mt-1">
-                        <div class="col-sm-6 col-12">
-                            <div class="secondary-btn h-100 d-flex flex-column justify-content-center" style="--accent: #FF5252; --accent-rgb: 255, 82, 82;" onclick="openYardModal()"
-                                 onmouseenter="setGlow('#FF5252')" onmouseleave="resetGlow()" role="button">
-                                 <div class="d-flex flex-column align-items-center text-center gap-2">
-                                    <div class="icon-circle"><i class="fa-solid fa-map-location-dot"></i></div>
-                                    <div>
-                                        <h6 class="mb-0 fw-bold text-white">ค้นหาลานตู้</h6>
-                                        <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.7rem; letter-spacing: 1px;">YARD LOCATION</small>
-                                    </div>
-                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-sm-6 col-12">
-                            <a href="https://vkttrans.github.io/M-Flow/" target="_blank" 
-                               class="secondary-btn h-100 d-flex flex-column justify-content-center text-decoration-none" style="--accent: #FF9800; --accent-rgb: 255, 152, 0;" 
-                               onmouseenter="setGlow('#FF9800')" onmouseleave="resetGlow()">
-                                 <div class="d-flex flex-column align-items-center text-center gap-2">
-                                    <div class="icon-circle"><i class="fa-solid fa-road"></i></div>
-                                    <div>
-                                        <h6 class="mb-0 fw-bold text-white">ระบบ M-Flow</h6>
-                                        <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.7rem; letter-spacing: 1px;">AUTO TOLL GATE</small>
-                                    </div>
-                                 </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="section-header">
-                        <i class="fa-solid fa-satellite-dish"></i> GPS TRACKING
-                        <div class="line"></div>
-                    </div>
-                    
-                    <div class="gps-grid animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
-                        <a href="http://122.155.5.231:20040/login" target="_blank" class="gps-item" style="--accent: #2196F3; --accent-rgb: 33, 150, 243;" onmouseenter="setGlow('#2196F3')" onmouseleave="resetGlow()">
-                            <i class="fa-solid fa-location-crosshairs"></i> OneLink
-                        </a>
-                        <a href="https://v2.gpsiam.net/tracking" target="_blank" class="gps-item" style="--accent: #00BCD4; --accent-rgb: 0, 188, 212;" onmouseenter="setGlow('#00BCD4')" onmouseleave="resetGlow()">
-                            <i class="fa-solid fa-map-location"></i> GPSiam
-                        </a>
-                        <a href="https://fleetweb-th.cartrack.com/login" target="_blank" class="gps-item" style="--accent: #F44336; --accent-rgb: 244, 67, 54;" onmouseenter="setGlow('#F44336')" onmouseleave="resetGlow()">
-                            <i class="fa-solid fa-car-on"></i> CarTrack
-                        </a>
-                        <a href="http://122.155.177.114:8080/808gps/login.html" target="_blank" class="gps-item" style="--accent: #9C27B0; --accent-rgb: 156, 39, 176;" onmouseenter="setGlow('#9C27B0')" onmouseleave="resetGlow()">
-                            <i class="fa-solid fa-video"></i> GPS Tech
-                        </a>
-                    </div>
-
-                </div>
+        <!-- Fleet GPS Tracking (Bottom Dock) -->
+        <div class="animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+            <div class="section-title text-center justify-content-center" style="--accent: #2196F3; margin-bottom: 15px;">
+                <div class="line" style="background: linear-gradient(270deg, rgba(255,255,255,0.1), transparent);"></div>
+                <i class="fa-solid fa-satellite-dish"></i> FLEET GPS TRACKING
+                <div class="line"></div>
             </div>
-
-            <div class="footer-credit pb-1">
-                VKT TRANSPORT INTELLIGENT SYSTEM © 2026
+            
+            <div class="gps-dock">
+                <a href="http://122.155.5.231:20040/login" target="_blank" class="gps-item" style="--accent: #2196F3; --accent-rgb: 33, 150, 243;" onmouseenter="setGlow('#2196F3')" onmouseleave="resetGlow()">
+                    <i class="fa-solid fa-location-crosshairs"></i> OneLink
+                </a>
+                <a href="https://v2.gpsiam.net/tracking" target="_blank" class="gps-item" style="--accent: #00BCD4; --accent-rgb: 0, 188, 212;" onmouseenter="setGlow('#00BCD4')" onmouseleave="resetGlow()">
+                    <i class="fa-solid fa-map-location"></i> GPSiam
+                </a>
+                <a href="https://fleetweb-th.cartrack.com/login" target="_blank" class="gps-item" style="--accent: #F44336; --accent-rgb: 244, 67, 54;" onmouseenter="setGlow('#F44336')" onmouseleave="resetGlow()">
+                    <i class="fa-solid fa-car-on"></i> CarTrack
+                </a>
+                <a href="http://122.155.177.114:8080/808gps/login.html" target="_blank" class="gps-item" style="--accent: #9C27B0; --accent-rgb: 156, 39, 176;" onmouseenter="setGlow('#9C27B0')" onmouseleave="resetGlow()">
+                    <i class="fa-solid fa-video"></i> GPS Tech
+                </a>
             </div>
+        </div>
+
+        <div class="footer-credit">
+            VKT TRANSPORT INTELLIGENT SYSTEM © 2026
         </div>
     </div>
 
-    <button class="admin-trigger animate__animated animate__fadeInRight animate__delay-1s" onclick="openLoginModal()" title="Admin Login">
+    <button class="admin-trigger animate__animated animate__zoomIn animate__delay-1s" onclick="openLoginModal()" title="Admin Login">
         <i class="fa-solid fa-user-shield"></i>
     </button>
 
@@ -554,7 +477,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-0">
-                    <div class="p-3 sticky-top border-bottom" style="background: rgba(15, 23, 42, 0.95); border-color: rgba(255,255,255,0.05) !important;">
+                    <div class="p-3 sticky-top border-bottom" style="background: rgba(10, 15, 25, 0.95); border-color: rgba(255,255,255,0.05) !important;">
                         <div class="d-flex gap-3 flex-wrap flex-md-nowrap">
                             <div class="input-group flex-grow-1 shadow-sm">
                                 <span class="input-group-text border-0" style="background: rgba(255,255,255,0.05); color: #888;"><i class="fa-solid fa-search"></i></span>
@@ -580,7 +503,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="modal-footer border-0 rounded-bottom" style="background: rgba(15, 23, 42, 0.95);">
+                <div class="modal-footer border-0 rounded-bottom" style="background: rgba(10, 15, 25, 0.95);">
                     <button type="button" class="btn btn-sm btn-outline-secondary px-4 rounded-pill" data-bs-dismiss="modal">CLOSE</button>
                 </div>
             </div>
@@ -661,7 +584,6 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
@@ -677,7 +599,6 @@
             createParticles();
         });
 
-        // แสงวิ่ง Speed lines แบบใหม่
         function createParticles() {
             const container = document.getElementById('particles');
             const particleCount = 15;
@@ -867,7 +788,7 @@
 
         function openLoginModal() {
             if(isAdmin) { 
-                Swal.fire({ toast: true, position: 'top-end', showConfirmButton: false, timer: 2000, background:'rgba(10,10,12,0.95)', color:'#0f0', icon: 'info', title: 'ALREADY LOGGED IN' }); return; 
+                Swal.fire({ toast: true, position: 'top-end', showConfirmButton: false, timer: 2000, background:'rgba(10,15,25,0.95)', color:'#0f0', icon: 'info', title: 'ALREADY LOGGED IN' }); return; 
             }
             const modalEl = document.getElementById('loginModal');
             document.getElementById('adminPassword').value = '';
@@ -880,11 +801,11 @@
             if(pass === "1234") { 
                 isAdmin = true; currentPassword = pass;
                 bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
-                Swal.fire({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, background: 'rgba(10,10,12,0.95)', color: '#00A63E', icon: 'success', title: 'ACCESS GRANTED' });
+                Swal.fire({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, background: 'rgba(10,15,25,0.95)', color: '#00A63E', icon: 'success', title: 'ACCESS GRANTED' });
                 document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'block');
                 if(document.getElementById('yardModal').classList.contains('show')) renderTable(allYardsData);
             } else { 
-                Swal.fire({ icon: 'error', title: 'ACCESS DENIED', background: 'rgba(10,10,12,0.95)', color: '#f00', confirmButtonColor: '#333' });
+                Swal.fire({ icon: 'error', title: 'ACCESS DENIED', background: 'rgba(10,15,25,0.95)', color: '#f00', confirmButtonColor: '#333' });
             }
         }
 
@@ -930,22 +851,22 @@
                 const result = await res.json();
                 if(result.status === 'success') {
                     bootstrap.Modal.getInstance(document.getElementById('editModal')).hide(); fetchYardData();
-                    Swal.fire({ icon: 'success', title: 'DATA SAVED', showConfirmButton: false, timer: 1500, background: 'rgba(10,10,12,0.95)', color: '#0f0' });
-                } else { Swal.fire({title:'Failed', text:result.message, icon:'error', background: 'rgba(10,10,12,0.95)', color:'#fff'}); }
-            } catch (err) { Swal.fire({title:'Error', text:'Connection Failed', icon:'error', background: 'rgba(10,10,12,0.95)', color:'#fff'}); }
+                    Swal.fire({ icon: 'success', title: 'DATA SAVED', showConfirmButton: false, timer: 1500, background: 'rgba(10,15,25,0.95)', color: '#0f0' });
+                } else { Swal.fire({title:'Failed', text:result.message, icon:'error', background: 'rgba(10,15,25,0.95)', color:'#fff'}); }
+            } catch (err) { Swal.fire({title:'Error', text:'Connection Failed', icon:'error', background: 'rgba(10,15,25,0.95)', color:'#fff'}); }
             saveBtn.disabled = false; saveBtn.innerText = 'SAVE RECORD';
         }
 
         async function deleteYard(name) {
-            Swal.fire({ title: 'CONFIRM DELETE?', text: name, icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonColor: '#555', background: 'rgba(10,10,12,0.95)', color: '#fff' })
+            Swal.fire({ title: 'CONFIRM DELETE?', text: name, icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonColor: '#555', background: 'rgba(10,15,25,0.95)', color: '#fff' })
             .then(async (result) => {
                 if (result.isConfirmed) {
                     const formData = new URLSearchParams(); formData.append('action', 'delete');
                     formData.append('password', currentPassword); formData.append('name', name);
                     try {
                         await fetch(SHEET_API_URL, { method: 'POST', body: formData }); fetchYardData();
-                        Swal.fire({ icon: 'success', title: 'DELETED', showConfirmButton: false, timer: 1500, background: 'rgba(10,10,12,0.95)', color: '#fff' });
-                    } catch (e) { Swal.fire({ title: 'ERROR', text: 'Failed to delete', icon: 'error', background: 'rgba(10,10,12,0.95)', color: '#fff' }); }
+                        Swal.fire({ icon: 'success', title: 'DELETED', showConfirmButton: false, timer: 1500, background: 'rgba(10,15,25,0.95)', color: '#fff' });
+                    } catch (e) { Swal.fire({ title: 'ERROR', text: 'Failed to delete', icon: 'error', background: 'rgba(10,15,25,0.95)', color: '#fff' }); }
                 }
             })
         }
