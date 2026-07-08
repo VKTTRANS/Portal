@@ -12,7 +12,7 @@
     
     <style>
         :root {
-            /* ปรับโทนสีให้สว่างขึ้น เป็นธีมองค์กรขนส่งสมัยใหม่ (Navy/Blue) */
+            /* โทนสี Smart Logistics 2026 (Navy/Blue) */
             --bg-deep: #0a1128;
             --bg-gradient: linear-gradient(135deg, #0a1128 0%, #1c2541 100%);
             --glass-bg: rgba(255, 255, 255, 0.07);
@@ -33,7 +33,7 @@
             position: relative;
         }
 
-        /* เอฟเฟกต์เส้นแสงวิ่งๆ เหมือนถนน/เส้นทางขนส่ง */
+        /* เอฟเฟกต์เส้นแสงวิ่งๆ */
         .cyber-grid {
             position: fixed; inset: 0;
             background-image: 
@@ -63,7 +63,6 @@
             pointer-events: none;
         }
 
-        /* เปลี่ยน Particle เป็นเส้นไฟพุ่งๆ เหมือนรถวิ่ง */
         .particles-container { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
         .particle {
             position: absolute;
@@ -86,7 +85,7 @@
         .page-wrapper {
             display: flex; align-items: center; justify-content: center;
             min-height: 100vh; width: 100%; padding: 30px 0;
-            perspective: 1500px; /* เพิ่มความลึกให้แอนิเมชัน 3D เวอร์ๆ */
+            perspective: 1500px; 
             position: relative; z-index: 2;
         }
 
@@ -104,7 +103,6 @@
             animation: containerEntrance 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        /* แอนิเมชันตอนโหลดหน้าเว็บให้เด้งๆ */
         @keyframes containerEntrance {
             0% { transform: translateY(100px) scale(0.8) rotateX(-20deg); opacity: 0; }
             100% { transform: translateY(0) scale(1) rotateX(0deg); opacity: 1; }
@@ -116,7 +114,6 @@
             filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
         }
 
-        /* แอนิเมชันรถบรรทุกเด้งหน้าหลังแบบเวอร์ๆ */
         @keyframes truckBounce {
             0% { transform: translateY(0) rotate(-5deg) scale(1); }
             100% { transform: translateY(-15px) rotate(5deg) scale(1.1); filter: drop-shadow(0 20px 15px rgba(0,166,62,0.5)); }
@@ -151,17 +148,18 @@
         .section-header .line { flex-grow: 1; height: 2px; background: linear-gradient(90deg, var(--primary-green), transparent); }
         .section-header i { color: #fff; background: var(--primary-green); padding: 8px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,166,62,0.5); }
 
-        /* การ์ดแบบใหม่ สว่างขึ้น และ Hover แบบเวอร์ๆ */
+        .glass-card, .mega-btn, .secondary-btn, .gps-item {
+            cursor: pointer; user-select: none; transform-style: preserve-3d;
+        }
+
         .glass-card {
             display: block; position: relative; text-decoration: none;
             background: var(--glass-bg); 
             border-top: 1px solid var(--glass-border); border-left: 1px solid var(--glass-border);
             border-radius: 20px; padding: 18px; 
-            /* ใส่ transition แบบเด้งดึ๋ง */
             transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             height: 100%; z-index: 1;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            overflow: visible; /* ให้ไอคอนทะลุออกมาได้ */
         }
 
         .card-content { display: flex; align-items: center; gap: 15px; position: relative; z-index: 2; }
@@ -178,7 +176,6 @@
         .text-box h5 { margin: 0; color: #fff; font-weight: 700; font-size: 1.1rem; transition: 0.3s; }
         .text-box small { color: #b0bec5; font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 1.5px; font-size: 0.75rem; transition: 0.3s; }
 
-        /* แอนิเมชันโฮเวอร์การ์ดแบบเวอร์ๆ (Over the top) */
         .glass-card:hover {
             transform: translateY(-15px) scale(1.05) rotateX(10deg) rotateY(-5deg);
             background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
@@ -186,7 +183,6 @@
             box-shadow: -15px 25px 40px rgba(0,0,0,0.4), 0 0 25px rgba(var(--accent-rgb), 0.5);
         }
         
-        /* ไอคอนหมุนและเด้งออกมาทะลุจอ */
         .glass-card:hover .icon-box {
             background: var(--accent); color: #fff; 
             border-color: #fff;
@@ -194,10 +190,10 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 30px var(--accent);
         }
         
-        .glass-card:hover .text-box h5 { color: var(--accent); text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5); transform: scale(1.05}
+        /* แก้ไขบั๊กวงเล็บหายตรงนี้แล้วครับ ทำให้ CSS ด้านล่างกลับมาใช้งานได้ปกติ */
+        .glass-card:hover .text-box h5 { color: var(--accent); text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5); transform: scale(1.05); }
         .glass-card:hover .text-box small { color: #fff; }
 
-        /* ปุ่มใหญ่แบบใหม่ (Core Systems) */
         .mega-btn {
             display: block; text-decoration: none; position: relative;
             background: linear-gradient(135deg, #162242, #293a68);
@@ -228,25 +224,33 @@
         
         .mega-btn:hover::before { left: 200%; transition: 0.7s ease-in-out; }
         
-        /* ไอคอนเกจวัดความเร็ว หมุนแบบเร่งเครื่อง */
         .mega-btn:hover i.fa-gauge-high { 
             color: var(--accent) !important; opacity: 1 !important; 
             transform: rotate(45deg) scale(1.4); 
             filter: drop-shadow(0 0 15px var(--accent)); 
         }
 
+        /* เอฟเฟกต์เฉพาะสำหรับปุ่ม Booking Hub */
+        .pulse-btn {
+            animation: holoPulse 3s infinite alternate;
+        }
+        @keyframes holoPulse {
+            0% { box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); border-color: rgba(0, 229, 255, 0.2); }
+            100% { box-shadow: 0 0 30px rgba(0, 229, 255, 0.5); border-color: rgba(0, 229, 255, 0.6); }
+        }
+        .pulse-btn:hover { animation: none; }
         .pulse-btn:hover i.fa-calendar-check {
             color: var(--accent) !important; opacity: 1 !important; 
             transform: rotate(-15deg) scale(1.4); 
             filter: drop-shadow(0 0 15px var(--accent));
         }
 
-        /* ปุ่มรอง (ลานตู้ / M-Flow) */
         .secondary-btn { 
             padding: 20px 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
             border-radius: 20px; position: relative; overflow: hidden;
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            text-decoration: none;
         }
         .secondary-btn .icon-circle { 
             width: 50px; height: 50px; background: rgba(0,0,0,0.3); border-radius: 50%; 
@@ -265,7 +269,6 @@
             box-shadow: 0 10px 20px rgba(var(--accent-rgb), 0.5); 
         }
 
-        /* GPS Grid เปลี่ยนเป็นดีไซน์แคปซูล */
         .gps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .gps-item {
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px;
@@ -300,7 +303,7 @@
             transform: scale(1.2) translateY(-10px) rotate(360deg); 
         }
 
-        /* Modals and Tables */
+        /* ตกแต่งตารางและฟอร์ม */
         .modal-content {
             background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1);
             color: #fff; border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.6);
@@ -315,9 +318,10 @@
             background: rgba(255,255,255,0.1); border-color: var(--primary-green); color: white; box-shadow: 0 0 15px rgba(0, 166, 62, 0.4);
         }
         
-        .table-dark { --bs-table-bg: transparent; color: #e2e8f0; }
+        .table-dark { --bs-table-bg: transparent; color: #e2e8f0; font-size: 0.85rem;}
         .zone-header td { background: linear-gradient(90deg, rgba(0, 166, 62, 0.2), transparent) !important; border-bottom: 2px solid var(--primary-green) !important; padding: 10px 15px !important;}
-        .yard-row:hover td { background-color: rgba(255,255,255,0.05) !important; }
+        .yard-row:hover td { background-color: rgba(255,255,255,0.05) !important; box-shadow: inset 0 0 15px rgba(0,0,0,0.5);}
+        .table > :not(caption) > * > * { padding: 8px 12px; }
 
         @media (max-width: 992px) {
             .page-wrapper { min-height: auto; padding: 20px 0; perspective: none; }
@@ -484,7 +488,7 @@
                                  <div class="d-flex flex-column align-items-center text-center gap-2">
                                     <div class="icon-circle"><i class="fa-solid fa-map-location-dot"></i></div>
                                     <div>
-                                        <h6 class="mb-0 fw-bold">ค้นหาลานตู้</h6>
+                                        <h6 class="mb-0 fw-bold text-white">ค้นหาลานตู้</h6>
                                         <small class="text-white-50" style="font-family: 'Rajdhani'; font-size: 0.7rem; letter-spacing: 1px;">YARD LOCATION</small>
                                     </div>
                                  </div>
@@ -539,11 +543,141 @@
         <i class="fa-solid fa-user-shield"></i>
     </button>
 
+    <!-- Modal หาตู้คอนเทนเนอร์ -->
+    <div class="modal fade" id="yardModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold text-uppercase" style="letter-spacing: 2px; font-family: 'Rajdhani';">
+                        <i class="fa-solid fa-database text-success me-2 opacity-75"></i> Yard Database
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="p-3 sticky-top border-bottom" style="background: rgba(15, 23, 42, 0.95); border-color: rgba(255,255,255,0.05) !important;">
+                        <div class="d-flex gap-3 flex-wrap flex-md-nowrap">
+                            <div class="input-group flex-grow-1 shadow-sm">
+                                <span class="input-group-text border-0" style="background: rgba(255,255,255,0.05); color: #888;"><i class="fa-solid fa-search"></i></span>
+                                <input type="text" class="form-control border-0" id="yardSearch" placeholder="ค้นหาลานตู้..." onkeyup="filterYardsOffice()" style="background: rgba(255,255,255,0.05);">
+                            </div>
+                            <select id="yardZoneFilter" class="form-select border-0 shadow-sm" style="width: auto; min-width: 180px; background: rgba(255,255,255,0.05);" onchange="filterYardsOffice()">
+                                <option value="all">🌐 ทุกโซน</option>
+                            </select>
+                            <button class="btn btn-success fw-bold admin-controls text-nowrap px-4 shadow" onclick="openEditModal('add')" style="display:none; border-radius: 8px;">
+                                <i class="fa-solid fa-plus me-1"></i> ADD NEW
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="loadingSpinner" class="text-center py-5">
+                        <div class="spinner-border text-success mb-3" style="width: 2.5rem; height: 2.5rem; border-width: 0.2rem; filter: drop-shadow(0 0 10px #00A63E);"></div>
+                        <p class="text-success small fw-bold" style="letter-spacing: 3px; font-family: 'Rajdhani'; opacity: 0.8;">ACCESSING DATABASE...</p>
+                    </div>
+                    
+                    <div class="table-responsive px-2 pb-2">
+                        <table class="table table-dark table-hover mb-0 align-middle mt-2" id="yardTable" style="display: none;">
+                            <tbody id="yardTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 rounded-bottom" style="background: rgba(15, 23, 42, 0.95);">
+                    <button type="button" class="btn btn-sm btn-outline-secondary px-4 rounded-pill" data-bs-dismiss="modal">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal สำหรับ Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content" style="border: 1px solid rgba(255, 193, 7, 0.4); box-shadow: 0 0 30px rgba(255, 193, 7, 0.2);">
+                <div class="modal-body text-center pt-5 pb-4 px-4">
+                    <i class="fa-solid fa-fingerprint fs-1 mb-3 text-warning drop-shadow" style="filter: drop-shadow(0 0 15px rgba(255,193,7,0.8));"></i>
+                    <h5 class="mb-4 text-uppercase" style="font-family: 'Rajdhani'; letter-spacing: 2px;">Admin Verify</h5>
+                    <input type="password" id="adminPassword" class="form-control text-center fs-3 mb-4" placeholder="••••" style="letter-spacing: 8px; border-radius: 10px; background: rgba(0,0,0,0.5); border-color: rgba(255,193,7,0.3);">
+                    <button type="button" class="btn btn-warning w-100 fw-bold py-2 shadow" style="border-radius: 10px; letter-spacing: 1px;" onclick="checkLogin()">AUTHENTICATE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal สำหรับ Edit/Add ลานตู้ -->
+    <div class="modal fade" id="editModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-dark border-0">
+                    <h5 class="modal-title" id="editModalTitle" style="font-family: 'Rajdhani'; letter-spacing: 1px;"><i class="fa-solid fa-pen-to-square text-warning me-2"></i> Editor</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body bg-dark">
+                    <input type="hidden" id="editOldName">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="small text-secondary mb-1">NAME</label>
+                            <input type="text" id="editName" class="form-control fw-bold text-warning" style="font-size: 1.05rem;">
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label class="small text-secondary mb-1">ZONE</label>
+                            <input type="text" id="editZone" class="form-control">
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label class="small text-secondary mb-1">PHONE</label>
+                            <input type="text" id="editPhone" class="form-control">
+                        </div>
+
+                        <div class="col-12 mt-4 mb-1">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-cube text-success me-2 fs-6 opacity-75"></i> <span class="text-success fw-bold small" style="letter-spacing: 1px;">EMPTY CONTAINER RATES</span>
+                                <div class="flex-grow-1 ms-3 border-bottom border-success opacity-20"></div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3"><label class="xsmall text-secondary mb-1">IN 20'</label><input type="text" id="editEI20" class="form-control form-control-sm text-center text-success border-success" placeholder="0" style="background: rgba(0,166,62,0.03);"></div>
+                        <div class="col-6 col-md-3"><label class="xsmall text-secondary mb-1">IN 40'</label><input type="text" id="editEI40" class="form-control form-control-sm text-center text-success border-success" placeholder="0" style="background: rgba(0,166,62,0.03);"></div>
+                        <div class="col-6 col-md-3"><label class="xsmall text-secondary mb-1">OUT 20'</label><input type="text" id="editEO20" class="form-control form-control-sm text-center text-success border-success" placeholder="0" style="background: rgba(0,166,62,0.03);"></div>
+                        <div class="col-6 col-md-3"><label class="xsmall text-secondary mb-1">OUT 40'</label><input type="text" id="editEO40" class="form-control form-control-sm text-center text-success border-success" placeholder="0" style="background: rgba(0,166,62,0.03);"></div>
+
+                        <div class="col-12 mt-4 mb-1">
+                             <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-truck-ramp-box text-warning me-2 fs-6 opacity-75"></i> <span class="text-warning fw-bold small" style="letter-spacing: 1px;">FULL CONTAINER RATES</span>
+                                <div class="flex-grow-1 ms-3 border-bottom border-warning opacity-20"></div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3"><label class="xsmall text-secondary mb-1">IN 20'</label><input type="text" id="editFI20" class="form-control form-control-sm text-center text-warning border-warning" placeholder="0" style="background: rgba(255,193,7,0.03);"></div>
+                        <div class="col-6 col-md-3"><label class="xsmall text-secondary mb-1">IN 40'</label><input type="text" id="editFI40" class="form-control form-control-sm text-center text-warning border-warning" placeholder="0" style="background: rgba(255,193,7,0.03);"></div>
+                        <div class="col-6 col-md-3"><label class="xsmall text-secondary mb-1">OUT 20'</label><input type="text" id="editFO20" class="form-control form-control-sm text-center text-warning border-warning" placeholder="0" style="background: rgba(255,193,7,0.03);"></div>
+                        <div class="col-6 col-md-3"><label class="xsmall text-secondary mb-1">OUT 40'</label><input type="text" id="editFO40" class="form-control form-control-sm text-center text-warning border-warning" placeholder="0" style="background: rgba(255,193,7,0.03);"></div>
+
+                        <div class="col-12 mt-4"><label class="small text-secondary mb-1">OPERATING HOURS</label><input type="text" id="editTime" class="form-control"></div>
+                        <div class="col-12"><label class="small text-secondary mb-1">ADDRESS</label><textarea id="editAddress" class="form-control" rows="2"></textarea></div>
+                        <div class="col-md-6 col-12"><label class="small text-secondary mb-1">TAX ID</label><input type="text" id="editTaxId" class="form-control"></div>
+                        <div class="col-md-6 col-12"><label class="small text-secondary mb-1">MAP LINK</label><input type="text" id="editLink" class="form-control text-info" style="background: rgba(0,229,255,0.03);"></div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-dark border-0 rounded-bottom">
+                    <button type="button" class="btn btn-outline-secondary px-4 rounded-pill small" data-bs-dismiss="modal">CANCEL</button>
+                    <button type="button" class="btn btn-success px-4 rounded-pill fw-bold shadow small" id="saveBtn" onclick="saveData()">SAVE RECORD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
-        // แก้ไขฟังก์ชัน createParticles ใหม่ ให้กลายเป็นแสงพุ่งๆ (Speed Lines) แทนจุดกลมๆ
+        const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbw02R5fvNNs2ZiULVRFhsHbPcfuo2iJw-0oXvk-4k7VCu_1YPmQ-ZCPFs3iVIy_GhHy/exec'; 
+
+        let allYardsData = [];
+        let isAdmin = false;
+        let currentPassword = "";
+
+        document.addEventListener('DOMContentLoaded', function() {
+            resetGlow();
+            createParticles();
+        });
+
+        // แสงวิ่ง Speed lines แบบใหม่
         function createParticles() {
             const container = document.getElementById('particles');
             const particleCount = 15;
@@ -557,12 +691,264 @@
             }
         }
 
-        // ... ใส่สคริปต์การทำงานของระบบคุณที่เหลือต่อตรงนี้ได้เลยครับ (ฟังก์ชัน API ต่างๆ เหมือนเดิม 100%) ...
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            resetGlow();
-            createParticles();
+        document.getElementById('adminPassword').addEventListener('keypress', function (e) { 
+            if (e.key === 'Enter') checkLogin(); 
         });
+
+        function openYardModal() { 
+            new bootstrap.Modal(document.getElementById('yardModal')).show(); 
+            fetchYardData(); 
+        }
+
+        async function fetchYardData() {
+            try {
+                document.getElementById('loadingSpinner').style.display = 'block';
+                document.getElementById('yardTable').style.display = 'none';
+                
+                const response = await fetch(SHEET_API_URL);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const json = await response.json();
+                
+                if(json.status === 'success') {
+                    allYardsData = json.data;
+                    renderTable(allYardsData);
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    document.getElementById('yardTable').style.display = 'table';
+                }
+            } catch (error) { 
+                document.getElementById('loadingSpinner').innerHTML = '<p class="text-danger fw-bold small"><i class="fa-solid fa-triangle-exclamation me-1"></i> SYSTEM OFFLINE</p>';
+            }
+        }
+
+        function renderTable(dataList) {
+            const tbody = document.getElementById('yardTableBody');
+            tbody.innerHTML = '';
+            const grouped = {};
+            
+            const formatPrice = (val) => {
+                if (val === undefined || val === null || val === '') return '<span class="text-white-50 fw-normal opacity-50">-</span>';
+                if (!isNaN(val) && val !== '') return Number(val).toLocaleString('en-US');
+                return val;
+            };
+            
+            dataList.forEach(item => {
+                const z = (item.zone && item.zone.toString().trim() !== "") ? item.zone : "OTHER ZONES";
+                if (!grouped[z]) grouped[z] = [];
+                grouped[z].push(item);
+            });
+
+            const zoneFilter = document.getElementById('yardZoneFilter');
+            if (zoneFilter) {
+                const currentVal = zoneFilter.value;
+                let optionsHtml = '<option value="all">🌐 ทุกโซน</option>';
+                Object.keys(grouped).sort().forEach(z => { optionsHtml += `<option value="${z}">${z}</option>`; });
+                zoneFilter.innerHTML = optionsHtml;
+                zoneFilter.value = currentVal === "" ? "all" : currentVal; 
+            }
+
+            for (const [zone, yards] of Object.entries(grouped)) {
+                tbody.innerHTML += `
+                    <tr class="zone-header" data-zone="${zone}">
+                        <td class="py-2 px-3">
+                            <span style="background: rgba(0, 166, 62, 0.15); color: #00A63E; padding: 4px 12px; font-weight: 700; font-family: 'Rajdhani'; border-radius: 6px; font-size: 0.85rem; border: 1px solid rgba(0,166,62,0.3); letter-spacing: 1px; box-shadow: 0 0 10px rgba(0,166,62,0.2);">
+                                ${zone}
+                            </span>
+                        </td>
+                    </tr>`;
+                
+                yards.forEach((yard) => {
+                    let adminBtns = isAdmin ? `
+                        <div class="mt-3 d-flex gap-2 justify-content-end">
+                            <button class="btn btn-sm btn-outline-warning py-1 px-3 rounded-pill shadow-sm" style="font-size: 0.7rem; font-weight: 600;" onclick='openEditModal("edit", ${JSON.stringify(yard).replace(/'/g, "&#39;")})'><i class="fa-solid fa-pen me-1"></i> EDIT</button>
+                            <button class="btn btn-sm btn-outline-danger py-1 px-3 rounded-pill shadow-sm" style="font-size: 0.7rem; font-weight: 600;" onclick='deleteYard("${yard.name.replace(/'/g, "\\'")}")'><i class="fa-solid fa-trash me-1"></i> DEL</button>
+                        </div>` : '';
+
+                    let btnMap = yard.link ? 
+                        `<a href="${yard.link}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1 shadow-sm fw-bold animate__animated animate__pulse animate__infinite" style="font-size: 0.75rem; letter-spacing: 1px;"><i class="fa-solid fa-location-arrow me-1"></i> GO</a>` : 
+                        `<button class="btn btn-sm btn-secondary rounded-pill px-3 py-1 shadow-sm" style="font-size: 0.75rem; opacity: 0.6;" disabled><i class="fa-solid fa-ban me-1"></i> N/A</button>`;
+
+                    let taxIdStr = (yard.taxId !== undefined && yard.taxId !== null && yard.taxId !== "") ? yard.taxId : '';
+                    let addressStr = (yard.address !== undefined && yard.address !== null && yard.address !== "") ? yard.address : '';
+
+                    let detailHtml = `
+                        <div class="d-flex flex-wrap gap-x-3 gap-y-1 mt-2 mb-2" style="font-size: 0.75rem; color: #bbb;">
+                            ${yard.phone ? `<div><i class="fa-solid fa-phone text-success me-1 opacity-75"></i>${yard.phone}</div>` : ''}
+                            ${yard.time ? `<div><i class="fa-solid fa-clock text-info me-1 opacity-75"></i>${yard.time}</div>` : ''}
+                            ${taxIdStr !== '' ? `<div><i class="fa-solid fa-file-invoice text-warning me-1 opacity-75"></i>Tax: ${taxIdStr}</div>` : ''}
+                        </div>
+                        ${addressStr !== '' ? `<div class="mt-1 mb-2 xsmall" style="color: #999;"><i class="fa-solid fa-location-dot text-danger me-1 opacity-75"></i> ${addressStr}</div>` : ''}
+                    `;
+
+                    let priceHtml = `
+                        <div class="row g-2 mt-2">
+                            <div class="col-12 col-xl-6">
+                                <div class="d-flex align-items-stretch h-100 rounded" style="border: 1px solid rgba(0, 166, 62, 0.25); background: rgba(0,0,0,0.4); overflow: hidden;">
+                                    <div class="d-flex align-items-center justify-content-center px-2" style="background: rgba(0, 166, 62, 0.1); min-width: 60px; border-right: 1px solid rgba(0, 166, 62, 0.2);">
+                                        <span class="text-success fw-bold xsmall" style="letter-spacing: 1.5px; transform: rotate(-90deg);">EMPTY</span>
+                                    </div>
+                                    <div class="flex-grow-1 w-100 p-2">
+                                        <div class="d-flex justify-content-between align-items-center mb-1 pb-1" style="border-bottom: 1px dashed rgba(255,255,255,0.08);">
+                                            <span class="text-white-50 xsmall" style="letter-spacing: 1px;">รับ (IN)</span>
+                                            <div class="small">
+                                                <span class="text-white-50 xsmall">20':</span> <span class="text-white fw-bold ms-1 me-3">${formatPrice(yard.ei20)}</span>
+                                                <span class="text-white-50 xsmall">40':</span> <span class="text-white fw-bold ms-1">${formatPrice(yard.ei40)}</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="text-white-50 xsmall" style="letter-spacing: 1px;">คืน (OUT)</span>
+                                            <div class="small">
+                                                <span class="text-white-50 xsmall">20':</span> <span class="text-white fw-bold ms-1 me-3">${formatPrice(yard.eo20)}</span>
+                                                <span class="text-white-50 xsmall">40':</span> <span class="text-white fw-bold ms-1">${formatPrice(yard.eo40)}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-6">
+                                <div class="d-flex align-items-stretch h-100 rounded" style="border: 1px solid rgba(255, 193, 7, 0.25); background: rgba(0,0,0,0.4); overflow: hidden;">
+                                    <div class="d-flex align-items-center justify-content-center px-2" style="background: rgba(255, 193, 7, 0.1); min-width: 60px; border-right: 1px solid rgba(255, 193, 7, 0.2);">
+                                        <span class="text-warning fw-bold xsmall" style="letter-spacing: 1.5px; transform: rotate(-90deg);">FULL</span>
+                                    </div>
+                                    <div class="flex-grow-1 w-100 p-2">
+                                        <div class="d-flex justify-content-between align-items-center mb-1 pb-1" style="border-bottom: 1px dashed rgba(255,255,255,0.08);">
+                                            <span class="text-white-50 xsmall" style="letter-spacing: 1px;">รับ (IN)</span>
+                                            <div class="small">
+                                                <span class="text-white-50 xsmall">20':</span> <span class="text-white fw-bold ms-1 me-3">${formatPrice(yard.fi20)}</span>
+                                                <span class="text-white-50 xsmall">40':</span> <span class="text-white fw-bold ms-1">${formatPrice(yard.fi40)}</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="text-white-50 xsmall" style="letter-spacing: 1px;">คืน (OUT)</span>
+                                            <div class="small">
+                                                <span class="text-white-50 xsmall">20':</span> <span class="text-white fw-bold ms-1 me-3">${formatPrice(yard.fo20)}</span>
+                                                <span class="text-white-50 xsmall">40':</span> <span class="text-white fw-bold ms-1">${formatPrice(yard.fo40)}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    tbody.innerHTML += `
+                        <tr class="yard-row" data-zone="${zone}">
+                            <td class="px-4 py-3" style="border-bottom: 1px solid rgba(255, 255, 255, 0.03); transition: background 0.3s;">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="fw-bold text-white mb-1" style="font-size: 1.05rem; text-shadow: 0 0 10px rgba(255,255,255,0.15);">${yard.name}</div>
+                                    ${btnMap}
+                                </div>
+                                ${detailHtml}
+                                ${priceHtml}
+                                ${adminBtns}
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            if(isAdmin) document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'block');
+        }
+
+        function filterYardsOffice() {
+            const searchTxt = document.getElementById('yardSearch').value.toLowerCase();
+            const selectedZone = document.getElementById('yardZoneFilter').value;
+            
+            document.querySelectorAll('#yardTableBody tr').forEach(row => {
+                const rowZone = row.getAttribute('data-zone');
+                if (row.classList.contains('zone-header')) {
+                    row.style.display = (selectedZone === 'all' || rowZone === selectedZone) ? '' : 'none';
+                } else if (row.classList.contains('yard-row')) {
+                    const text = row.innerText.toLowerCase();
+                    const matchZone = (selectedZone === 'all' || rowZone === selectedZone);
+                    const matchSearch = text.includes(searchTxt);
+                    row.style.display = (matchZone && matchSearch) ? '' : 'none';
+                }
+            });
+        }
+
+        function openLoginModal() {
+            if(isAdmin) { 
+                Swal.fire({ toast: true, position: 'top-end', showConfirmButton: false, timer: 2000, background:'rgba(10,10,12,0.95)', color:'#0f0', icon: 'info', title: 'ALREADY LOGGED IN' }); return; 
+            }
+            const modalEl = document.getElementById('loginModal');
+            document.getElementById('adminPassword').value = '';
+            modalEl.addEventListener('shown.bs.modal', function () { document.getElementById('adminPassword').focus(); }, { once: true }); 
+            new bootstrap.Modal(modalEl).show();
+        }
+
+        function checkLogin() {
+            const pass = document.getElementById('adminPassword').value;
+            if(pass === "1234") { 
+                isAdmin = true; currentPassword = pass;
+                bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+                Swal.fire({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, background: 'rgba(10,10,12,0.95)', color: '#00A63E', icon: 'success', title: 'ACCESS GRANTED' });
+                document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'block');
+                if(document.getElementById('yardModal').classList.contains('show')) renderTable(allYardsData);
+            } else { 
+                Swal.fire({ icon: 'error', title: 'ACCESS DENIED', background: 'rgba(10,10,12,0.95)', color: '#f00', confirmButtonColor: '#333' });
+            }
+        }
+
+        let currentAction = 'add';
+        function openEditModal(action, data = null) {
+            currentAction = action;
+            const modal = new bootstrap.Modal(document.getElementById('editModal'));
+            document.getElementById('editModalTitle').innerHTML = action === 'add' ? '<i class="fa-solid fa-plus-circle text-success me-2"></i> NEW RECORD' : '<i class="fa-solid fa-pen-to-square text-warning me-2"></i> EDIT RECORD';
+            document.querySelectorAll('#editModal input, #editModal textarea').forEach(i => i.value = '');
+            
+            if(action === 'edit' && data) {
+                document.getElementById('editOldName').value = data.name; document.getElementById('editName').value = data.name;
+                document.getElementById('editZone').value = data.zone; document.getElementById('editPhone').value = data.phone;
+                document.getElementById('editTime').value = data.time; document.getElementById('editLink').value = data.link;
+                document.getElementById('editAddress').value = data.address || ''; document.getElementById('editTaxId').value = (data.taxId !== undefined && data.taxId !== null) ? data.taxId : '';
+                document.getElementById('editEI20').value = data.ei20 !== undefined ? data.ei20 : ''; document.getElementById('editEI40').value = data.ei40 !== undefined ? data.ei40 : '';
+                document.getElementById('editEO20').value = data.eo20 !== undefined ? data.eo20 : ''; document.getElementById('editEO40').value = data.eo40 !== undefined ? data.eo40 : '';
+                document.getElementById('editFI20').value = data.fi20 !== undefined ? data.fi20 : ''; document.getElementById('editFI40').value = data.fi40 !== undefined ? data.fi40 : '';
+                document.getElementById('editFO20').value = data.fo20 !== undefined ? data.fo20 : ''; document.getElementById('editFO40').value = data.fo40 !== undefined ? data.fo40 : '';
+            }
+            modal.show();
+        }
+
+        async function saveData() {
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.disabled = true; saveBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-1"></i> UPLOADING...';
+            const formData = new URLSearchParams();
+            const inputs = ['editOldName', 'editName', 'editZone', 'editPhone', 'editTime', 'editLink', 'editAddress', 'editTaxId', 'editEI20', 'editEI40', 'editEO20', 'editEO40', 'editFI20', 'editFI40', 'editFO20', 'editFO40'];
+            
+            formData.append('action', currentAction); formData.append('password', currentPassword);
+            formData.append('oldName', document.getElementById('editOldName').value); formData.append('name', document.getElementById('editName').value); 
+
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if(el && id !== 'editOldName' && id !== 'editName') { 
+                     const key = id.replace('edit', '').replace(/^[A-Z]/, c => c.toLowerCase());
+                     formData.append(key, el.value);
+                }
+            });
+
+            try {
+                const res = await fetch(SHEET_API_URL, { method: 'POST', body: formData });
+                const result = await res.json();
+                if(result.status === 'success') {
+                    bootstrap.Modal.getInstance(document.getElementById('editModal')).hide(); fetchYardData();
+                    Swal.fire({ icon: 'success', title: 'DATA SAVED', showConfirmButton: false, timer: 1500, background: 'rgba(10,10,12,0.95)', color: '#0f0' });
+                } else { Swal.fire({title:'Failed', text:result.message, icon:'error', background: 'rgba(10,10,12,0.95)', color:'#fff'}); }
+            } catch (err) { Swal.fire({title:'Error', text:'Connection Failed', icon:'error', background: 'rgba(10,10,12,0.95)', color:'#fff'}); }
+            saveBtn.disabled = false; saveBtn.innerText = 'SAVE RECORD';
+        }
+
+        async function deleteYard(name) {
+            Swal.fire({ title: 'CONFIRM DELETE?', text: name, icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonColor: '#555', background: 'rgba(10,10,12,0.95)', color: '#fff' })
+            .then(async (result) => {
+                if (result.isConfirmed) {
+                    const formData = new URLSearchParams(); formData.append('action', 'delete');
+                    formData.append('password', currentPassword); formData.append('name', name);
+                    try {
+                        await fetch(SHEET_API_URL, { method: 'POST', body: formData }); fetchYardData();
+                        Swal.fire({ icon: 'success', title: 'DELETED', showConfirmButton: false, timer: 1500, background: 'rgba(10,10,12,0.95)', color: '#fff' });
+                    } catch (e) { Swal.fire({ title: 'ERROR', text: 'Failed to delete', icon: 'error', background: 'rgba(10,10,12,0.95)', color: '#fff' }); }
+                }
+            })
+        }
         
         function setGlow(color) { 
             document.body.style.setProperty('--active-glow', color); 
